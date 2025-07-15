@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0
+    container_name: shopping-mall-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: msh20040720
+      MYSQL_DATABASE: shopping_mall
+      MYSQL_USER: shopping
+      MYSQL_PASSWORD: shopping123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    command: --default-authentication-plugin=mysql_native_password
+
+  # Nacos服务注册中心
+  nacos:
+    image: nacos/nacos-server:v2.2.3
+    container_name: shopping-mall-nacos
+    environment:
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_SERVICE_HOST=mysql
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=msh20040720
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      - mysql
+    volumes:
+      - nacos_data:/home/nacos/data
+      - nacos_logs:/home/nacos/logs
+
+  # Sentinel控制台
+  sentinel:
+    image: bladex/sentinel-dashboard:1.8.6
+    container_name: shopping-mall-sentinel
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_PROFILES_ACTIVE=nacos
+      - NACOS_ADDR=nacos:8848
+      - NACOS_NAMESPACE=public
+      - NACOS_GROUP=SENTINEL_GROUP
+    depends_on:
+      - nacos
+
+  # Seata事务协调器 - 暂时注释掉，待需要时恢复
+  # seata:
+  #   image: seataio/seata-server:1.6.1
+  #   container_name: shopping-mall-seata
+  #   environment:
+  #     - SEATA_PORT=8091
+  #     - SEATA_IP=seata
+  #     - SEATA_REGISTRY_TYPE=nacos
+  #     - SEATA_REGISTRY_NACOS_SERVER_ADDR=nacos:8848
+  #     - SEATA_REGISTRY_NACOS_NAMESPACE=public
+  #     - SEATA_REGISTRY_NACOS_GROUP=SEATA_GROUP
+  #     - SEATA_CONFIG_TYPE=nacos
+  #     - SEATA_CONFIG_NACOS_SERVER_ADDR=nacos:8848
+  #     - SEATA_CONFIG_NACOS_NAMESPACE=public
+  #     - SEATA_CONFIG_NACOS_GROUP=SEATA_GROUP
+  #   ports:
+  #     - "8091:8091"
+  #   depends_on:
+  #     - nacos
+
+volumes:
+  mysql_data:
+  nacos_data:
+  nacos_logs: 
