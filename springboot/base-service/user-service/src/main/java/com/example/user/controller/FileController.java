@@ -2,6 +2,8 @@ package com.example.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
+import com.example.user.utils.COSUtil;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

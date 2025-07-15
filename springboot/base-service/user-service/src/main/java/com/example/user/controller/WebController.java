@@ -13,13 +13,19 @@ import com.example.entity.User;
 import com.example.user.service.AdminService;
 import com.example.user.service.BusinessService;
 import com.example.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
-
 
 /**
  * 基础前端接口
  */
+@Tag(name = "基础接口", description = "系统基础功能相关接口")
 @RestController
 public class WebController {
 
@@ -30,6 +36,11 @@ public class WebController {
     @Resource
     private UserService userService;
 
+    @Operation(summary = "欢迎页面", description = "系统访问测试接口")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "访问成功",
+                    content = @Content(schema = @Schema(implementation = R.class)))
+    })
     @GetMapping("/")
     public R hello() {
         return R.success("访问成功");
@@ -38,9 +49,19 @@ public class WebController {
     /**
      * 登录
      */
+    @Operation(summary = "用户登录", description = "根据用户名、密码和角色进行登录验证")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "登录成功",
+                    content = @Content(schema = @Schema(implementation = Account.class))),
+            @ApiResponse(responseCode = "500", description = "用户名或密码错误")
+    })
     @SentinelResource(value = "login")
     @PostMapping("/login")
-    public R login(@RequestBody Account account) {
+    public R login(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "账号登录信息",
+            required = true,
+            content = @Content(schema = @Schema(implementation = Account.class)))
+                   @RequestBody Account account) {
         if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())
                 || ObjectUtil.isEmpty(account.getRole())) {
             return R.error(ResultCodeEnum.PARAM_LOST_ERROR);
@@ -79,8 +100,6 @@ public class WebController {
             account.setName(loginUser.getName());
             account.setRole(loginUser.getRole());
             account.setAvatar(loginUser.getAvatar());
-//            account.setPhone(loginUser.getPhone());
-//            account.setEmail(loginUser.getEmail());
             return R.success(account);
         }
         return R.error(ResultCodeEnum.USER_ACCOUNT_ERROR);
@@ -89,9 +108,18 @@ public class WebController {
     /**
      * 注册
      */
+    @Operation(summary = "用户注册", description = "创建新的用户账号")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "注册成功"),
+            @ApiResponse(responseCode = "500", description = "注册失败，参数缺失")
+    })
     @SentinelResource(value = "register")
     @PostMapping("/register")
-    public R register(@RequestBody Account account) {
+    public R register(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "账号注册信息",
+            required = true,
+            content = @Content(schema = @Schema(implementation = Account.class)))
+                      @RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
                 || ObjectUtil.isEmpty(account.getRole())) {
             return R.error(ResultCodeEnum.PARAM_LOST_ERROR);
@@ -103,8 +131,6 @@ public class WebController {
             admin.setName(account.getName());
             admin.setRole(account.getRole());
             admin.setAvatar(account.getAvatar());
-//            admin.setPhone(account.getPhone());
-//            admin.setEmail(account.getEmail());
             adminService.save(admin);
         }
         if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
@@ -131,9 +157,18 @@ public class WebController {
     /**
      * 修改密码
      */
+    @Operation(summary = "修改密码", description = "更新用户账号密码")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "密码修改成功"),
+            @ApiResponse(responseCode = "500", description = "密码修改失败，参数缺失")
+    })
     @SentinelResource(value = "updatePassword")
     @PutMapping("/updatePassword")
-    public R updatePassword(@RequestBody Account account) {
+    public R updatePassword(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "账号密码更新信息",
+            required = true,
+            content = @Content(schema = @Schema(implementation = Account.class)))
+                            @RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
                 || ObjectUtil.isEmpty(account.getNewPassword())) {
             return R.error(ResultCodeEnum.PARAM_LOST_ERROR);
@@ -145,12 +180,10 @@ public class WebController {
             adminService.updateById(admin);
         }
         if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
-
             Business business = new Business();
             business.setUsername(account.getUsername());
             business.setPassword(account.getNewPassword());
             businessService.updateById(business);
-
         }
         if (RoleEnum.USER.name().equals(account.getRole())) {
             User user = new User();
@@ -160,5 +193,4 @@ public class WebController {
         }
         return R.success();
     }
-
-} 
+}

@@ -8,6 +8,11 @@ import com.example.order.feign.BusinessFeignClient;
 import com.example.order.feign.GoodsFeignClient;
 import com.example.order.service.CartService;
 import com.github.pagehelper.PageInfo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
+@Tag(name = "购物车管理", description = "购物车相关操作接口")
 public class CartController {
 
     private static final Logger log = LoggerFactory.getLogger(CartController.class);
@@ -35,6 +41,7 @@ public class CartController {
      */
     @SentinelResource(value = "cart_add")
     @PostMapping("/add")
+    @Operation(summary = "添加购物车项", description = "向购物车添加商品")
     public R add(@RequestBody Cart cart) {
         Integer goodsId = cart.getGoodsId();
         Cart cart1= new Cart();
@@ -58,7 +65,10 @@ public class CartController {
      */
     @SentinelResource(value = "cart_delete")
     @DeleteMapping("/delete/{id}")
-    public R deleteById(@PathVariable Integer id) {
+    @Operation(summary = "删除购物车项", description = "根据ID删除购物车中的商品")
+    public R deleteById(
+            @Parameter(name = "id", description = "购物车项ID", required = true, in = ParameterIn.PATH)
+            @PathVariable Integer id) {
         cartService.removeById(id);
         return R.success();
     }
@@ -68,6 +78,7 @@ public class CartController {
      */
     @SentinelResource(value = "cart_delete_batch")
     @DeleteMapping("/delete/batch")
+    @Operation(summary = "批量删除购物车项", description = "根据ID列表批量删除购物车项")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         log.info("Deleting carts with IDs: {}", ids);
         cartService.removeBatchByIds(ids);
@@ -79,6 +90,7 @@ public class CartController {
      */
     @SentinelResource(value = "cart_update")
     @PutMapping("/update")
+    @Operation(summary = "更新购物车项", description = "修改购物车项信息，如数量等")
     public R updateById(@RequestBody Cart cart) {
         cartService.updateById(cart);
         return R.success();
@@ -89,7 +101,10 @@ public class CartController {
      */
     @SentinelResource(value = "cart_select_by_id")
     @GetMapping("/selectById/{id}")
-    public R selectById(@PathVariable Integer id) {
+    @Operation(summary = "查询单个购物车项", description = "根据ID查询购物车项详情")
+    public R selectById(
+            @Parameter(name = "id", description = "购物车项ID", required = true, in = ParameterIn.PATH)
+            @PathVariable Integer id) {
         Cart cart = cartService.getById(id);
         return R.success(cart);
     }
@@ -99,7 +114,10 @@ public class CartController {
      */
     @SentinelResource(value = "cart_select_all")
     @GetMapping("/selectAll")
-    public R selectAll(Cart cart) {
+    @Operation(summary = "查询所有购物车项", description = "根据条件查询购物车项列表")
+    public R selectAll(
+            @Parameter(name = "cart", description = "购物车查询条件", in = ParameterIn.QUERY)
+            Cart cart) {
         List<Cart> list = cartService.selectAll(cart);
         return R.success(list);
     }
@@ -109,9 +127,16 @@ public class CartController {
      */
     @SentinelResource(value = "cart_select_page")
     @GetMapping("/selectPage")
-    public R selectPage(Cart cart,
-                        @RequestParam(defaultValue = "1") Integer pageNum,
-                        @RequestParam(defaultValue = "10") Integer pageSize) {
+    @Operation(summary = "分页查询购物车", description = "分页查询购物车项，包含商品和商家信息")
+    @Parameters({
+            @Parameter(name = "pageNum", description = "页码", in = ParameterIn.QUERY),
+            @Parameter(name = "pageSize", description = "每页记录数", in = ParameterIn.QUERY)
+    })
+    public R selectPage(
+            @Parameter(name = "cart", description = "购物车查询条件", in = ParameterIn.QUERY)
+            Cart cart,
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<Cart> page = cartService.selectPage(cart, pageNum, pageSize);
         List<CartDTO> cartDTOList = page.getList().stream()
                 .map(CartDTO::new)
@@ -130,5 +155,4 @@ public class CartController {
 
         return R.success(new PageInfo<>(cartDTOList));
     }
-
-} 
+}
