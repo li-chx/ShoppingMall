@@ -10,10 +10,13 @@ import com.example.goods.service.CategoryService;
 import com.example.goods.service.GoodsService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -92,9 +95,37 @@ public class GoodsController {
     @GetMapping("/selectPage")
     public R selectPage(Goods goods,
                         @RequestParam(defaultValue = "1") Integer pageNum,
-                        @RequestParam(defaultValue = "10") Integer pageSize) {
+                        @RequestParam(defaultValue = "10") Integer pageSize,
+                        @RequestParam(defaultValue = "") String name,
+                        @RequestParam(defaultValue = "") Integer businessId) {
+        log.info(businessId.toString());
+        log.info("goodsBusinessId"+goods.getBusinessId());
+        goods.setName(name);
+        goods.setBusinessId(businessId);
         PageInfo<Goods> page = goodsService.selectPage(goods, pageNum, pageSize);
-        return R.success(page);
+
+//        page.getList().forEach(item->{
+//            log.info("商品信息: {}", item);
+//        });
+
+        List<GoodsDTO> goodsDTOList=page.getList().stream()
+                .map(GoodsDTO::new)
+                .toList();
+
+        goodsDTOList.forEach(item -> {
+            var business = businessFeignClient.getBusinessById(item.getBusinessId()).getData();
+            item.setBusinessName(business.getName());
+            var category = categoryService.getById(item.getCategoryId());
+            item.setCategoryName(category.getName());
+        });
+        var goodsDTOPage =  new PageInfo<>(goodsDTOList);
+        goodsDTOPage.setTotal(page.getTotal());
+
+//        goodsDTOPage.getList().forEach(item->{
+//            log.info("商品DTO信息: {}", item.getUnit());
+//        });
+
+        return R.success(goodsDTOPage);
     }
 
     /** 查询前5个商品展示*/

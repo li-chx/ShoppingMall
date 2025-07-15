@@ -12,14 +12,14 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" stripe  @selection-change="handleSelectionChange">
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column label="商品主图" align="center">
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
-              <el-image style="width: 40px; height: 40px;" v-if="scope.row.img"
-                        :src="fixUrl(scope.row.img)" :preview-src-list="[scope.row.img]"></el-image>
+              <el-image style="width: 40px; height: 40px;" v-if="scope.row.img" :src="fixUrl(scope.row.img)"
+                :preview-src-list="[scope.row.img]"></el-image>
             </div>
           </template>
         </el-table-column>
@@ -38,36 +38,29 @@
 
         <el-table-column label="操作" width="180" align="center" v-if="user.role === 'BUSINESS'">
           <template v-slot="scope">
-            <el-button plain circle type="primary" @click="handleEdit(scope.row)" size="mini" icon="el-icon-edit"></el-button>
-            <el-button plain circle type="danger" size="mini" @click=del(scope.row.id) icon="el-icon-delete"></el-button>
+            <el-button plain circle type="primary" @click="handleEdit(scope.row)" size="mini"
+              icon="el-icon-edit"></el-button>
+            <el-button plain circle type="danger" size="mini" @click=del(scope.row.id)
+              icon="el-icon-delete"></el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <div class="pagination">
-        <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="pageNum"
-            :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+          :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
         </el-pagination>
       </div>
     </div>
 
 
-    <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close @close="cancel">
+    <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close
+      @close="cancel">
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
         <el-form-item label="商品主图">
-          <el-upload
-              class="avatar-uploader"
-              :action="'/api/files/upload'"
-              :headers="{ token: user.token }"
-              list-type="picture"
-              :on-success="handleAvatarSuccess"
-          >
+          <el-upload class="avatar-uploader" :action="'/api/files/upload'" :headers="{ token: user.token }"
+            list-type="picture" :on-success="handleAvatarSuccess">
             <el-button type="primary">上传图片</el-button>
           </el-upload>
         </el-form-item>
@@ -93,10 +86,10 @@
             <el-option v-for="item in businessData" :label="item.name" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="description" label="商品介绍" >
+        <el-form-item prop="description" label="商品介绍">
           <div id="editor" style="width: 100%"></div>
         </el-form-item>
-        
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
@@ -114,16 +107,17 @@
 import E from 'wangeditor'
 
 let editor
-function initWangEditor(content) {	setTimeout(() => {
-  if (!editor) {
-    editor = new E('#editor')
-    editor.config.placeholder = '请输入内容'
-    editor.config.uploadFileName = 'file'
-    editor.config.uploadImgServer = '/api/files/wang/upload'
-    editor.create()
-  }
-  editor.txt.html(content)
-}, 0)
+function initWangEditor(content) {
+  setTimeout(() => {
+    if (!editor) {
+      editor = new E('#editor')
+      editor.config.placeholder = '请输入内容'
+      editor.config.uploadFileName = 'file'
+      editor.config.uploadImgServer = '/api/files/wang/upload'
+      editor.create()
+    }
+    editor.txt.html(content)
+  }, 0)
 }
 
 
@@ -142,10 +136,10 @@ export default {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
         name: [
-          {required: true, message: '请输入商品名称', trigger: 'blur'},
+          { required: true, message: '请输入商品名称', trigger: 'blur' },
         ],
         img: [
-          {required: true, message: '请上传商品主图', trigger: 'blur'},
+          { required: true, message: '请上传商品主图', trigger: 'blur' },
         ]
       },
       ids: [],
@@ -157,7 +151,7 @@ export default {
   },
   created() {
     this.load()
-    this.loadCategoryOrBusiness()
+    //this.loadCategoryOrBusiness()
   },
   // mounted() {
   //   initWangEditor('')
@@ -184,18 +178,18 @@ export default {
     },
     async findBusinessStatus(id) {
       const res = await this.$request.get('/business/selectById/' + id)
-      if(res.code === '200') {
+      if (res.code === '200') {
         console.log(res.data);
-        
+
         this.businessStatus = res.data.status
       }
     },
     async save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       await this.findBusinessStatus(this.form.businessId)
 
-      if(this.user.role === 'ADMIN' && this.businessStatus !== '审核通过') {
+      if (this.user.role === 'ADMIN' && this.businessStatus !== '审核通过') {
         console.log(this.businessStatus);
-        
+
         this.$message.warning("该店铺信息尚未审核通过，请先审核通过后再增加商品")
         return
       }
@@ -220,12 +214,12 @@ export default {
         }
       })
     },
-    cancel () {
+    cancel() {
       this.fromVisible = false
       location.href = '/goods'
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定删除吗？', '确认删除', { type: "warning" }).then(response => {
         this.$request.delete('/goods/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
@@ -245,8 +239,8 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
-        this.$request.delete('/goods/delete/batch', {data: this.ids}).then(res => {
+      this.$confirm('您确定批量删除这些数据吗？', '确认删除', { type: "warning" }).then(response => {
+        this.$request.delete('/goods/delete/batch', { data: this.ids }).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
             this.load()
@@ -263,8 +257,11 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           name: this.name,
+          businessId: this.user.role === 'BUSINESS' ? this.user.id : null
         }
       }).then(res => {
+        console.log(res);
+
         this.tableData = res.data?.list
         this.total = res.data?.total
       })
@@ -286,21 +283,21 @@ export default {
     },
     loadCategoryOrBusiness() {
       this.$request.get('/category/selectAll').then(res => {
-        if(res.code === '200') {
+        if (res.code === '200') {
           console.log(res.data);
           this.categoryData = res.data
         } else {
           this.$message.error(res.msg)
-        }    
+        }
       })
 
       this.$request.get('/business/selectAll').then(res => {
-        if(res.code === '200') {
+        if (res.code === '200') {
           console.log(res.data);
           this.businessData = res.data
         } else {
           this.$message.error(res.msg)
-        }    
+        }
       })
     },
     viewEditor(content) {
@@ -311,6 +308,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

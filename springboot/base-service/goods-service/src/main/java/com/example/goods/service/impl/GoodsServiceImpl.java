@@ -28,6 +28,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
             if (goods.getCategoryId() != null) {
                 queryWrapper.eq("category_id", goods.getCategoryId());
             }
+            if (goods.getBusinessId() != null) {
+                queryWrapper.eq("business_id", goods.getBusinessId());
+            }
 //            if (goods.getStatus() != null) {
 //                queryWrapper.eq("status", goods.getStatus());
             // }

@@ -25,6 +25,8 @@ public class Goods implements Serializable {
     private String description;
     /** 商品价格 */
     private Double price;
+    /** 商品单位 */
+    private String unit;
     /** 商品图片 */
     private String img;
 //    /** 商品库存 */
@@ -50,5 +52,6 @@ public class Goods implements Serializable {
         this.inventory = goods.getInventory();
         this.categoryId = goods.getCategoryId();
         this.businessId = goods.getBusinessId();
+        this.unit = goods.getUnit();
     }
 } 

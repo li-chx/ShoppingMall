@@ -23,28 +23,25 @@
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
               <el-image style="width: 40px; height: 40px; border-radius: 50%" v-if="scope.row.avatar"
-                        :src="fixUrl(scope.row.avatar)" :preview-src-list="[fixUrl(scope.row.avatar)]"></el-image>
+                :src="fixUrl(scope.row.avatar)" :preview-src-list="[fixUrl(scope.row.avatar)]"></el-image>
             </div>
           </template>
         </el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit" plain circle @click="handleEdit(scope.row)"></el-button>
-            <el-button size="mini" type="danger" icon="el-icon-delete" plain circle @click="del(scope.row.id)"></el-button>
+            <el-button size="mini" type="primary" icon="el-icon-edit" plain circle
+              @click="handleEdit(scope.row)"></el-button>
+            <el-button size="mini" type="danger" icon="el-icon-delete" plain circle
+              @click="del(scope.row.id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <div class="pagination">
-        <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="pageNum"
-            :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+          :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
         </el-pagination>
       </div>
     </div>
@@ -54,6 +51,13 @@
       <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="用户名"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="form.password" placeholder="密码" show-password></el-input>
+        </el-form-item>
+
+        <el-form-item label="确认密码" prop="confirmPassword">
+          <el-input v-model="form.confirmPassword" placeholder="确认密码" show-password></el-input>
         </el-form-item>
         <el-form-item label="姓名" prop="name">
           <el-input v-model="form.name" placeholder="姓名"></el-input>
@@ -65,13 +69,8 @@
           <el-input v-model="form.email" placeholder="邮箱"></el-input>
         </el-form-item>
         <el-form-item label="头像">
-          <el-upload
-              class="avatar-uploader"
-              :action="'/api/files/upload'"
-              :headers="{ token: user.token }"
-              list-type="picture"
-              :on-success="handleAvatarSuccess"
-          >
+          <el-upload class="avatar-uploader" :action="'/api/files/upload'" :headers="{ token: user.token }"
+            list-type="picture" :on-success="handleAvatarSuccess">
             <el-button type="primary">上传头像</el-button>
           </el-upload>
         </el-form-item>
@@ -88,6 +87,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Admin",
   data() {
@@ -99,10 +99,28 @@ export default {
       username: null,
       fromVisible: false,
       form: {},
+      confirmPassword: '',  // 确认密码
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
         username: [
-          {required: true, message: '请输入账号', trigger: 'blur'},
+          { required: true, message: '请输入账号', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { pattern: /^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{1,10}$/, message: '密码为1-10位数字或英文符号', trigger: 'blur' }
+        ],
+        confirmPassword: [
+          { required: true, message: '请确认密码', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value !== this.form.password) {
+                callback(new Error('两次输入的密码不一致'));
+                // this.$message.error('两次输入的密码不一致');
+              } else {
+                callback();
+              }
+            }, trigger: 'blur'
+          }
         ]
       },
       ids: []
@@ -128,10 +146,13 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          const submitForm = { ...this.form }
+          delete submitForm.confirmPassword  // 删除确认密码字段
+          console.log(submitForm);
           this.$request({
             url: this.form.id ? '/admin/update' : '/admin/add',
             method: this.form.id ? 'PUT' : 'POST',
-            data: this.form
+            data: submitForm
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
               this.$message.success('保存成功')
@@ -145,7 +166,7 @@ export default {
       })
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定删除吗？', '确认删除', { type: "warning" }).then(response => {
         this.$request.delete('/admin/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
@@ -165,8 +186,8 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
-        this.$request.delete('/admin/delete/batch', {data: this.ids}).then(res => {
+      this.$confirm('您确定批量删除这些数据吗？', '确认删除', { type: "warning" }).then(response => {
+        this.$request.delete('/admin/delete/batch', { data: this.ids }).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
             this.load()
@@ -209,6 +230,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
