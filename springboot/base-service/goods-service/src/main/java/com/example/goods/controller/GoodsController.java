@@ -105,7 +105,7 @@ public class GoodsController {
                         @RequestParam(defaultValue = "1") Integer pageNum,
                         @RequestParam(defaultValue = "10") Integer pageSize,
                         @RequestParam(defaultValue = "") String name,
-                        @RequestParam(defaultValue = "") Integer businessId) {
+                        @RequestParam(defaultValue = "0") Integer businessId) {
         log.info(businessId.toString());
         log.info("goodsBusinessId"+goods.getBusinessId());
         goods.setName(name);

@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="search">
-      <el-input placeholder="请输入分类名称查询" style="width: 200px" suffix-icon="el-icon-search" v-model="name"></el-input>
+      <el-input placeholder="请输入分类名称查询" style="width: 200px" suffix-icon="el-icon-search"
+                v-model="name"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load()">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
@@ -12,7 +13,7 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" stripe  @selection-change="handleSelectionChange">
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column prop="name" label="分类名称" align="center" show-overflow-tooltip></el-table-column>
@@ -21,14 +22,16 @@
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
               <el-image style="width: 40px; height: 40px;" v-if="scope.row.img"
-                        :src="fixUrl(scope.row.img)" :preview-src-list="[fixUrl(scope.row.img)]"></el-image>
+                        :src="scope.row.img" :preview-src-list="[scope.row.img]"></el-image>
             </div>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
-            <el-button plain circle type="primary" @click="handleEdit(scope.row)" size="mini" icon="el-icon-edit"></el-button>
-            <el-button plain circle type="danger" size="mini" @click=del(scope.row.id) icon="el-icon-delete"></el-button>
+            <el-button plain circle type="primary" @click="handleEdit(scope.row)" size="mini"
+                       icon="el-icon-edit"></el-button>
+            <el-button plain circle type="danger" size="mini" @click=del(scope.row.id)
+                       icon="el-icon-delete"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -78,6 +81,8 @@
 </template>
 
 <script>
+import {fixUrlList} from "@/utils/fixUrl";
+
 export default {
   name: "Category",
   data() {
@@ -105,11 +110,6 @@ export default {
     this.load()
   },
   methods: {
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
@@ -177,8 +177,11 @@ export default {
           pageSize: this.pageSize,
           name: this.name,
         }
-      }).then(res => {
-        this.tableData = res.data?.list
+      }).then(async res => {
+        this.tableData = await fixUrlList(res.data?.list, x => x.img, (x, url) => {
+          x.img = url
+          return x
+        })
         this.total = res.data?.total
       })
     },

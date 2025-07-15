@@ -18,7 +18,7 @@
         <el-table-column label="商品主图" align="center">
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
-              <el-image style="width: 40px; height: 40px;" v-if="scope.row.img" :src="fixUrl(scope.row.img)"
+              <el-image style="width: 40px; height: 40px;" v-if="scope.row.img" :src="scope.row.img"
                 :preview-src-list="[scope.row.img]"></el-image>
             </div>
           </template>
@@ -105,6 +105,7 @@
 
 <script>
 import E from 'wangeditor'
+import {fixUrl, fixUrlList} from "@/utils/fixUrl";
 
 let editor
 function initWangEditor(content) {
@@ -149,6 +150,9 @@ export default {
       viewData: null
     }
   },
+  async mounted() {
+    this.user.avatar = await fixUrl(this.user.avatar);
+  },
   created() {
     this.load()
     //this.loadCategoryOrBusiness()
@@ -157,11 +161,6 @@ export default {
   //   initWangEditor('')
   // },
   methods: {
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     handleAdd() {   // 新增数据
       if (this.user.status !== '审核通过' && this.user.role === 'BUSINESS') {
         this.$message.warning("您的店铺信息尚未审核通过，暂时不允许新增商品")
@@ -259,10 +258,11 @@ export default {
           name: this.name,
           businessId: this.user.role === 'BUSINESS' ? this.user.id : null
         }
-      }).then(res => {
-        console.log(res);
-
-        this.tableData = res.data?.list
+      }).then(async res => {
+        this.tableData = await fixUrlList(res.data?.list, x=> x.img, (x, url) => {
+          x.img = url
+          return x
+        })
         this.total = res.data?.total
       })
     },

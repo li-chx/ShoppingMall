@@ -106,32 +106,41 @@ public class OrdersController {
         if (!goodsName.isEmpty()) {
             PageInfo<Goods> page = goodsFeignClient.selectPageByName(pageNum, pageSize, goodsName).getData();
             var goodsIds = new ArrayList<Integer>(page.getList().stream().map(Goods::getId).toList());
-            ordersPageInfo = ordersService.selectPageByGoodIds(goodsIds,pageNum,pageSize);
+            ordersPageInfo = ordersService.selectPageByGoodIds(goodsIds, pageNum, pageSize);
         } else {
             ordersPageInfo = ordersService.selectPage(orders, pageNum, pageSize);
         }
         List<OrdersDTO> ordersDTOList = ordersPageInfo.getList().stream().map(OrdersDTO::new).toList();
         ordersDTOList.forEach(ordersDTO -> {
-            var goods = goodsFeignClient.selectGoodsById(ordersDTO.getGoodsId()).getData();
-            if (goods != null) {
-                ordersDTO.setGoodsName(goods.getName());
-                ordersDTO.setGoodsPrice(goods.getPrice());
+            if (ordersDTO.getGoodsId() != null) {
+                var goods = goodsFeignClient.selectGoodsById(ordersDTO.getGoodsId()).getData();
+                if (goods != null) {
+                    ordersDTO.setGoodsName(goods.getName());
+                    ordersDTO.setGoodsPrice(goods.getPrice());
+                    ordersDTO.setGoodsImg(goods.getImg());
+                }
             }
-            var business = businessFeignClient.getBusinessById(ordersDTO.getBusinessId()).getData();
-            if (business != null) {
-                ordersDTO.setBusinessName(business.getName());
+            if (ordersDTO.getBusinessId() != null) {
+                var business = businessFeignClient.getBusinessById(ordersDTO.getBusinessId()).getData();
+                if (business != null) {
+                    ordersDTO.setBusinessName(business.getName());
+                }
             }
-            var user = userFeignClient.selectById(ordersDTO.getUserId()).getData();
-            if (user != null) {
-                ordersDTO.setUsername(user.getUsername());
-                ordersDTO.setPhone(user.getPhone());
+            if (ordersDTO.getUserId() != null) {
+                var user = userFeignClient.selectById(ordersDTO.getUserId()).getData();
+                if (user != null) {
+                    ordersDTO.setUsername(user.getUsername());
+                    ordersDTO.setPhone(user.getPhone());
+                }
             }
-            var address = userFeignClient.getAddressById(ordersDTO.getAddressId()).getData();
-            if (address != null) {
-                ordersDTO.setUseraddress(address.getUseraddress());
+            if (ordersDTO.getAddressId() != null) {
+                var address = userFeignClient.getAddressById(ordersDTO.getAddressId()).getData();
+                if (address != null) {
+                    ordersDTO.setUseraddress(address.getUseraddress());
+                }
             }
         });
-        var orderDTOPageInfo =  new PageInfo<OrdersDTO>(ordersDTOList);
+        var orderDTOPageInfo = new PageInfo<OrdersDTO>(ordersDTOList);
         orderDTOPageInfo.setPageNum(pageNum);
         orderDTOPageInfo.setPageSize(pageSize);
         orderDTOPageInfo.setTotal(ordersPageInfo.getTotal());

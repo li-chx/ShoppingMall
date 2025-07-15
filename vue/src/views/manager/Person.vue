@@ -9,7 +9,7 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >
-            <img v-if="user.avatar" :src="fixUrl(user.avatar)" class="avatar" />
+            <img v-if="user.avatar" :src="user.avatar" class="avatar"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import {fixUrl} from "@/utils/fixUrl";
+
 export default {
   name: "AdminPerson",
   data() {
@@ -50,18 +52,13 @@ export default {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}')
     }
   },
-  created() {
-
+  async mounted() {
+    this.user.avatar = await fixUrl(this.user.avatar);
   },
   methods: {
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     update() {
       // 保存当前的用户信息到数据库
-      this.$request.put(this.user.role === 'ADMIN'?'/admin/update':'/business/update', this.user).then(res => {
+      this.$request.put(this.user.role === 'ADMIN' ? '/admin/update' : '/business/update', this.user).then(res => {
         if (res.code === '200') {
           // 成功更新
           this.$message.success('保存成功')
@@ -85,22 +82,26 @@ export default {
 </script>
 
 <style scoped>
-/deep/.el-form-item__label {
+/deep/ .el-form-item__label {
   font-weight: bold;
 }
-/deep/.el-upload {
+
+/deep/ .el-upload {
   border-radius: 50%;
 }
-/deep/.avatar-uploader .el-upload {
+
+/deep/ .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   border-radius: 50%;
 }
-/deep/.avatar-uploader .el-upload:hover {
+
+/deep/ .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
+
 .avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
@@ -110,6 +111,7 @@ export default {
   text-align: center;
   border-radius: 50%;
 }
+
 .avatar {
   width: 120px;
   height: 120px;

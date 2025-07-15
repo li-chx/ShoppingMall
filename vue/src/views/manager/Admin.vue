@@ -23,7 +23,7 @@
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
               <el-image style="width: 40px; height: 40px; border-radius: 50%" v-if="scope.row.avatar"
-                :src="fixUrl(scope.row.avatar)" :preview-src-list="[fixUrl(scope.row.avatar)]"></el-image>
+                :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]"></el-image>
             </div>
           </template>
         </el-table-column>
@@ -88,6 +88,8 @@
 
 <script>
 
+import {fixUrlList} from "@/utils/fixUrl";
+
 export default {
   name: "Admin",
   data() {
@@ -130,11 +132,6 @@ export default {
     this.load()
   },
   methods: {
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     handleAdd() {   // 新增数据
       this.form = {}  // 新增数据的时候清空数据
       this.fromVisible = true   // 打开弹窗
@@ -205,8 +202,11 @@ export default {
           pageSize: this.pageSize,
           username: this.username,
         }
-      }).then(res => {
-        this.tableData = res.data?.list
+      }).then(async res => {
+        this.tableData = await fixUrlList(res.data?.list, x=>x.avatar, (x, url) => {
+          x.avatar = url
+          return x;
+        });
         this.total = res.data?.total
       })
     },

@@ -4,7 +4,7 @@
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left" @click="goTo('/front/home')">
-        <img src="@/assets/imgs/logo.png" alt="" >
+        <img src="@/assets/imgs/logo.png" alt="">
         <div class="title"><i>ShoppingMall</i></div>
       </div>
       <!-- <div class="front-header-center">
@@ -23,7 +23,7 @@
         <div v-else>
           <el-dropdown>
             <div class="front-header-dropdown">
-              <img :src="fixUrl(user.avatar)" alt="" @click="goTo('/front/person')">
+              <img :src="user.avatar" alt="" @click="goTo('/front/person')">
               <div style="margin-left: 10px">
                 <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>
@@ -43,11 +43,12 @@
         <div style="flex: 5; height: 60px; background-color: #81d7ce"></div>
         <div style="display: flex; ">
           <div class="left"></div>
-          <div style="width: 66%;  height: 1000px; border-radius: 15px; background-color: white">
-            <router-view ref="child" @update:user="updateUser" />
+          <div style="width: 66%; border-radius: 15px; background-color: white">
+            <router-view ref="child" @update:user="updateUser"/>
           </div>
           <div class="right"></div>
         </div>
+        <footer style="height: 2em;"></footer>
       </div>
     </div>
   </div>
@@ -56,26 +57,22 @@
 
 <script>
 
+import {fixUrl} from "@/utils/fixUrl";
+
 export default {
   name: "FrontLayout",
-
-  data () {
+  data() {
     return {
       top: '',
       notice: [],
-      user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+      user: JSON.parse(localStorage.getItem("xm-user") || '{}')
     }
   },
-
-  mounted() {
+  async mounted() {
+    this.user.avatar = await fixUrl(this.user.avatar);
     this.loadNotice()
   },
   methods: {
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     loadNotice() {
       this.$request.get('/notice/selectAll').then(res => {
         this.notice = res.data
@@ -110,6 +107,7 @@ export default {
 
 <style scoped>
 @import "@/assets/css/front.css";
+
 .main-content {
   min-height: 100vh;
   /*overflow: hidden;*/
@@ -118,12 +116,14 @@ export default {
   /* background-color: #81d7ce; */
   /* background-color: ; */
 }
+
 .left {
   width: 17%;
   background-repeat: no-repeat;
   background-image: url('@/assets/imgs/购物车.svg');
   background-size: contain;
 }
+
 .right {
   width: 17%;
   background-repeat: no-repeat;

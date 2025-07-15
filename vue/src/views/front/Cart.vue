@@ -1,11 +1,14 @@
 <template>
   <div>
     <div style="width: 80%; margin: 30px auto;">
-      <div style="display: flex; font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid;">
+      <div
+          style="display: flex; font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid;">
         <div style=" flex: 1">全部商品（{{ goodsData.length }}件）</div>
         <div style="flex: 2; text-align: right">
           <el-select v-model="addressId" placeholder="请选择收货地址" style="width: 70%">
-            <el-option v-for="item in addressData" :label="item.username + ' - ' + item.useraddress + ' - ' + item.phone" :value="item.id" :key="item.id"></el-option>
+            <el-option v-for="item in addressData"
+                       :label="item.username + ' - ' + item.useraddress + ' - ' + item.phone" :value="item.id"
+                       :key="item.id"></el-option>
           </el-select>
         </div>
       </div>
@@ -21,52 +24,56 @@
             </el-table-column>
             <el-table-column prop="goodsName" label="商品名称" width="120px" align="center">
               <template v-slot="scope">
-                <a href="#" @click="goTo('/front/detail?id=' + scope.row.goodsId)">{{scope.row.goodsName}}</a>
+                <a href="#" @click="goTo('/front/detail?id=' + scope.row.goodsId)">{{ scope.row.goodsName }}</a>
               </template>
             </el-table-column>
             <el-table-column prop="businessName" label="店铺名称" align="center">
               <template v-slot="scope">
-                <a href="#" @click="goTo('/front/business?id=' + scope.row.businessId)">{{scope.row.businessName}}</a>
+                <a href="#" @click="goTo('/front/business?id=' + scope.row.businessId)">{{ scope.row.businessName }}</a>
               </template>
             </el-table-column>
             <el-table-column prop="goodsPrice" label="商品价格" align="center"></el-table-column>
             <el-table-column prop="num" label="选择数量" align="center">
               <template v-slot="scope">
-                <el-input-number v-model="scope.row.num" style="width: 100px" @change="handleChange(scope.row)" :min="1" :max="scope.row.goodsInventory"></el-input-number>
+                <el-input-number v-model="scope.row.num" style="width: 100px" @change="handleChange(scope.row)" :min="1"
+                                 :max="scope.row.goodsInventory"></el-input-number>
               </template>
             </el-table-column>
             <el-table-column label="操作" align="center" width="180">
               <template v-slot="scope">
-                <el-button size="mini" type="danger" icon="el-icon-delete" plain circle @click="del(scope.row.id)"></el-button>
+                <el-button size="mini" type="danger" icon="el-icon-delete" plain circle
+                           @click="del(scope.row.id)"></el-button>
               </template>
             </el-table-column>
           </el-table>
 
           <div class="pagination" style="margin-top: 20px;">
             <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="pageNum"
-              :page-sizes="[5, 10, 20]"
-              :page-size="pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total">
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="pageNum"
+                :page-sizes="[5, 10, 20]"
+                :page-size="pageSize"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
             </el-pagination>
 
-            
+
           </div>
           <div style="display: flex; font-size: 16px; text-align: right;">
-            <div style="line-height: 40px; flex: 1; margin-right: 20px">合计： ￥ {{totalPrice}}</div>
+            <div style="line-height: 40px; flex: 1; margin-right: 20px">合计： ￥ {{ totalPrice }}</div>
             <el-button size="medium" type="danger" plain @click="pay">结算</el-button>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+
 </template>
 
 <script>
+import {fixUrlList} from "@/utils/fixUrl";
+
 export default {
   data() {
     return {
@@ -102,10 +109,12 @@ export default {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
         }
-      }).then(res => {
+      }).then(async res => {
         if (res.code === '200') {
-          this.goodsData = res.data?.list
-
+          this.goodsData = await fixUrlList(res.data?.list, x => x.goodsImg, (x, url) => {
+            x.goodsImg = url;
+            return x;
+          })
           this.total = res.data?.total
         } else {
           this.$message.error(res.msg)
@@ -173,34 +182,38 @@ export default {
           this.$message.error(res.msg)
         }
       })
-      
+
     }
   }
 }
 </script>
 
 <style scoped>
-.el-col-6{
+.el-col-6 {
   border: 1px solid transparent;
   width: 25%;
   max-width: 25%;
   padding: 10px 10px;
 }
-.el-col-6:hover{
+
+.el-col-6:hover {
   border-radius: 10px;
   border: 1px solid #81d7ce;
 }
+
 /* 文本溢出省略 */
 .text-overflow-ellipsis {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
 }
+
 a {
-    color: #666;
+  color: #666;
 }
+
 a:hover {
-    color: red;
+  color: red;
 }
 </style>

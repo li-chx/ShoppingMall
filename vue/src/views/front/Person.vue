@@ -12,7 +12,7 @@
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
           >
-            <img v-if="user.avatar" :src="fixUrl(user.avatar)" class="avatar" />
+            <img v-if="user.avatar" :src="user.avatar" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import {fixUrl} from "@/utils/fixUrl";
+
 export default {
   data() {
     const validatePassword = (rule, value, callback) => {
@@ -82,15 +84,10 @@ export default {
       }
     }
   },
-  created() {
-
+  async mounted() {
+    this.user.avatar = await fixUrl(this.user.avatar);
   },
   methods: {
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     update() {
       // 保存当前的用户信息到数据库
       this.$request.put('/user/update', this.user).then(res => {

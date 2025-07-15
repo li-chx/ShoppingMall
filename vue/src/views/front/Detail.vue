@@ -3,7 +3,7 @@
     <div style="padding: 15px 20px">
       <el-row :gutter="20">
         <el-col :span="12">
-          <img :src="fixUrl(goodsData.img)" alt="" style="width: 100%; height: 400px; border-radius: 20px">
+          <img :src="goodsData.img" alt="" style="width: 100%; height: 400px; border-radius: 20px">
         </el-col>
         <el-col :span="12">
           <div
@@ -40,6 +40,7 @@
 <script>
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/video/买买买.json';
+import {fixUrl} from "@/utils/fixUrl";
 export default {
   components: {
     lottie: Lottie
@@ -59,10 +60,11 @@ export default {
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
     loadGoods() {
-      this.$request.get('/goods/selectById/' + this.goodsId).then(res => {
+      this.$request.get('/goods/selectById/' + this.goodsId).then(async res => {
         console.log(res);
 
         if (res.code === '200') {
+          res.data.img = await fixUrl(res.data.img);
           this.goodsData = res.data
         } else {
           this.$message.error(res.msg)
@@ -85,11 +87,6 @@ export default {
         }
       })
     },
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    }
   },
 }
 </script>

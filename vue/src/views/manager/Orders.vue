@@ -18,7 +18,7 @@
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center">
               <el-image style="width: 40px; height: 40px; " v-if="scope.row.goodsImg"
-                        :src="fixUrl(scope.row.goodsImg)" :preview-src-list="[fixUrl(scope.row.goodsImg)]"></el-image>
+                        :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
             </div>
           </template>
         </el-table-column>
@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import {fixUrlList} from "@/utils/fixUrl";
+
 export default {
   name: "Notice",
   data() {
@@ -134,9 +136,12 @@ export default {
           pageSize: this.pageSize,
           orderId: this.orderId,
         }
-      }).then(res => {
+      }).then( async res => {
         if (res.code === '200') {
-          this.tableData = res.data?.list
+          this.tableData = await fixUrlList(res.data?.list, x=> x.goodsImg, (x, url) => {
+            x.goodsImg = url
+            return x
+          })
           this.total = res.data?.total
         } else {
           this.$message.error(res.msg)

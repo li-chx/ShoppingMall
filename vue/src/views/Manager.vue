@@ -3,8 +3,8 @@
     <!--  头部  -->
     <div class="manager-header">
       <div class="manager-header-left">
-          <img src="@/assets/imgs/logo.png" />
-          <div class="title">后台管理系统</div>
+        <img src="@/assets/imgs/logo.png"/>
+        <div class="title">后台管理系统</div>
       </div>
 
       <div class="manager-header-center">
@@ -17,8 +17,8 @@
       <div class="manager-header-right">
         <el-dropdown placement="bottom">
           <div class="avatar">
-            <img :src="fixUrl(user.avatar) || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
-            <span>{{ user.name ||  '管理员' }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+            <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"/>
+            <span>{{ user.name || '管理员' }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
@@ -33,7 +33,7 @@
     <div class="manager-main">
       <!--  侧边栏  -->
       <div class="manager-main-left">
-        
+
 
         <el-menu :default-openeds="['info', 'user']" router style="border: none" :default-active="$route.path">
           <el-menu-item index="/home">
@@ -64,7 +64,7 @@
 
       <!--  数据表格  -->
       <div class="manager-main-right">
-        <router-view @update:user="updateUser" />
+        <router-view @update:user="updateUser"/>
       </div>
     </div>
 
@@ -72,12 +72,13 @@
 </template>
 
 <script>
+import {fixUrl} from "@/utils/fixUrl";
+
 export default {
   name: "Manager",
   data() {
     return {
-      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}')
     }
   },
   created() {
@@ -85,12 +86,10 @@ export default {
       this.$router.push('/login')
     }
   },
+  async mounted() {
+    this.user.avatar = await fixUrl(this.user.avatar);
+  },
   methods: {
-    fixUrl(url) {
-      if (!url) return ''
-      if (url.startsWith('http')) return url
-      return '/api' + url
-    },
     updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
     },

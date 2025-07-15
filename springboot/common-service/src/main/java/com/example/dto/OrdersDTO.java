@@ -11,6 +11,7 @@ public class OrdersDTO extends Orders {
     public OrdersDTO() {}
     private String goodsName;
     private Double goodsPrice;
+    private String goodsImg;
     private String businessName;
     private String username;
     private String useraddress;
