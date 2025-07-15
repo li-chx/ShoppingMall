@@ -113,19 +113,22 @@ spring:
             - StripPrefix=0
             
 
+#网关服务已经集成了Sentinel进行流量控制
+#限流规则从Nacos配置中心动态获取
+#当触发限流时，会返回429状态码和指定的错误信息
     sentinel:
       transport:
         dashboard: 127.0.0.1:8858
         port: 8718
       datasource:
         ds:
-          nacos:
+          nacos:  # 从Nacos加载限流规则
             server-addr: 127.0.0.1:8848
             dataId: gateway-sentinel-rules
             groupId: DEFAULT_GROUP
-            rule-type: gw-flow
+            rule-type: gw-flow    # 网关流控规则类型
       scg:
-        fallback:
+        fallback:   # 限流降级配置
           mode: response
           response-status: 429
           response-body: {"code":"429","msg":"服务繁忙，请稍后重试"}
