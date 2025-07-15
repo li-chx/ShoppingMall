@@ -2,7 +2,7 @@ package com.example.order.controller;
 
 import com.example.common.R;
 import com.example.entity.Cart;
-import com.example.order.dto.CartDTO;
+import com.example.dto.CartDTO;
 import com.example.order.feign.BusinessFeignClient;
 import com.example.order.feign.GoodsFeignClient;
 import com.example.order.service.CartService;

@@ -2,7 +2,7 @@ package com.example.order.feign;
 
 import com.example.common.R;
 import com.example.common.enums.ResultCodeEnum;
-import com.example.order.dto.AddressDTO;
+import com.example.dto.AddressDTO;
 import org.springframework.stereotype.Component;
 
 @Component
