@@ -11,7 +11,7 @@
     </div>
 
     <div class="table">
-      <el-table :data="tableData" stripe  @selection-change="handleSelectionChange">
+      <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="40" align="center"></el-table-column>
         <el-table-column prop="id" label="序号" width="80" align="center" sortable></el-table-column>
         <el-table-column label="商品图片" align="center">
@@ -26,7 +26,7 @@
         <el-table-column prop="goodsName" label="商品名称" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column prop="goodsPrice" label="商品单价" show-overflow-tooltip align="center">
           <template v-slot="scope">
-            {{scope.row.goodsPrice}} / {{scope.row.goodsUnit}}
+            {{ scope.row.goodsPrice }}
           </template>
         </el-table-column>
         <el-table-column prop="num" label="商品数量" show-overflow-tooltip align="center"></el-table-column>
@@ -38,21 +38,17 @@
         <el-table-column prop="status" label="订单状态" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column label="操作" width="180" align="center" v-if="user.role === 'BUSINESS'">
           <template v-slot="scope">
-            <el-button plain type="primary" size="mini" v-if="scope.row.status === '待发货'" @click="updateStatus(scope.row, '待收货')">发货</el-button>
+            <el-button plain type="primary" size="mini" v-if="scope.row.status === '待发货'"
+              @click="updateStatus(scope.row, '待收货')">发货</el-button>
             <el-button plain type="danger" size="mini" @click=del(scope.row.id)>删除</el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <div class="pagination">
-        <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="pageNum"
-            :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+          :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
         </el-pagination>
       </div>
     </div>
@@ -96,7 +92,7 @@ export default {
       })
     },
     del(id) {   // 单个删除
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定删除吗？', '确认删除', { type: "warning" }).then(response => {
         this.$request.delete('/orders/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
@@ -116,8 +112,8 @@ export default {
         this.$message.warning('请选择数据')
         return
       }
-      this.$confirm('您确定批量删除这些数据吗？', '确认删除', {type: "warning"}).then(response => {
-        this.$request.delete('/orders/delete/batch', {data: this.ids}).then(res => {
+      this.$confirm('您确定批量删除这些数据吗？', '确认删除', { type: "warning" }).then(response => {
+        this.$request.delete('/orders/delete/batch', { data: this.ids }).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
             this.load(1)
@@ -130,11 +126,16 @@ export default {
     },
     load(pageNum) {  // 分页查询
       if (pageNum) this.pageNum = pageNum
+      console.log(this.user.id);
+      console.log(this.user.role === 'BUSINESS' ? this.user.id : null);
+
+
       this.$request.get('/orders/selectPage', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           orderId: this.orderId,
+          businessId: this.user.role === 'BUSINESS' ? this.user.id : null
         }
       }).then( async res => {
         if (res.code === '200') {
@@ -171,6 +172,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

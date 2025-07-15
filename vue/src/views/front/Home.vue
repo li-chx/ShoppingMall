@@ -6,38 +6,40 @@
         <div style="margin: 10px 10px; font-size: 16px"><b>分类</b></div>
         <div style="display: flex;  margin: 14px 10px" v-for="item in categoryData" :key="item.id">
           <img :src="item.img" alt="" style="height: 20px; width: 20px; filter: invert(1)">
-          <div style="margin-left: 10px; font-size: 14px"><a href="#"
-                                                             @click.prevent="goTo('/front/category?id=' + item.id)">{{ item.name }}</a>
+          <div style="margin-left: 10px; font-size: 14px"><a href="#" @click.prevent="goTo('/front/category?id=' + item.id)">{{ item.name }}</a>
           </div>
         </div>
       </div>
       <div style="flex: 5.5; margin-top: 0px">
         <div>
           <el-carousel height="250px" style="border-radius: 10px">
-            <el-carousel-item v-for="(item,index) in carousel_top" :key="index">
-              <img :src="item" alt="" style="height: 250px; width: 100%">
+            <el-carousel-item v-for="(item, index) in carousel_top" :key="index">
+              <img :src="item" alt="" style="height: 250px; width: 100%;cursor:pointer"
+                @click="goTo(carousel_url[index])">
             </el-carousel-item>
           </el-carousel>
         </div>
         <div style="margin-top: 40px; display: flex">
           <div style="flex: 1; margin-right: 2.5px">
             <el-carousel height="200px" style="border-radius: 10px">
-              <el-carousel-item v-for="(item,index) in carousel_left" :key="index">
-                <img :src="item" alt="" style="height: 200px; width: 100%">
+              <el-carousel-item v-for="(item, index) in carousel_left" :key="index">
+                <img :src="item" alt="" style="height: 200px; width: 100%; cursor:pointer"
+                  @click="goTo(carousel_url[index])">
               </el-carousel-item>
             </el-carousel>
           </div>
           <div style="flex: 1; margin-left: 2.5px">
             <el-carousel height="200px" style="border-radius: 10px">
-              <el-carousel-item v-for="(item,index) in carousel_right" :key="index">
-                <img :src="item" alt="" style="height: 200px; width: 100%">
+              <el-carousel-item v-for="(item, index) in carousel_right" :key="index">
+                <img :src="item" alt="" style="height: 200px; width: 100%; cursor:pointer"
+                  @click="goTo(carousel_url[index])">
               </el-carousel-item>
             </el-carousel>
           </div>
         </div>
       </div>
       <div
-          style="flex: 3; height: 490px; background-image: linear-gradient(#a2e0d9 0%, #f7f7f7 100%); margin-left:10px; border-radius: 10px">
+        style="flex: 3; height: 490px; background-image: linear-gradient(#a2e0d9 0%, #f7f7f7 100%); margin-left:10px; border-radius: 10px">
         <div style="text-align: center; margin-top: 30px">
           <img :src="user.avatar" alt="" @click="goTo('/front/person')"
                style="width: 80px; height: 80px; border-radius: 50%">
@@ -46,9 +48,7 @@
         <div style="margin: 20px 10px;">
           <i class="el-icon-bell"></i>
           <span><b>公告：</b></span>
-          <div class="text-overflow-ellipsis" style="color: #666666; width: 300px; margin-top: 5px">{{
-              notice_content
-            }}
+          <div class="text-overflow-ellipsis" style="color: #666666; width: 300px; margin-top: 5px">{{ notice_content }}
           </div>
         </div>
         <div style="display: flex; margin-top: 30px">
@@ -70,12 +70,12 @@
           </div>
         </div>
         <div>
-          <lottie :options="defaultOptions" :height="200" :width="200"/>
+          <lottie :options="defaultOptions" :height="200" :width="200" />
         </div>
       </div>
     </div>
     <div
-        style="display: flex;  margin: 20px 0 0 20px; height: 40px; font-size: 20px; color: #81d7ce; line-height: 40px; align-items: center;">
+      style="display: flex;  margin: 20px 0 0 20px; height: 40px; font-size: 20px; color: #81d7ce; line-height: 40px; align-items: center;">
       <img src="../../assets/icon/热卖.png" alt="" style="height: 30px; width: 30px;">
       <div style="margin-left: 5px; "><b>热卖商品</b></div>
     </div>
@@ -91,6 +91,7 @@
           <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
         </el-col>
       </el-row>
+      <el-divider>{{ getRandomBottomText() }}</el-divider>
     </div>
   </div>
 
@@ -126,7 +127,12 @@ export default {
         require('@/assets/imgs/carousel-7.png'),
         require('@/assets/imgs/carousel-8.png'),
       ],
-      defaultOptions: {animationData: animationData.default}, // 注意：有些 JSON 文件可能需要 .default
+      carousel_url: [
+        '/front/category?id=4',
+        '/front/category?id=5',
+        '/front/category?id=10',
+      ],
+      defaultOptions: { animationData: animationData.default }, // 注意：有些 JSON 文件可能需要 .default
       animationSpeed: 1,
       goodsData: [],
     }
@@ -134,11 +140,26 @@ export default {
   async mounted() {
     this.user.avatar = await fixUrl(this.user.avatar);
     this.loadCategory(),
-        this.loadNotice(),
-        this.loadGoods()
+      this.loadNotice(),
+      this.loadGoods()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
+    getRandomBottomText() {
+      const arr = [
+        '我也是有底线的!',
+        '已经到底啦~',
+        '没有更多内容了哦~',
+        '别滑啦，真的到底了!',
+        '感谢您的浏览!'
+      ]
+      return arr[Math.floor(Math.random() * arr.length)]
+    },
+    fixUrl(url) {
+      if (!url) return '';
+      if (url.startsWith('http')) return url;
+      return '/api' + url;
+    },
     loadCategory() {
       this.$request.get('/category/selectAll').then(async res => {
         if (res.code === '200') {

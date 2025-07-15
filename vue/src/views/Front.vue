@@ -43,8 +43,9 @@
         <div style="flex: 5; height: 60px; background-color: #81d7ce"></div>
         <div style="display: flex; ">
           <div class="left"></div>
-          <div style="width: 66%; border-radius: 15px; background-color: white">
-            <router-view ref="child" @update:user="updateUser"/>
+          <div style="width: 76%;   border-radius: 15px; background-color: white">
+            <router-view ref="child" @update:user="updateUser" />
+            <footer style="height:30px"></footer>
           </div>
           <div class="right"></div>
         </div>
@@ -61,6 +62,7 @@ import {fixUrl} from "@/utils/fixUrl";
 
 export default {
   name: "FrontLayout",
+
   data() {
     return {
       top: '',

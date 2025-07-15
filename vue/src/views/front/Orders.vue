@@ -1,23 +1,24 @@
 <template>
-  <div>
-    <div style=" width: 95%; margin: 30px auto;">
+  <div style="width: 100%;">
+    <div style=" width: 95%; margin: 10px auto;">
       <div
-          style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid; display: flex">
+        style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid; display: flex">
         <div style="flex: 1">我的订单（{{ ordersData.length }} 个）</div>
         <div class="search">
           <el-input placeholder="请输入商品名称查询" style="width: 200px" suffix-icon="el-icon-search"
-                    v-model="goodsName"></el-input>
+            v-model="goodsName"></el-input>
           <el-button type="success" plain style="margin-left: 10px" @click="loadOrders()">查询</el-button>
         </div>
       </div>
 
-      <div style="margin: 20px 0;">
+      <div style="margin: 10px 0;">
         <div class="table">
           <el-table :data="ordersData" strip>
             <el-table-column label="商品图片" width="120px" align="center">
               <template v-slot="scope">
                 <el-image style="width: 80px; height: 60px; border-radius: 3px" v-if="scope.row.goodsImg"
                           :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
+                  :src="fixUrl(scope.row.goodsImg)" :preview-src-list="[fixUrl(scope.row.goodsImg)]"></el-image>
               </template>
             </el-table-column>
             <el-table-column prop="orderId" label="订单编号" align="center"></el-table-column>
@@ -28,13 +29,13 @@
             </el-table-column>
             <el-table-column prop="businessName" label="店铺名称" align="center">
               <template v-slot="scope">
-                <a href="#"
-                   @click.prevent="'/front/business?id=' + scope.row.businessId">{{ scope.row.businessName }}</a>
+                <a href="#" @click.prevent="'/front/business?id=' + scope.row.businessId">{{ scope.row.businessName
+                }}</a>
               </template>
             </el-table-column>
             <el-table-column prop="goodsPrice" label="商品价格" align="center">
               <template v-slot="scope">
-                {{ scope.row.goodsPrice }} / {{ scope.row.goodsUnit }}
+                {{ scope.row.goodsPrice }}
               </template>
             </el-table-column>
             <el-table-column prop="num" label="商品数量" align="center"></el-table-column>
@@ -46,8 +47,7 @@
             <el-table-column label="操作" align="center" width="180">
               <template v-slot="scope">
                 <el-button size="mini" type="primary" v-if="scope.row.status === '待收货'" plain
-                           @click="updateStatus(scope.row, '已完成')">确认收货
-                </el-button>
+                  @click="updateStatus(scope.row, '已完成')">确认收货</el-button>
                 <el-button size="mini" type="danger" plain @click="del(scope.row.id)">删除</el-button>
               </template>
             </el-table-column>
@@ -115,7 +115,7 @@ export default {
       location.href = url
     },
     del(id) {
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定删除吗？', '确认删除', { type: "warning" }).then(response => {
         this.$request.delete('/orders/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('删除成功')
@@ -140,7 +140,7 @@ export default {
       this.form.status = status
       this.$request.put('/orders/update', this.form).then(res => {
         if (res.code === '200') {
-          this.$message.success('操作���功')
+          this.$message.success('操作成功')
         } else {
           this.$message.error(res.msg)
         }
@@ -158,5 +158,4 @@ a {
 a:hover {
   color: red;
 }
-</style>>
-
+</style>

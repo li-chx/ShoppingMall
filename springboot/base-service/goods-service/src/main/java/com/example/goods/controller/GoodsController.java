@@ -12,9 +12,12 @@ import com.example.goods.service.GoodsService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -30,6 +33,9 @@ public class GoodsController {
 
     @Resource
     private BusinessFeignClient businessFeignClient;
+
+    @Resource
+    DiscoveryClient discoveryClient; // 用于服务发现
 
     /**
      * 新增
@@ -121,10 +127,18 @@ public class GoodsController {
                 .map(GoodsDTO::new)
                 .toList();
 
+        Map<Integer, Category> categoryCache = goodsDTOList.stream()
+                .map(GoodsDTO::getCategoryId)
+                .distinct()
+                .collect(Collectors.toMap(
+                        id -> id,
+                        id -> categoryService.getById(id)
+                ));
+
         goodsDTOList.forEach(item -> {
             var business = businessFeignClient.getBusinessById(item.getBusinessId()).getData();
             item.setBusinessName(business.getName());
-            var category = categoryService.getById(item.getCategoryId());
+            var category = categoryCache.get(item.getCategoryId());
             item.setCategoryName(category.getName());
         });
         var goodsDTOPage =  new PageInfo<>(goodsDTOList);

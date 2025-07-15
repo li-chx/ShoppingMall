@@ -38,6 +38,9 @@ spring:
             dataId: sentinel-rules
             groupId: DEFAULT_GROUP
             rule-type: flow
+    loadbalancer:
+      cache:
+        enabled: true
       eager: true
 
 # MyBatis-Plus配置

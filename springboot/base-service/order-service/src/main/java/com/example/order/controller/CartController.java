@@ -9,6 +9,8 @@ import com.example.order.feign.GoodsFeignClient;
 import com.example.order.service.CartService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
 
+    private static final Logger log = LoggerFactory.getLogger(CartController.class);
     @Resource
     private CartService cartService;
 
@@ -33,8 +36,21 @@ public class CartController {
     @SentinelResource(value = "cart_add")
     @PostMapping("/add")
     public R add(@RequestBody Cart cart) {
-        cartService.save(cart);
-        return R.success();
+        Integer goodsId = cart.getGoodsId();
+        Cart cart1= new Cart();
+        cart1.setGoodsId(goodsId);
+        List<Cart> carts = cartService.selectAll(cart1);
+        if (carts != null && !carts.isEmpty()) {
+            // 如果购物车中已存在该商品，则更新数量
+            Cart existingCart = carts.get(0);
+            existingCart.setNum(existingCart.getNum() + cart.getNum());
+            cartService.updateById(existingCart);
+            return R.success();
+        }else{
+            cartService.save(cart);
+            return R.success();
+        }
+
     }
 
     /**
@@ -53,6 +69,7 @@ public class CartController {
     @SentinelResource(value = "cart_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
+        log.info("Deleting carts with IDs: {}", ids);
         cartService.removeBatchByIds(ids);
         return R.success();
     }

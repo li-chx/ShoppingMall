@@ -11,6 +11,9 @@ import com.example.order.feign.UserFeignClient;
 import com.example.order.service.OrdersService;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequestMapping("/orders")
 public class OrdersController {
@@ -38,6 +42,9 @@ public class OrdersController {
     @SentinelResource(value = "orders_add")
     @PostMapping("/add")
     public R add(@RequestBody Orders orders) {
+
+        log.info("Adding new order: {}", orders);
+        orders.setOrderId(orders.generateOrderId());
         ordersService.save(orders);
         return R.success();
     }
@@ -100,7 +107,9 @@ public class OrdersController {
     public R selectPage(Orders orders,
                         @RequestParam(defaultValue = "1") Integer pageNum,
                         @RequestParam(defaultValue = "10") Integer pageSize,
-                        @RequestParam(defaultValue = "") String goodsName) {
+                        @RequestParam(defaultValue = "") String goodsName,
+                        @RequestParam(defaultValue = "") String orderId,
+                        @RequestParam(defaultValue = "0") Integer businessId) {
         // 如果goodsName不为空，则根据商品名称查询
         PageInfo<Orders> ordersPageInfo = null;
         if (!goodsName.isEmpty()) {
@@ -108,6 +117,9 @@ public class OrdersController {
             var goodsIds = new ArrayList<Integer>(page.getList().stream().map(Goods::getId).toList());
             ordersPageInfo = ordersService.selectPageByGoodIds(goodsIds, pageNum, pageSize);
         } else {
+            log.info("businessId: {}", businessId);
+            orders.setOrderId(orderId);
+            orders.setBusinessId(businessId);
             ordersPageInfo = ordersService.selectPage(orders, pageNum, pageSize);
         }
         List<OrdersDTO> ordersDTOList = ordersPageInfo.getList().stream().map(OrdersDTO::new).toList();

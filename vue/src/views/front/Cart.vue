@@ -7,8 +7,8 @@
         <div style="flex: 2; text-align: right">
           <el-select v-model="addressId" placeholder="请选择收货地址" style="width: 70%">
             <el-option v-for="item in addressData"
-                       :label="item.username + ' - ' + item.useraddress + ' - ' + item.phone" :value="item.id"
-                       :key="item.id"></el-option>
+              :label="item.username + ' - ' + item.useraddress + ' - ' + item.phone" :value="item.id"
+              :key="item.id"></el-option>
           </el-select>
         </div>
       </div>
@@ -19,7 +19,7 @@
             <el-table-column label="商品图片" width="120px" align="center">
               <template v-slot="scope">
                 <el-image style="width: 80px; height: 60px; border-radius: 3px" v-if="scope.row.goodsImg"
-                          :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
+                  :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
               </template>
             </el-table-column>
             <el-table-column prop="goodsName" label="商品名称" width="120px" align="center">
@@ -36,13 +36,13 @@
             <el-table-column prop="num" label="选择数量" align="center">
               <template v-slot="scope">
                 <el-input-number v-model="scope.row.num" style="width: 100px" @change="handleChange(scope.row)" :min="1"
-                                 :max="scope.row.goodsInventory"></el-input-number>
+                  :max="scope.row.goodsInventory"></el-input-number>
               </template>
             </el-table-column>
             <el-table-column label="操作" align="center" width="180">
               <template v-slot="scope">
                 <el-button size="mini" type="danger" icon="el-icon-delete" plain circle
-                           @click="del(scope.row.id)"></el-button>
+                  @click="del(scope.row.id)"></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -125,7 +125,7 @@ export default {
       location.href = url
     },
     del(id) {
-      this.$confirm('您确定删除吗？', '确认删除', {type: "warning"}).then(response => {
+      this.$confirm('您确定删除吗？', '确认删除', { type: "warning" }).then(response => {
         this.$request.delete('/cart/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
@@ -168,19 +168,67 @@ export default {
         this.$message.warning('请选择商品')
         return
       }
-      let data = {
-        userId: this.user.id,
-        addressId: this.addressId,
-        status: '待发货',
-        cartData: this.selectedData
-      }
-      this.$request.post('/orders/add', data).then(res => {
-        if (res.code === '200') {
-          this.$message.success('操作成功')
-          this.loadGoods()
-        } else {
-          this.$message.error(res.msg)
-        }
+      let ordersdataList = []
+      let deleteIds = []
+      this.selectedData.forEach(item => {
+        ordersdataList.push({
+          userId: this.user.id,
+          addressId: this.addressId,
+          goodsId: item.goodsId,
+          status: '待发货',
+          businessId: item.businessId,
+          num: item.num,
+          price: item.num * item.goodsPrice,
+        })
+      })
+      // console.log(ordersdataList);
+      // console.log(this.selectedData);
+
+      // ordersdataList.forEach(item => {
+      //   this.$request.post('/orders/add', item).then(res => {
+      //     if (res.code === '200') {
+      //       this.$message.success('操作成功')
+      //       deleteIds.push(this.selectedData.find(v => v.goodsId === item.goodsId).id)
+
+      //     } else {
+      //       this.$message.error(res.msg)
+      //     }
+      //   })
+      //   // deleteIds.push(this.selectedData.find(v => v.goodsId === item.goodsId).id)
+      // })
+      // // this.loadGoods()
+      // console.log("deleteIds" + deleteIds);
+
+      // this.$request.delete('/cart/delete/batch', { data: deleteIds }).then(res => {
+      //   if (res.code === '200') {
+      //     this.$message.success('操作成功')
+      //     this.loadGoods()
+      //   } else {
+      //     this.$message.error(res.msg)  // 弹出错误的信息
+      //   }
+      // })
+
+      // 用 Promise.all 等待所有订单添加完成
+      const addOrderPromises = ordersdataList.map(item => {
+        return this.$request.post('/orders/add', item).then(res => {
+          if (res.code === '200') {
+            deleteIds.push(this.selectedData.find(v => v.goodsId === item.goodsId).id)
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      })
+
+      Promise.all(addOrderPromises).then(() => {
+        // 订单全部添加完成后再批量删除
+        this.$request.delete('/cart/delete/batch', { data: deleteIds }).then(res => {
+          if (res.code === '200') {
+            this.$message.success('操作成功')
+            this.loadGoods()
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
       })
 
     }
