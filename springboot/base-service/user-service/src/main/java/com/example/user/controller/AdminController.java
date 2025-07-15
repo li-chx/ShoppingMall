@@ -1,5 +1,6 @@
 package com.example.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Admin;
 import com.example.user.service.AdminService;
@@ -19,6 +20,7 @@ public class AdminController {
     /**
      * 新增
      */
+    @SentinelResource(value = "adminAdd")
     @PostMapping("/add")
     public R add(@RequestBody Admin admin) {
         adminService.save(admin);
@@ -28,6 +30,7 @@ public class AdminController {
     /**
      * 删除
      */
+    @SentinelResource(value = "adminDelete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         adminService.removeById(id);
@@ -37,6 +40,7 @@ public class AdminController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "adminDeleteBatch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         adminService.removeBatchByIds(ids);
@@ -46,6 +50,7 @@ public class AdminController {
     /**
      * 修改
      */
+    @SentinelResource(value = "adminUpdate")
     @PutMapping("/update")
     public R updateById(@RequestBody Admin admin) {
         adminService.updateById(admin);
@@ -55,6 +60,7 @@ public class AdminController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "adminSelectById")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Admin admin = adminService.getById(id);
@@ -64,6 +70,7 @@ public class AdminController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "adminSelectAll")
     @GetMapping("/selectAll")
     public R selectAll(Admin admin ) {
         List<Admin> list = adminService.selectAll(admin);
@@ -73,6 +80,7 @@ public class AdminController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "adminSelectPage")
     @GetMapping("/selectPage")
     public R selectPage(Admin admin,
                         @RequestParam(defaultValue = "1") Integer pageNum,

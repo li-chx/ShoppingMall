@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 8020
 
 spring:
   config:
@@ -38,6 +38,7 @@ spring:
             dataId: sentinel-rules
             groupId: DEFAULT_GROUP
             rule-type: flow
+      eager: true
 
 # MyBatis-Plus配置
 mybatis-plus:

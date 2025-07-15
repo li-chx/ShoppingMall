@@ -1,5 +1,6 @@
 package com.example.business.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Business;
 import com.example.business.service.BusinessService;
@@ -21,6 +22,7 @@ public class BusinessController {
     /**
      * 新增
      */
+    @SentinelResource(value="business_add")
     @PostMapping("/add")
     public R add(@RequestBody Business business) {
         businessService.save(business);
@@ -30,6 +32,7 @@ public class BusinessController {
     /**
      * 删除
      */
+    @SentinelResource(value="business_delete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         businessService.removeById(id);
@@ -39,6 +42,7 @@ public class BusinessController {
     /**
      * 批量删除
      */
+    @SentinelResource(value="business_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         businessService.removeBatchByIds(ids);
@@ -48,6 +52,7 @@ public class BusinessController {
     /**
      * 修改
      */
+    @SentinelResource(value="business_update")
     @PutMapping("/update")
     public R updateById(@RequestBody Business business) {
         businessService.updateById(business);
@@ -57,6 +62,7 @@ public class BusinessController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value="business_select_by_id")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Business business = businessService.getById(id);
@@ -66,6 +72,7 @@ public class BusinessController {
     /**
      * 查询所有
      */
+    @SentinelResource(value="business_select_all")
     @GetMapping("/selectAll")
     public R selectAll(Business business ) {
         List<Business> list = businessService.selectAll(business);
@@ -75,6 +82,7 @@ public class BusinessController {
     /**
      * 分页查询
      */
+    @SentinelResource(value="business_select_page")
     @GetMapping("/selectPage")
     public R selectPage(Business business,
                         @RequestParam(defaultValue = "1") Integer pageNum,

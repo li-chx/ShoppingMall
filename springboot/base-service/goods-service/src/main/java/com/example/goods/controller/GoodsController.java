@@ -1,5 +1,6 @@
 package com.example.goods.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Business;
 import com.example.entity.Category;
@@ -33,6 +34,7 @@ public class GoodsController {
     /**
      * 新增
      */
+    @SentinelResource(value = "goods_add")
     @PostMapping("/add")
     public R add(@RequestBody Goods goods) {
         goodsService.save(goods);
@@ -42,6 +44,7 @@ public class GoodsController {
     /**
      * 删除
      */
+    @SentinelResource(value = "goods_delete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         goodsService.removeById(id);
@@ -51,6 +54,7 @@ public class GoodsController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "goods_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         goodsService.removeBatchByIds(ids);
@@ -60,6 +64,7 @@ public class GoodsController {
     /**
      * 修改
      */
+    @SentinelResource(value = "goods_update")
     @PutMapping("/update")
     public R updateById(@RequestBody Goods goods) {
         goodsService.updateById(goods);
@@ -69,6 +74,7 @@ public class GoodsController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "goods_select_by_id")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Goods goods = goodsService.getById(id);
@@ -83,6 +89,7 @@ public class GoodsController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "goods_select_all")
     @GetMapping("/selectAll")
     public R selectAll(Goods goods ) {
         List<Goods> list = goodsService.selectAll(goods);
@@ -92,6 +99,7 @@ public class GoodsController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "goods_select_page")
     @GetMapping("/selectPage")
     public R selectPage(Goods goods,
                         @RequestParam(defaultValue = "1") Integer pageNum,
@@ -129,6 +137,7 @@ public class GoodsController {
     }
 
     /** 查询前5个商品展示*/
+    @SentinelResource(value = "goods_select_top5")
     @GetMapping("/selectTop5")
     public R selectTop5() {
         List<Goods> list = goodsService.selectTop5();
@@ -136,6 +145,7 @@ public class GoodsController {
     }
 
     /** 根据分类ID查询*/
+    @SentinelResource(value = "goods_select_by_category_id")
     @GetMapping("/selectByCategoryId/{id}")
     public R selectByCategoryId(@PathVariable Integer id) {
         List<Goods> list = goodsService.selectByCategoryId(id);
@@ -143,6 +153,7 @@ public class GoodsController {
     }
 
     /** 根据商品名字进行模糊查询*/
+    @SentinelResource(value = "goods_select_by_name")
     @GetMapping("/selectPageByName")
     public R<PageInfo<Goods>> selectPageByName(@RequestParam(defaultValue = "1") Integer pageNum,
                                                @RequestParam(defaultValue = "10") Integer pageSize,

@@ -1,5 +1,6 @@
 package com.example.order.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Cart;
 import com.example.dto.CartDTO;
@@ -29,6 +30,7 @@ public class CartController {
     /**
      * 新增
      */
+    @SentinelResource(value = "cart_add")
     @PostMapping("/add")
     public R add(@RequestBody Cart cart) {
         cartService.save(cart);
@@ -38,6 +40,7 @@ public class CartController {
     /**
      * 删除
      */
+    @SentinelResource(value = "cart_delete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         cartService.removeById(id);
@@ -47,6 +50,7 @@ public class CartController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "cart_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         cartService.removeBatchByIds(ids);
@@ -56,6 +60,7 @@ public class CartController {
     /**
      * 修改
      */
+    @SentinelResource(value = "cart_update")
     @PutMapping("/update")
     public R updateById(@RequestBody Cart cart) {
         cartService.updateById(cart);
@@ -65,6 +70,7 @@ public class CartController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "cart_select_by_id")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Cart cart = cartService.getById(id);
@@ -74,6 +80,7 @@ public class CartController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "cart_select_all")
     @GetMapping("/selectAll")
     public R selectAll(Cart cart) {
         List<Cart> list = cartService.selectAll(cart);
@@ -83,6 +90,7 @@ public class CartController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "cart_select_page")
     @GetMapping("/selectPage")
     public R selectPage(Cart cart,
                         @RequestParam(defaultValue = "1") Integer pageNum,

@@ -1,5 +1,6 @@
 package com.example.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Notice;
 import com.example.user.service.NoticeService;
@@ -19,6 +20,7 @@ public class NoticeController {
     /**
      * 新增
      */
+    @SentinelResource(value = "noticeAdd")
     @PostMapping("/add")
     public R add(@RequestBody Notice notice) {
         noticeService.save(notice);
@@ -28,6 +30,7 @@ public class NoticeController {
     /**
      * 删除
      */
+    @SentinelResource(value = "noticeDelete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         noticeService.removeById(id);
@@ -37,6 +40,7 @@ public class NoticeController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "noticeDeleteBatch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         noticeService.removeBatchByIds(ids);
@@ -46,6 +50,7 @@ public class NoticeController {
     /**
      * 修改
      */
+    @SentinelResource(value = "noticeUpdate")
     @PutMapping("/update")
     public R updateById(@RequestBody Notice notice) {
         noticeService.updateById(notice);
@@ -55,6 +60,7 @@ public class NoticeController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "noticeSelectById")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Notice notice = noticeService.getById(id);
@@ -64,6 +70,7 @@ public class NoticeController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "noticeSelectAll")
     @GetMapping("/selectAll")
     public R selectAll(Notice notice ) {
         List<Notice> list = noticeService.selectAll(notice);
@@ -73,6 +80,7 @@ public class NoticeController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "noticeSelectPage")
     @GetMapping("/selectPage")
     public R selectPage(Notice notice,
                         @RequestParam(defaultValue = "1") Integer pageNum,

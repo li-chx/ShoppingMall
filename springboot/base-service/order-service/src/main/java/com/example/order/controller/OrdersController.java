@@ -1,5 +1,6 @@
 package com.example.order.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.dto.OrdersDTO;
 import com.example.entity.Goods;
@@ -34,6 +35,7 @@ public class OrdersController {
     /**
      * 新增
      */
+    @SentinelResource(value = "orders_add")
     @PostMapping("/add")
     public R add(@RequestBody Orders orders) {
         ordersService.save(orders);
@@ -43,6 +45,7 @@ public class OrdersController {
     /**
      * 删除
      */
+    @SentinelResource(value = "orders_delete")
     @DeleteMapping("/delete/{id}")
     public R removeById(@PathVariable Integer id) {
         ordersService.removeById(id);
@@ -52,6 +55,7 @@ public class OrdersController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "orders_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         ordersService.removeBatchByIds(ids);
@@ -61,6 +65,7 @@ public class OrdersController {
     /**
      * 修改
      */
+    @SentinelResource(value = "orders_update")
     @PutMapping("/update")
     public R updateById(@RequestBody Orders orders) {
         ordersService.updateById(orders);
@@ -70,6 +75,7 @@ public class OrdersController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "orders_select_by_id")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Orders orders = ordersService.getById(id);
@@ -79,6 +85,7 @@ public class OrdersController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "orders_select_all")
     @GetMapping("/selectAll")
     public R selectAll(Orders orders) {
         List<Orders> list = ordersService.selectAll(orders);
@@ -88,6 +95,7 @@ public class OrdersController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "orders_select_page")
     @GetMapping("/selectPage")
     public R selectPage(Orders orders,
                         @RequestParam(defaultValue = "1") Integer pageNum,

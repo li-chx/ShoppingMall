@@ -1,5 +1,6 @@
 package com.example.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RestController
 public class FileController {
 
+    @SentinelResource(value = "file_upload")
     @PostMapping("/files/upload")
     public R upload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
@@ -29,6 +31,7 @@ public class FileController {
     }
 
     // 支持/api/files/{fileUUID} 兼容前端代理
+    @SentinelResource(value = "file_download")
     @GetMapping({"/files/{fileUUID}", "/api/files/{fileUUID}"})
     public void download(@PathVariable String fileUUID, HttpServletResponse response) throws IOException {
         File uploadDir = new File("files");

@@ -1,5 +1,6 @@
 package com.example.goods.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Category;
 import com.example.goods.service.CategoryService;
@@ -19,6 +20,7 @@ public class CategoryController {
     /**
      * 新增
      */
+    @SentinelResource(value = "category_add")
     @PostMapping("/add")
     public R add(@RequestBody Category category) {
         categoryService.save(category);
@@ -28,6 +30,7 @@ public class CategoryController {
     /**
      * 删除
      */
+    @SentinelResource(value = "category_delete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         categoryService.removeById(id);
@@ -37,6 +40,7 @@ public class CategoryController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "category_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         categoryService.removeBatchByIds(ids);
@@ -46,6 +50,7 @@ public class CategoryController {
     /**
      * 修改
      */
+    @SentinelResource(value = "category_update")
     @PutMapping("/update")
     public R updateById(@RequestBody Category category) {
         categoryService.updateById(category);
@@ -55,6 +60,7 @@ public class CategoryController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "category_select_by_id")
     @GetMapping("/selectById/{id}")
     public R selectById(@PathVariable Integer id) {
         Category category = categoryService.getById(id);
@@ -64,6 +70,7 @@ public class CategoryController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "category_select_all")
     @GetMapping("/selectAll")
     public R selectAll(Category category ) {
         List<Category> list = categoryService.selectAll(category);
@@ -73,6 +80,7 @@ public class CategoryController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "category_select_page")
     @GetMapping("/selectPage")
     public R selectPage(Category category,
                         @RequestParam(defaultValue = "1") Integer pageNum,

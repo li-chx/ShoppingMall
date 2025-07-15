@@ -1,5 +1,6 @@
 package com.example.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.entity.Address;
 import com.example.user.service.AddressService;
@@ -19,6 +20,7 @@ public class AddressController {
     /**
      * 新增
      */
+    @SentinelResource(value = "address_add")
     @PostMapping("/add")
     public R add(@RequestBody Address address) {
         addressService.save(address);
@@ -28,6 +30,7 @@ public class AddressController {
     /**
      * 删除
      */
+    @SentinelResource(value = "address_delete")
     @DeleteMapping("/delete/{id}")
     public R deleteById(@PathVariable Integer id) {
         addressService.removeById(id);
@@ -37,6 +40,7 @@ public class AddressController {
     /**
      * 批量删除
      */
+    @SentinelResource(value = "address_delete_batch")
     @DeleteMapping("/delete/batch")
     public R deleteBatch(@RequestBody List<Integer> ids) {
         addressService.removeBatchByIds(ids);
@@ -46,6 +50,7 @@ public class AddressController {
     /**
      * 修改
      */
+    @SentinelResource(value = "address_update")
     @PutMapping("/update")
     public R updateById(@RequestBody Address address) {
         addressService.updateById(address);
@@ -55,6 +60,7 @@ public class AddressController {
     /**
      * 根据ID查询
      */
+    @SentinelResource(value = "address_select_by_id")
     @GetMapping("/selectById/{id}")
     public R<Address> selectById(@PathVariable Integer id) {
         Address address = addressService.getById(id);
@@ -64,6 +70,7 @@ public class AddressController {
     /**
      * 查询所有
      */
+    @SentinelResource(value = "address_select_all")
     @GetMapping("/selectAll")
     public R selectAll(Address address) {
         List<Address> list = addressService.selectAll(address);
@@ -73,6 +80,7 @@ public class AddressController {
     /**
      * 分页查询
      */
+    @SentinelResource(value = "address_select_page")
     @GetMapping("/selectPage")
     public R selectPage(Address address,
                         @RequestParam(defaultValue = "1") Integer pageNum,

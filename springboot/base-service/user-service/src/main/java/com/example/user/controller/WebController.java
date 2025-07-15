@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.common.enums.ResultCodeEnum;
 import com.example.common.enums.RoleEnum;
@@ -37,6 +38,7 @@ public class WebController {
     /**
      * 登录
      */
+    @SentinelResource(value = "login")
     @PostMapping("/login")
     public R login(@RequestBody Account account) {
         if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())
@@ -87,6 +89,7 @@ public class WebController {
     /**
      * 注册
      */
+    @SentinelResource(value = "register")
     @PostMapping("/register")
     public R register(@RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
@@ -128,6 +131,7 @@ public class WebController {
     /**
      * 修改密码
      */
+    @SentinelResource(value = "updatePassword")
     @PutMapping("/updatePassword")
     public R updatePassword(@RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
