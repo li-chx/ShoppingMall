@@ -105,11 +105,12 @@ public class GoodsController {
                         @RequestParam(defaultValue = "1") Integer pageNum,
                         @RequestParam(defaultValue = "10") Integer pageSize,
                         @RequestParam(defaultValue = "") String name,
-                        @RequestParam(defaultValue = "0") Integer businessId) {
+                        @RequestParam(defaultValue = "-1") Integer businessId) {
         log.info(businessId.toString());
         log.info("goodsBusinessId"+goods.getBusinessId());
         goods.setName(name);
-        goods.setBusinessId(businessId);
+        if(businessId != -1)
+            goods.setBusinessId(businessId);
         PageInfo<Goods> page = goodsService.selectPage(goods, pageNum, pageSize);
 
 //        page.getList().forEach(item->{
