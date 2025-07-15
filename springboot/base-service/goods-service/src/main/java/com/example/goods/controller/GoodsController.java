@@ -141,4 +141,13 @@ public class GoodsController {
         List<Goods> list = goodsService.selectByCategoryId(id);
         return R.success(list);
     }
+
+    /** 根据商品名字进行模糊查询*/
+    @GetMapping("/selectPageByName")
+    public R<PageInfo<Goods>> selectPageByName(@RequestParam(defaultValue = "1") Integer pageNum,
+                                               @RequestParam(defaultValue = "10") Integer pageSize,
+                                               @RequestParam(defaultValue = "") String goodsName) {
+        PageInfo<Goods> page = goodsService.selectPageByName(goodsName, pageNum, pageSize);
+        return R.success(page);
+    }
 } 

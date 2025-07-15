@@ -10,4 +10,5 @@ public interface OrdersService extends IService<Orders> {
 
     List<Orders> selectAll(Orders orders);
     PageInfo<Orders> selectPage(Orders orders, Integer pageNum, Integer pageSize);
-} 
+    PageInfo<Orders> selectPageByGoodIds(List<Integer> ids, Integer pageNum, Integer pageSize);
+}

@@ -14,8 +14,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("orders")
 public class Orders implements Serializable {
-    private static final long serialVersionUID = 1L;
-
     /** ID */
     @TableId(type = IdType.AUTO)
     private Integer id;
@@ -27,4 +25,15 @@ public class Orders implements Serializable {
     private Integer num;
     private Double price;
     private String status;
+    public Orders(Orders orders) {
+        this.id = orders.getId();
+        this.userId = orders.getUserId();
+        this.businessId = orders.getBusinessId();
+        this.goodsId = orders.getGoodsId();
+        this.orderId = orders.getOrderId();
+        this.addressId = orders.getAddressId();
+        this.num = orders.getNum();
+        this.price = orders.getPrice();
+        this.status = orders.getStatus();
+    }
 } 

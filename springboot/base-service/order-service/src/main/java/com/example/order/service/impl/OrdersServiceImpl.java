@@ -1,7 +1,9 @@
 package com.example.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.entity.Goods;
 import com.example.entity.Orders;
 import com.example.mapper.OrdersMapper;
 import com.example.order.service.OrdersService;
@@ -41,5 +43,21 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
         PageHelper.startPage(pageNum, pageSize);
         List<Orders> list = selectAll(orders);
         return PageInfo.of(list);
+    }
+
+    @Override
+    public PageInfo<Orders> selectPageByGoodIds(List<Integer> ids, Integer pageNum, Integer pageSize) {
+        Page<Orders> page = new Page<>(pageNum, pageSize);
+        QueryWrapper<Orders> wrapper = new QueryWrapper<>();
+        if (ids != null && !ids.isEmpty()) {
+            wrapper.in("goods_id", ids);
+        }
+        var pagination = ordersMapper.selectPage(page, wrapper);
+        PageInfo<Orders> pageInfo = new PageInfo<>(pagination.getRecords());
+        pageInfo.setPageNum((int) pagination.getCurrent());
+        pageInfo.setPageSize((int) pagination.getSize());
+        pageInfo.setTotal(pagination.getTotal());
+        pageInfo.setPages((int) pagination.getPages());
+        return pageInfo;
     }
 } 

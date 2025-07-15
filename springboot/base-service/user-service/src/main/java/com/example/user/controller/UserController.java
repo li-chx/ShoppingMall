@@ -60,7 +60,7 @@ public class UserController {
      * 根据ID查询
      */
     @GetMapping("/selectById/{id}")
-    public R selectById(@PathVariable Integer id) {
+    public R<User> selectById(@PathVariable Integer id) {
         User user = userService.getById(id);
         return R.success(user);
     }

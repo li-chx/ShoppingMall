@@ -56,7 +56,7 @@ public class AddressController {
      * 根据ID查询
      */
     @GetMapping("/selectById/{id}")
-    public R selectById(@PathVariable Integer id) {
+    public R<Address> selectById(@PathVariable Integer id) {
         Address address = addressService.getById(id);
         return R.success(address);
     }
@@ -65,7 +65,7 @@ public class AddressController {
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public R selectAll(Address address ) {
+    public R selectAll(Address address) {
         List<Address> list = addressService.selectAll(address);
         return R.success(list);
     }

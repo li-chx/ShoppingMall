@@ -13,4 +13,6 @@ public interface GoodsService extends IService<Goods> {
     // 新增
     List<Goods> selectTop5();
     List<Goods> selectByCategoryId(Integer categoryId);
+    PageInfo<Goods> selectPageByName(String goodsName, Integer pageNum, Integer pageSize);
+
 } 

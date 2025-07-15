@@ -2,6 +2,8 @@ package com.example.order.feign;
 
 import com.example.common.R;
 import com.example.dto.AddressDTO;
+import com.example.entity.Address;
+import com.example.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface UserFeignClient {
     
     @GetMapping("/user/selectById/{id}")
-    R selectById(@PathVariable("id") Integer id);
+    R<User> selectById(@PathVariable("id") Integer id);
 
-    @GetMapping("/address/{id}")
-    AddressDTO getAddressById(@PathVariable("id") Integer id);
+    @GetMapping("/address/selectById/{id}")
+    R<Address> getAddressById(@PathVariable Integer id);
 } 

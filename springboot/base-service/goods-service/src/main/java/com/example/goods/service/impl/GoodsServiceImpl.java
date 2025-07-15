@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.entity.Goods;
 import com.example.mapper.GoodsMapper;
 import com.example.goods.service.GoodsService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -58,5 +59,24 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("category_id", categoryId);
         return goodsMapper.selectList(queryWrapper);
+    }
+
+
+
+
+    @Override
+    public PageInfo<Goods> selectPageByName(String goodsName, Integer pageNum, Integer pageSize) {
+        Page<Goods> page = new Page<>(pageNum, pageSize);
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        if (goodsName != null && !goodsName.isEmpty()) {
+            wrapper.like("name", goodsName);
+        }
+        var pagination = goodsMapper.selectPage(page, wrapper);
+        PageInfo<Goods> pageInfo = new PageInfo<>(pagination.getRecords());
+        pageInfo.setPageNum((int) pagination.getCurrent());
+        pageInfo.setPageSize((int) pagination.getSize());
+        pageInfo.setTotal(pagination.getTotal());
+        pageInfo.setPages((int) pagination.getPages());
+        return pageInfo;
     }
 } 
