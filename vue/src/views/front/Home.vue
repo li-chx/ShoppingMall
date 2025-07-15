@@ -80,27 +80,47 @@
       <div style="margin-left: 5px; "><b>热卖商品</b></div>
     </div>
     <div style="margin: 0 20px">
-      <el-row>
-        <el-col :span="5" v-for="item in goodsData" :key="item.id">
-          <img :src="item.img" alt="" style="width: 100%; height: 180px; border-radius: 10px;"
-               @click="goTo('/front/detail?id=' + item.id)">
-          <div class="text-overflow-ellipsis"
-               style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
-            {{ item.name }}
+      <!-- 商品展示区域 -->
+      <div v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" :infinite-scroll-distance="100">
+        <el-row>
+          <el-col :span="5" v-for="(item, index) in visibleGoods" :key="index">
+            <img :src="item.img" alt="" style="width: 100%; height: 180px; border-radius: 10px;"
+                 @click="goTo('/front/detail?id=' + item.id)">
+            <div class="text-overflow-ellipsis"
+                 style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
+              {{ item.name }}
+            </div>
+            <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
+          </el-col>
+        </el-row>
+        
+        <!-- 骨架屏加载效果 -->
+        <div v-if="loading" style="display: flex; flex-wrap: wrap; margin-top: 20px;">
+          <div v-for="n in skeletonCount" :key="'skeleton-'+n" style="width: 20%; padding: 10px;">
+            <el-skeleton :loading="loading" animated>
+              <template slot="template">
+                <el-skeleton-item variant="image" style="width: 100%; height: 180px; border-radius: 10px;" />
+                <div style="margin-top: 10px;">
+                  <el-skeleton-item variant="text" style="width: 80%;" />
+                  <el-skeleton-item variant="text" style="width: 60%; margin-top: 10px;" />
+                </div>
+              </template>
+            </el-skeleton>
           </div>
-          <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
-        </el-col>
-      </el-row>
-      <el-divider>{{ getRandomBottomText() }}</el-divider>
+        </div>
+        
+        <div v-if="noMore" style="text-align: center; padding: 20px; color: #999;">
+          {{ getRandomBottomText() }}
+        </div>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script>
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/video/买买买.json';
-import {fixUrl, fixUrlList} from "@/utils/fixUrl";
+import { fixUrl, fixUrlList } from "@/utils/fixUrl";
 
 export default {
   components: {
@@ -132,18 +152,23 @@ export default {
         '/front/category?id=5',
         '/front/category?id=10',
       ],
-      defaultOptions: { animationData: animationData.default }, // 注意：有些 JSON 文件可能需要 .default
+      defaultOptions: { animationData: animationData.default },
       animationSpeed: 1,
-      goodsData: [],
+      visibleGoods: [],       // 当前显示的商品
+      currentPage: 1,         // 当前页码
+      pageSize: 10,           // 每页商品数量 (5行 * 5列)
+      loading: false,         // 是否正在加载
+      noMore: false,          // 是否已加载全部
+      skeletonCount: 10,       // 骨架屏数量
+      totalGoods: 0,          // 商品总数
     }
   },
   async mounted() {
     this.user.avatar = await fixUrl(this.user.avatar);
-    this.loadCategory(),
-      this.loadNotice(),
-      this.loadGoods()
+    this.loadCategory();
+    this.loadNotice();
+    this.loadGoods(); // 初始加载第一页商品
   },
-  // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
     getRandomBottomText() {
       const arr = [
@@ -154,11 +179,6 @@ export default {
         '感谢您的浏览!'
       ]
       return arr[Math.floor(Math.random() * arr.length)]
-    },
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
     },
     loadCategory() {
       this.$request.get('/category/selectAll').then(async res => {
@@ -188,17 +208,50 @@ export default {
         }
       })
     },
+    // 加载商品数据（后端分页）
     loadGoods() {
-      this.$request.get('/goods/selectTop5').then(async res => {
+      if (this.loading) return;
+      
+      this.loading = true;
+      
+      // 请求后端分页数据
+      this.$request.get('/goods/selectPage', {
+        params: {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize
+        }
+      }).then(async res => {
         if (res.code === '200') {
-          this.goodsData = await fixUrlList(res.data, x => x.img, (x, url) => {
+          // 修复图片URL
+          const newGoods = await fixUrlList(res.data?.list || [], x => x.img, (x, url) => {
             x.img = url;
             return x;
           });
+          
+          this.visibleGoods = [...this.visibleGoods, ...newGoods];
+          this.totalGoods = res.data?.total || 0;
+          
+          // 检查是否还有更多数据
+          this.noMore = this.visibleGoods.length >= this.totalGoods;
+          
+          // 更新页码
+          if (newGoods.length > 0) {
+            this.currentPage++;
+          }
         } else {
-          this.$message.error(res.msg)
+          this.$message.error(res.msg);
         }
-      })
+        
+        this.loading = false;
+      }).catch(err => {
+        console.error('加载商品失败:', err);
+        this.loading = false;
+      });
+    },
+    // 滚动加载更多
+    loadMore() {
+      if (this.loading || this.noMore) return;
+      this.loadGoods();
     },
     goTo(url) {
       this.$router.push(url)
@@ -225,7 +278,6 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-
 }
 
 a {
