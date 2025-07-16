@@ -18,8 +18,8 @@
         <el-table-column label="商品主图" align="center">
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
-              <el-image style="width: 40px; height: 40px;" v-if="scope.row.img" :src="scope.row.img"
-                :preview-src-list="[scope.row.img]"></el-image>
+              <el-image style="width: 40px; height: 40px;" v-if="scope.row.img" :src="imgUrlMap[scope.row.id]"
+                :preview-src-list="[imgUrlMap[scope.row.id]]"></el-image>
             </div>
           </template>
         </el-table-column>
@@ -59,9 +59,10 @@
       @close="cancel">
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
         <el-form-item label="商品主图">
-          <el-upload class="avatar-uploader" :action="'/api/files/upload'" :headers="{ token: user.token }"
-            list-type="picture" :on-success="handleAvatarSuccess">
+          <el-upload class="avatar-uploader" name="multipartFile" :action="'/api/files/upload'" :show-file-list="false"
+            :headers="{ token: user.token }" list-type="picture" :on-success="handleAvatarSuccess">
             <el-button type="primary">上传图片</el-button>
+            <img v-if="imgUrl" :src="imgUrl" class="avatar" style="width: 120px; height: 120px; display: block; " />
           </el-upload>
         </el-form-item>
         <el-form-item prop="name" label="商品名称">
@@ -105,7 +106,7 @@
 
 <script>
 import E from 'wangeditor'
-import {fixUrl, fixUrlList} from "@/utils/fixUrl";
+import { fixUrl, fixUrlList } from "@/utils/fixUrl";
 
 let editor
 function initWangEditor(content) {
@@ -127,6 +128,9 @@ export default {
   data() {
     return {
       tableData: [],  // 所有的数据
+      imgUrlMap: {},
+      imgUrl: '',
+      editData: '',
       pageNum: 1,   // 当前的页码
       pageSize: 5,  // 每页显示的个数
       total: 0,
@@ -134,6 +138,7 @@ export default {
       fromVisible: false,
       editorVisible: false,
       form: {},
+      formRef: null,
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
         name: [
@@ -141,7 +146,22 @@ export default {
         ],
         img: [
           { required: true, message: '请上传商品主图', trigger: 'blur' },
-        ]
+        ],
+        price: [
+          { required: true, message: '请输入商品价格', trigger: 'blur' },
+          { pattern: '^[1-9]\d*$', message: '非法的商品价格', trigger: 'blur' }
+        ],
+        unit: [
+          { required: true, message: '请输入计价单位', trigger: 'blur' },
+        ],
+        inventory: [
+          { required: true, message: '请输入商品库存', trigger: 'blur' },
+          { pattern: '^[1-9]\d*$', message: '非法的商品库存', trigger: 'blur' }
+        ],
+        categoryId: [
+          { required: true, message: '请选择商品分类', trigger: 'change' },
+        ],
+
       },
       ids: [],
       categoryData: [],
@@ -153,39 +173,58 @@ export default {
   async mounted() {
     this.user.avatar = await fixUrl(this.user.avatar);
   },
-  created() {
-    this.load()
-    //this.loadCategoryOrBusiness()
+  async created() {
+    await this.load()
+    await this.loadCategoryAndBusiness(this.user.id)
   },
   // mounted() {
   //   initWangEditor('')
   // },
   methods: {
     handleAdd() {   // 新增数据
-      if (this.user.status !== '审核通过' && this.user.role === 'BUSINESS') {
+      if (this.businessData.status !== '审核通过' && this.businessData.role === 'BUSINESS') {
         this.$message.warning("您的店铺信息尚未审核通过，暂时不允许新增商品")
         return
       }
       this.form = {}  // 新增数据的时候清空数据
+      this.imgUrl = ''
       initWangEditor('')
       this.fromVisible = true   // 打开弹窗
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
+      this.imgUrl = this.imgUrlMap[row.id]
       initWangEditor(this.form.description || '')
       this.fromVisible = true   // 打开弹窗
     },
-    async findBusinessStatus(id) {
-      const res = await this.$request.get('/business/selectById/' + id)
-      if (res.code === '200') {
-        console.log(res.data);
+    async loadCategoryAndBusiness(id) {
+      this.$request.get('/category/selectAll').then(res => {
+        if (res.code === '200') {
+          console.log(res.data);
+          this.categoryData = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
 
-        this.businessStatus = res.data.status
-      }
+      this.$request.get('/business/selectById/' + id).then(res => {
+        if (res.code === '200') {
+          console.log(res.data);
+          this.businessData = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     },
-    async save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
-      await this.findBusinessStatus(this.form.businessId)
+    // async loadBusiness(id) {
+    //   const res = await this.$request.get('/business/selectById/' + id)
+    //   if (res.code === '200') {
+    //     console.log(res.data);
 
+    //     this.businessData = res.data
+    //   }
+    // },
+    async save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       if (this.user.role === 'ADMIN' && this.businessStatus !== '审核通过') {
         console.log(this.businessStatus);
 
@@ -250,7 +289,7 @@ export default {
       }).catch(() => {
       })
     },
-    load() {  // 分页查询
+    async load() {  // 分页查询
       this.$request.get('/goods/selectPage', {
         params: {
           pageNum: this.pageNum,
@@ -259,10 +298,18 @@ export default {
           businessId: this.user.role === 'BUSINESS' ? this.user.id : null
         }
       }).then(async res => {
-        this.tableData = await fixUrlList(res.data?.list, x=> x.img, (x, url) => {
-          x.img = url
-          return x
-        })
+        const imgUrlMap = {};
+        for (const item of res.data.list) {
+          imgUrlMap[item.id] = await fixUrl(item.img);
+        }
+        this.imgUrlMap = imgUrlMap;
+        // console.log(this.imgUrlMap);
+
+        // this.tableData = await fixUrlList(res.data?.list, x=> x.img, (x, url) => {
+        //   x.img = url
+        //   return x
+        // })
+        this.tableData = res.data.list
         this.total = res.data?.total
       })
     },
@@ -278,28 +325,11 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
-    handleAvatarSuccess(response, file, fileList) {
+    async handleAvatarSuccess(response, file, fileList) {
       this.form.img = response.data
+      this.imgUrl = await fixUrl(response.data);
     },
-    loadCategoryOrBusiness() {
-      this.$request.get('/category/selectAll').then(res => {
-        if (res.code === '200') {
-          console.log(res.data);
-          this.categoryData = res.data
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
 
-      this.$request.get('/business/selectAll').then(res => {
-        if (res.code === '200') {
-          console.log(res.data);
-          this.businessData = res.data
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
-    },
     viewEditor(content) {
       this.viewData = content
       this.editorVisible = true

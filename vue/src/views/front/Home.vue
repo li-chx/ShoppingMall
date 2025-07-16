@@ -3,30 +3,21 @@
   <div>
 
 
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 20px;">
-      <div style="color: #81d7ce; font-weight: bold; font-size: 16px;flex:1">ShoppingMall</div>
-      <div style="display: flex;flex:5.4">
-        <el-autocomplete
-        v-model="searchText"
-        :fetch-suggestions="querySearchAsync"
-        placeholder="请输入心仪的商品"
-        style="width: 100%;"
-        prefix-icon="el-icon-search"
-        @select="handleSelect"
-        @keyup.enter.native="handleSearch"
-        :trigger-on-focus="false"
-        :debounce="100"
-        value-key="value"
-        clearable
-      >
-      <el-button slot="append"  icon="el-icon-search" @click="handleSearch">搜索</el-button>
 
-      </el-autocomplete>
-      
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 20px;">
+      <div style="color: #81d7ce; font-weight: bold; font-size: 36px; flex:1; font-family:'Nanum Pen Script'">
+        ShoppingMall</div>
+      <div style="display: flex;flex:5.4">
+        <el-autocomplete v-model="searchText" :fetch-suggestions="querySearchAsync" placeholder="请输入心仪的商品"
+          style="width: 100%;" prefix-icon="el-icon-search" @select="handleSelect" @keyup.enter.native="handleSearch"
+          :trigger-on-focus="false" :debounce="100" value-key="value" clearable>
+          <el-button slot="append" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+
+        </el-autocomplete>
+
       </div>
     </div>
-    
+
 
     <div v-if="!isSearching" style="display: flex; margin: 0 20px">
       <div style="flex: 1.5; background-color: #81d7ce; border-radius: 10px; margin-right: 10px; color: white;">
@@ -70,7 +61,7 @@
         style="flex: 3; height: 490px; background-image: linear-gradient(#a2e0d9 0%, #f7f7f7 100%); margin-left:10px; border-radius: 10px">
         <div style="text-align: center; margin-top: 30px">
           <img :src="user.avatar" alt="" @click="goTo('/front/person')"
-            style="width: 80px; height: 80px; border-radius: 50%">
+            style="width: 80px; height: 80px; border-radius: 50%; cursor: pointer">
           <div style="margin-top:10px; font-size: 16px"><b>你好，{{ user.name }}</b></div>
         </div>
         <div style="margin: 20px 10px;">
@@ -113,9 +104,9 @@
         <el-row>
           <el-col :span="5" v-for="(item, index) in visibleGoods" :key="index">
             <img :src="item.img" alt="" style="width: 100%; height: 180px; border-radius: 10px;"
-                 @click="goTo('/front/detail?id=' + item.id)">
+              @click="goTo('/front/detail?id=' + item.id)">
             <div class="text-overflow-ellipsis"
-                 style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
+              style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
               {{ item.name }}
             </div>
             <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
@@ -124,7 +115,7 @@
 
         <!-- 骨架屏加载效果 -->
         <div v-if="loading" style="display: flex; flex-wrap: wrap; margin-top: 20px;">
-          <div v-for="n in skeletonCount" :key="'skeleton-'+n" style="width: 20%; padding: 10px;">
+          <div v-for="n in skeletonCount" :key="'skeleton-' + n" style="width: 20%; padding: 10px;">
             <el-skeleton :loading="loading" animated>
               <template slot="template">
                 <el-skeleton-item variant="image" style="width: 100%; height: 180px; border-radius: 10px;" />
@@ -137,9 +128,9 @@
           </div>
         </div>
         <el-divider>{{ getRandomBottomText() }}</el-divider>
-<!--        <div v-if="noMore" style="text-align: center; padding: 20px; color: #999;">-->
-<!--          {{ getRandomBottomText() }}-->
-<!--        </div>-->
+        <!--        <div v-if="noMore" style="text-align: center; padding: 20px; color: #999;">-->
+        <!--          {{ getRandomBottomText() }}-->
+        <!--        </div>-->
       </div>
     </div>
   </div>
@@ -248,7 +239,7 @@ export default {
   methods: {
 
     // 搜索功能
-    handleSearch(){
+    handleSearch() {
       console.log('搜索内容:', this.searchText);
       // 如果搜索框为空，显示原来的内容
       if (!this.searchText || this.searchText.trim() === '') {
@@ -262,19 +253,19 @@ export default {
     // 搜索建议查询方法
     querySearchAsync(queryString, cb) {
       console.log('查询字符串:', queryString); // 调试用
-      
+
       if (!queryString) {
         cb([]);
         return;
       }
-      
+
       // 过滤匹配的建议
       const results = this.searchSuggestions.filter(item => {
         return item.value.toLowerCase().includes(queryString.toLowerCase());
       });
-      
+
       console.log('搜索结果:', results); // 调试用
-      
+
       // 直接返回结果，不使用setTimeout
       cb(results.slice(0, 10));
     },

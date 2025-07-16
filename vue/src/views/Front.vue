@@ -5,7 +5,9 @@
     <div class="front-header" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
       <div class="front-header-left" @click="goTo('/front/home')">
         <img src="@/assets/imgs/logo.png" alt="">
-        <div class="title"><i>ShoppingMall</i></div>
+        <!-- <div class="title"><i>ShoppingMall</i></div> -->
+        <div class="title" style="font-weight: bold; font-size: 50px;flex:1;font-family:'Nanum Pen Script'">ShoppingMall
+        </div>
       </div>
       <!-- <div class="front-header-center">
         <div class="front-header-nav">
@@ -23,7 +25,7 @@
         <div v-else>
           <el-dropdown>
             <div class="front-header-dropdown">
-              <img :src="user.avatar" alt="" @click="goTo('/front/person')">
+              <img :src="user.avatar" alt="" @click="goTo('/front/person')" style="cursor:pointer">
               <div style="margin-left: 10px">
                 <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>
@@ -40,10 +42,12 @@
     <!--主体-->
     <div class="main-body" style="margin-top: 60px;">
       <div class="main-content">
-        <div style="flex: 5; height: 60px; background-color: #81d7ce"></div>
+        <div style="flex: 5; height: 30px; background-color: #81d7ce"></div>
         <div style="display: flex; min-height: calc(100vh - 120px);">
           <!-- 修复左侧图片显示问题 -->
-          <div class="left" style="position: sticky; top: 60px; align-self: flex-start; background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+          <div class="left"
+            style="position: sticky; top: 60px; align-self: flex-start; background-size: contain; background-position: center; background-repeat: no-repeat;">
+          </div>
 
           <div style="width: 76%; border-radius: 15px; background-color: white; overflow-y: auto;">
             <router-view ref="child" @update:user="updateUser" />
@@ -51,7 +55,9 @@
           </div>
 
           <!-- 修复右侧图片显示问题 -->
-          <div class="right" style="position: sticky; top: 60px; align-self: flex-start; background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+          <div class="right"
+            style="position: sticky; top: 60px; align-self: flex-start; background-size: contain; background-position: center; background-repeat: no-repeat;">
+          </div>
         </div>
         <footer style="height: 2em;"></footer>
       </div>
@@ -62,7 +68,7 @@
 
 <script>
 
-import {fixUrl} from "@/utils/fixUrl";
+import { fixUrl } from "@/utils/fixUrl";
 
 export default {
   name: "FrontLayout",
