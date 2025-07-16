@@ -20,7 +20,7 @@
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
               <el-image style="height: 40px; " v-if="scope.row.avatar"
-                        :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]"></el-image>
+                        :src="imgUrlMap[scope.row.id]" :preview-src-list="[imgUrlMap[scope.row.id]]"></el-image>
             </div>
           </template>
         </el-table-column>
@@ -64,12 +64,15 @@
         <el-form-item label="头像">
           <el-upload
               class="avatar-uploader"
+              name="multipartFile"
               :action="'/api/files/upload'"
+              :show-file-list="false"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleAvatarSuccess"
           >
             <el-button type="primary">上传头像</el-button>
+            <img v-if="imgUrl" :src="imgUrl" class="avatar" style="width: 120px; height: 120px; display: block;"/>
           </el-upload>
         </el-form-item>
         <el-form-item label="电话" prop="phone">
@@ -102,12 +105,15 @@
 </template>
 
 <script>
-import {fixUrlList} from "@/utils/fixUrl";
+import {fixUrl, fixUrlList} from "@/utils/fixUrl";
 
 export default {
   name: "Business",
   data() {
     return {
+      imgUrl: '',
+      imgUrlMap: {},
+      editBusinessData: {},
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
       pageSize: 5,  // 每页显示的个数
@@ -134,7 +140,8 @@ export default {
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
-      this.fromVisible = true   // 打开弹窗
+      this.imgUrl = this.imgUrlMap[row.id];
+      this.fromVisible = true;   // 打开弹窗
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
@@ -196,11 +203,17 @@ export default {
           username: this.username,
         }
       }).then(async res => {
-        this.tableData = await fixUrlList(res.data?.list, x=>x.avatar, (x, url) => {
-          x.avatar = url
-          return x
-        })
-        this.total = res.data?.total
+        const imgUrlMap = {};
+        (await fixUrlList(res.data?.list, x=>x.avatar, (x, url) => [x.id, url]))
+            .forEach(id_url => imgUrlMap[id_url[0]] = id_url[1]);
+        this.imgUrlMap = imgUrlMap;
+        this.tableData = res.data?.list;
+        this.total = res.data?.total;
+        // this.tableData = await fixUrlList(res.data?.list, x=>x.avatar, (x, url) => {
+        //   x.avatar = url
+        //   return x
+        // })
+        // this.total = res.data?.total
       })
     },
     reset() {
@@ -215,9 +228,11 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
-    handleAvatarSuccess(response, file, fileList) {
+    async handleAvatarSuccess(response, file, fileList) {
       // 把头像属性换成上传的图片的链接
       this.form.avatar = response.data
+      console.log(response.data);
+      this.imgUrl = await fixUrl(response.data);
     },
   }
 }

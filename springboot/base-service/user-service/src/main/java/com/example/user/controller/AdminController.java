@@ -132,6 +132,7 @@ public class AdminController {
                         @RequestParam(defaultValue = "1") Integer pageNum,
                         @RequestParam(defaultValue = "10") Integer pageSize) {
         PageInfo<Admin> page = adminService.selectPage(admin, pageNum, pageSize);
+        page.setList(page.getList().stream().peek(x -> x.setPassword(null)).toList());
         return R.success(page);
     }
 }

@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="search">
-      <el-input placeholder="请输入账号查询" style="width: 200px" suffix-icon="el-icon-search" v-model="username"></el-input>
+      <el-input placeholder="请输入账号查询" style="width: 200px" suffix-icon="el-icon-search"
+                v-model="username"></el-input>
       <el-button type="info" plain style="margin-left: 10px" @click="load()">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
@@ -23,15 +24,17 @@
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center;">
               <el-image style="width: 40px; height: 40px; border-radius: 50%" v-if="scope.row.avatar"
-                        :src="scope.row.avatar" :preview-src-list="[scope.row.avatar]"></el-image>
+                        :src="imgUrlMap[scope.row.id]" :preview-src-list="[imgUrlMap[scope.row.id]]"></el-image>
             </div>
           </template>
         </el-table-column>
         <el-table-column prop="role" label="角色" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width="180">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit" plain circle @click="handleEdit(scope.row)"></el-button>
-            <el-button size="mini" type="danger" icon="el-icon-delete" plain circle @click="del(scope.row.id)"></el-button>
+            <el-button size="mini" type="primary" icon="el-icon-edit" plain circle
+                       @click="handleEdit(scope.row)"></el-button>
+            <el-button size="mini" type="danger" icon="el-icon-delete" plain circle
+                       @click="del(scope.row.id)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -67,12 +70,15 @@
         <el-form-item label="头像">
           <el-upload
               class="avatar-uploader"
+              name="multipartFile"
               :action="'/api/files/upload'"
+              :show-file-list="false"
               :headers="{ token: user.token }"
               list-type="picture"
               :on-success="handleAvatarSuccess"
           >
             <el-button type="primary">上传头像</el-button>
+            <img v-if="imgUrl" :src="imgUrl" class="avatar" style="width: 120px; height: 120px; display: block;"/>
           </el-upload>
         </el-form-item>
       </el-form>
@@ -88,12 +94,14 @@
 </template>
 
 <script>
-import {fixUrlList} from "@/utils/fixUrl";
+import {fixUrl, fixUrlList} from "@/utils/fixUrl";
 
 export default {
   name: "User",
   data() {
     return {
+      imgUrl: '',
+      imgUrlMap: {},
       tableData: [],  // 所有的数据
       pageNum: 1,   // 当前的页码
       pageSize: 5,  // 每页显示的个数
@@ -120,6 +128,7 @@ export default {
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
+      this.imgUrl = this.imgUrlMap[row.id];
       this.fromVisible = true   // 打开弹窗
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
@@ -182,12 +191,20 @@ export default {
           username: this.username,
         }
       }).then(async res => {
-        this.tableData = await fixUrlList(res.data?.list, x=>x.avatar, (x, url) => {
-          x.avatar = url
-          return x;
-        });
-        this.tableData = res.data?.list
-        this.total = res.data?.total
+        const imgUrlMap = {};
+        (await fixUrlList(res.data?.list, x => x.avatar, (x, url) => [x.id, url]))
+            .forEach(([id, url]) => {
+              imgUrlMap[id] = url;  // 缓存头像的URL
+            });
+        this.imgUrlMap = imgUrlMap;
+        this.tableData = res.data?.list;
+        this.total = res.data?.total;
+        // this.tableData = await fixUrlList(res.data?.list, x=>x.avatar, (x, url) => {
+        //   x.avatar = url
+        //   return x;
+        // });
+        // this.tableData = res.data?.list
+        // this.total = res.data?.total
       })
     },
     reset() {
@@ -202,9 +219,10 @@ export default {
       this.pageNum = pageNum
       this.load()
     },
-    handleAvatarSuccess(response, file, fileList) {
+    async handleAvatarSuccess(response, file, fileList) {
       // 把头像属性换成上传的图片的链接
       this.form.avatar = response.data
+      this.imgUrl = await fixUrl(response.data);
     },
   }
 }
