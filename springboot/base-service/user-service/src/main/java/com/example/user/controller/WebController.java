@@ -88,7 +88,8 @@ public class WebController {
             admin.setPassword(account.getPassword());
             Admin loginAdmin = adminService.login(admin);
             if (loginAdmin == null) return R.error(ResultCodeEnum.USER_ACCOUNT_ERROR);
-            return R.success(admin);
+            loginAdmin.setPassword(null);
+            return R.success(loginAdmin);
         }
         if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
             Business business = new Business();
@@ -96,6 +97,7 @@ public class WebController {
             business.setPassword(account.getPassword());
             Business loginBusiness = businessService.login(business);
             if (loginBusiness == null) return R.error(ResultCodeEnum.USER_ACCOUNT_ERROR);
+            loginBusiness.setPassword(null);
             return R.success(loginBusiness);
         }
         if (RoleEnum.USER.name().equals(account.getRole())) {
@@ -104,6 +106,7 @@ public class WebController {
             user.setPassword(account.getPassword());
             User loginUser = userService.login(user);
             if (loginUser == null) return R.error(ResultCodeEnum.USER_ACCOUNT_ERROR);
+            loginUser.setPassword(null);
             return R.success(loginUser);
         }
         return R.error(ResultCodeEnum.USER_ACCOUNT_ERROR);
