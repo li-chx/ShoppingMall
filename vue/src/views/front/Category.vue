@@ -24,7 +24,7 @@
           </div>
           <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
           <div class="add-cart-bottom">
-            <el-button type="primary" size="mini" icon="el-icon-shopping-cart" @click="addCart(item.id)">加入购物车</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-shopping-cart" @click="addCart(item.id,item.businessId)">加入购物车</el-button>
           </div>
         </div>
       </div>
@@ -99,8 +99,8 @@ export default {
     goTo(url) {
       this.$router.push(url)
     },
-    addCart() {
-      let data = { num: 1, userId: this.user.id, goodsId: this.goodsId, businessId: this.goodsData.businessId }
+    addCart(goodsId,businessId) {
+      let data = { num: 1, userId: this.user.id, goodsId: goodsId, businessId: businessId }
       this.$request.post('/cart/add', data).then(res => {
         if (res.code === '200') {
           this.$message.success('加入成功')
