@@ -9,6 +9,14 @@
         <div class="title" style="font-weight: bold; font-size: 50px;flex:1;font-family:'Nanum Pen Script'">ShoppingMall
         </div>
       </div>
+      <!-- <div class="front-header-center">
+        <div class="front-header-nav">
+          <el-menu :default-active="$route.path" mode="horizontal" router>
+						<el-menu-item index="/front/home">首页</el-menu-item>
+						<el-menu-item index="/front/person">个人中心</el-menu-item>
+          </el-menu>
+        </div>
+      </div> -->
       <div class="front-header-right">
         <div v-if="!user.username">
           <el-button @click="$router.push('/login')">登录</el-button>
@@ -56,7 +64,7 @@
 
 <script>
 
-import {fixUrl} from "@/utils/fixUrl";
+import { fixUrl } from "@/utils/fixUrl";
 
 export default {
   name: "FrontLayout",
@@ -67,7 +75,8 @@ export default {
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
       leftBgImage: require('@/assets/imgs/购物车.svg'),
-      rightBgImage: require('@/assets/imgs/购物.svg')
+      rightBgImage: require('@/assets/imgs/购物.svg'),
+      imgUrl: ''
     }
   },
   async mounted() {
@@ -103,8 +112,9 @@ export default {
         }
       })
     },
-    updateUser() {
+    async updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
+      this.imgUrl = await fixUrl(this.user.avatar);
     },
     // 退出登录
     logout() {
@@ -126,8 +136,9 @@ export default {
   min-height: calc(100vh - 60px);
   /*overflow: hidden;*/
   background-size: 100%;
-  background-color: #81d7ce;
-  /* background-image: url('@/assets/imgs/男生购物.svg'); */
+  background-image: url('@/assets/imgs/男生购物.svg');
+  /* background-color: #81d7ce; */
+  /* background-color: ; */
 }
 
 /* 修复左右两侧样式 */

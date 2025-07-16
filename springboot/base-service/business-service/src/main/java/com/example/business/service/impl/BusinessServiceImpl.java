@@ -36,6 +36,16 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper,Business> im
 
     @Transactional
     @Override
+    public boolean updatePassword(Integer id, String newPassword) {
+        Business business = businessMapper.selectById(id);
+        if (business != null) {
+            business.setPassword(newPassword);
+            return businessMapper.updateById(business) > 0;
+        }
+        return false;
+    }
+
+    @Override
     public PageInfo<Business> selectPage(Business business, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Business> list = selectAll(business);

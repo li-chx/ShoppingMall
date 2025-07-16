@@ -2,6 +2,7 @@ package com.example.goods.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Business;
 import com.example.entity.Category;
 import com.example.entity.Goods;
@@ -20,6 +21,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -106,6 +108,17 @@ public class GoodsController {
                         @RequestBody Goods goods) {
         goodsService.updateById(goods);
         return R.success();
+    }
+
+    @PostMapping("/update/gain_count")
+    public R updateGainCount(@RequestParam Integer id, @RequestParam Integer gainCount) {
+        if(goodsService.updateGainCount(id,gainCount))
+            return R.success();
+        else {
+            R<Object> result = R.error(ResultCodeEnum.PARAM_ERROR);
+            result.setMsg("更新商品销量失败，请检查商品ID和销量值是否正确");
+            return result;
+        }
     }
 
     @Operation(summary = "根据ID查询商品", description = "获取指定ID的商品详细信息，包括商家和分类信息")

@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.refresh.RefreshScopeLifecycle;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public class BusinessController {
 
     @Resource
     private BusinessService businessService;
+    @Autowired
+    private RefreshScopeLifecycle refreshScopeLifecycle;
 
     @Operation(summary = "新增商家", description = "添加新的商家信息")
     @ApiResponses(value = {
@@ -69,6 +73,18 @@ public class BusinessController {
                          @RequestBody List<Integer> ids) {
         businessService.removeBatchByIds(ids);
         return R.success();
+    }
+
+    @PostMapping("/updatePassword")
+    public R updatePassword(@RequestParam Integer id,
+                            @RequestParam String newPassword){
+        if(businessService.updatePassword(id, newPassword)){
+            return R.success();
+        }else{
+            R result = R.error();
+            result.setMsg("更新密码失败，参数错误！");
+            return result;
+        }
     }
 
     @Operation(summary = "修改商家", description = "根据ID更新商家信息")

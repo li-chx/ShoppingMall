@@ -2,7 +2,7 @@
   <div>
     <div style="width: 80%; margin: 30px auto;">
       <div
-          style="display: flex; font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid;">
+        style="display: flex; font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid;">
         <div style=" flex: 1">全部商品（{{ goodsData.length }}件）</div>
         <div style="flex: 2; text-align: right">
           <el-select v-model="addressId" placeholder="请选择收货地址" style="width: 70%">
@@ -48,14 +48,9 @@
           </el-table>
 
           <div class="pagination" style="margin-top: 20px;">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="pageNum"
-                :page-sizes="[5, 10, 20]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+              :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+              :total="total">
             </el-pagination>
 
 
@@ -72,7 +67,7 @@
 </template>
 
 <script>
-import {fixUrlList} from "@/utils/fixUrl";
+import { fixUrlList } from "@/utils/fixUrl";
 
 export default {
   data() {
@@ -210,6 +205,13 @@ export default {
 
       // 用 Promise.all 等待所有订单添加完成
       const addOrderPromises = ordersdataList.map(item => {
+
+        this.$request.post(`/goods/update/gain_count?id=${item.goodsId}&gainCount=${item.num}`)
+          .then(res => {
+            if (res.code !== '200') {
+              this.$message.error(res.msg)
+            }
+          })
         return this.$request.post('/orders/add', item).then(res => {
           if (res.code === '200') {
             deleteIds.push(this.selectedData.find(v => v.goodsId === item.goodsId).id)

@@ -149,14 +149,34 @@ export default {
         ],
         price: [
           { required: true, message: '请输入商品价格', trigger: 'blur' },
-          { pattern: '^[1-9]\d*$', message: '非法的商品价格', trigger: 'blur' }
+          {
+            validator: (rule, value, callback) => {
+              // 支持整数和两位小数
+              if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+                callback(new Error('商品价格必须为数字且最多两位小数'))
+              } else if (Number(value) <= 0) {
+                callback(new Error('商品价格必须大于0'))
+              } else {
+                callback()
+              }
+            }, trigger: 'blur'
+          }
         ],
         unit: [
           { required: true, message: '请输入计价单位', trigger: 'blur' },
         ],
         inventory: [
           { required: true, message: '请输入商品库存', trigger: 'blur' },
-          { pattern: '^[1-9]\d*$', message: '非法的商品库存', trigger: 'blur' }
+          {
+            validator: (rule, value, callback) => {
+              // 支持整数和两位小数
+              if (!/^[1-9]\d*$/.test(value)) {
+                callback(new Error('非法的商品库存'))
+              } else {
+                callback()
+              }
+            }, trigger: 'blur'
+          }
         ],
         categoryId: [
           { required: true, message: '请选择商品分类', trigger: 'change' },
@@ -235,6 +255,12 @@ export default {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
           this.form.description = editor.txt.html()
+          if (this.businessData.role === 'BUSINESS') {
+            this.form.businessId = this.user.id
+          } else {
+            this.$message.error('身份非法！')
+            return
+          }
           this.$request({
             url: this.form.id ? '/goods/update' : '/goods/add',
             method: this.form.id ? 'PUT' : 'POST',
