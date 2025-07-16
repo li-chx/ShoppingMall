@@ -259,15 +259,50 @@ export default {
   methods: {
 
     // 搜索功能
-    handleSearch(){
-      console.log('搜索内容:', this.searchText);
-      // 如果搜索框为空，显示原来的内容
-      if (!this.searchText || this.searchText.trim() === '') {
+    async handleSearch() {
+      const keyword = this.searchText && this.searchText.trim();
+      if (!keyword) {
+        // 搜索框为空，显示原来的内容
         this.isSearching = false;
-      } else {
-        // 如果搜索框有内容，隐藏轮播图等内容
-        this.isSearching = true;
+        this.visibleGoods = [];
+        this.currentPage = 1;
+        this.noMore = false;
+        this.loadGoods();
+        return;
       }
+      // 搜索模式
+      this.isSearching = true;
+      this.loading = true;
+      this.currentPage = 1;
+      this.visibleGoods = [];
+      this.noMore = false;
+      // 搜索接口
+      this.$request.get('/goods/selectPage', {
+        params: {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          name: keyword
+        }
+      }).then(async res => {
+        if (res.code === '200') {
+          const newGoods = await fixUrlList(res.data?.list || [], x => x.img, (x, url) => {
+            x.img = url;
+            return x;
+          });
+          this.visibleGoods = newGoods;
+          this.totalGoods = res.data?.total || 0;
+          this.noMore = this.visibleGoods.length >= this.totalGoods;
+          if (newGoods.length > 0) {
+            this.currentPage++;
+          }
+        } else {
+          this.$message.error(res.msg);
+        }
+        this.loading = false;
+      }).catch(err => {
+        this.$message.error('搜索失败');
+        this.loading = false;
+      });
     },
 
     // 搜索建议查询方法
@@ -419,7 +454,42 @@ export default {
     // 滚动加载更多
     loadMore() {
       if (this.loading || this.noMore) return;
-      this.loadGoods();
+      if (this.isSearching) {
+        this.loadMoreSearch();
+      } else {
+        this.loadGoods();
+      }
+    },
+    loadMoreSearch() {
+      const keyword = this.searchText && this.searchText.trim();
+      if (!keyword) return;
+      this.loading = true;
+      this.$request.get('/goods/selectPage', {
+        params: {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+          name: keyword
+        }
+      }).then(async res => {
+        if (res.code === '200') {
+          const newGoods = await fixUrlList(res.data?.list || [], x => x.img, (x, url) => {
+            x.img = url;
+            return x;
+          });
+          this.visibleGoods = [...this.visibleGoods, ...newGoods];
+          this.totalGoods = res.data?.total || 0;
+          this.noMore = this.visibleGoods.length >= this.totalGoods;
+          if (newGoods.length > 0) {
+            this.currentPage++;
+          }
+        } else {
+          this.$message.error(res.msg);
+        }
+        this.loading = false;
+      }).catch(err => {
+        this.$message.error('搜索失败');
+        this.loading = false;
+      });
     },
     goTo(url) {
       this.$router.push(url)

@@ -144,7 +144,7 @@ export default ({
   position: relative;
   overflow: visible;
   box-sizing: border-box;
-  padding: 10px 10px 20px 10px;
+  padding: 10px 10px;
 }
 .business-goods-flex-row .business-product-card:nth-child(5n) {
   margin-right: 0;
