@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -127,6 +128,7 @@ public class CartController {
      */
     @SentinelResource(value = "cart_select_page")
     @GetMapping("/selectPage")
+    @GlobalTransactional
     @Operation(summary = "分页查询购物车", description = "分页查询购物车项，包含商品和商家信息")
     @Parameters({
             @Parameter(name = "pageNum", description = "页码", in = ParameterIn.QUERY),

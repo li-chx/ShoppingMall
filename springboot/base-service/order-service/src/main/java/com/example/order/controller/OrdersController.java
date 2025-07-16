@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.seata.spring.annotation.GlobalTransactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,6 +151,7 @@ public class OrdersController {
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
     @SentinelResource(value = "orders_select_page")
+    @GlobalTransactional
     @GetMapping("/selectPage")
     public R selectPage(@Parameter(description = "订单查询条件", in = ParameterIn.QUERY) Orders orders,
                         @RequestParam(defaultValue = "1") Integer pageNum,

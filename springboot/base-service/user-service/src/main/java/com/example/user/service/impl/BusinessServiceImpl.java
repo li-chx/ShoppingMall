@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
     @Resource
     private BusinessMapper businessMapper;
 
+    @Transactional
     @Override
     public List<Business> selectAll(Business business) {
         QueryWrapper<Business> queryWrapper = new QueryWrapper<>();
@@ -35,6 +37,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         return businessMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Business> selectPage(Business business, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -57,6 +60,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
 //        businessMapper.updatePassword(account);
 //    }
 
+    @Transactional
     @Override
     public Business login(Business business) {
         QueryWrapper<Business> queryWrapper = new QueryWrapper<>();
