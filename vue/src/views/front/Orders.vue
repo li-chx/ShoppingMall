@@ -28,7 +28,7 @@
             </el-table-column>
             <el-table-column prop="businessName" label="店铺名称" align="center">
               <template v-slot="scope">
-                <a href="#" @click.prevent="'/front/business?id=' + scope.row.businessId">{{ scope.row.businessName
+                <a href="#" @click.prevent="goTo('/front/business?id=' + scope.row.businessId)">{{ scope.row.businessName
                 }}</a>
               </template>
             </el-table-column>

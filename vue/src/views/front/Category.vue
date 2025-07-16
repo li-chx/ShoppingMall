@@ -13,7 +13,7 @@
     </div>
 
     <!-- 商品展示 -->
-    <div style="margin: 0 20px">
+    <div class="category-goods-area">
       <div class="goods-flex-row">
         <div class="product-card" v-for="item in goodsData" :key="item.id">
           <div class="product-image-wrapper">
@@ -135,36 +135,40 @@ export default {
 .goods-flex-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0;
+  gap: 20px 0; /* 行间距20px，列间距0 */
 }
 .product-card {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.3s;
-  width: 20%;
-  max-width: 20%;
-  padding: 10px 10px 20px 10px;
-  box-sizing: border-box;
-  margin-bottom: 0;
+  width: calc(20% - 16px); /* 5个一行，减去gap */
+  margin-right: 20px;
+  margin-bottom: 20px;
   background: #fff;
   position: relative;
   overflow: visible;
+  box-sizing: border-box;
+  
+  padding: 10px 10px; /* 上右下左，和 .el-col-5 一致 */
+}
+.goods-flex-row .product-card:nth-child(5n) {
+  margin-right: 0;
 }
 .product-card:hover {
   box-shadow:
     0 2px 8px rgba(0,0,0,0.08),
-    0 8px 24px 8px rgba(129,215,206,0.10),
-    0 16px 32px 16px rgba(0,0,0,0.18);
+    0 16px 48px 0 rgba(129,215,206,0.18),
+    0 32px 64px 0 rgba(0,0,0,0.22);
   transform: translateY(-5px);
 }
 .product-card::after {
   content: '';
   display: block;
   position: absolute;
-  left: 10px;
-  right: 10px;
+  left: 0;
+  right: 0;
   bottom: 0;
-  height: 32px;
+  height: 50%;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s;
@@ -252,4 +256,7 @@ a:hover {
   background-color: #68c7bd !important;
   color: #fff !important;
 }
+/* .category-goods-area {
+  padding: 20px 20px;
+} */
 </style>
