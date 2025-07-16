@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
     @Resource
     private AddressMapper addressMapper;
 
+    @Transactional
     @Override
     public List<Address> selectAll(Address address) {
         QueryWrapper<Address> queryWrapper = new QueryWrapper<>();
@@ -32,6 +35,7 @@ public class AddressServiceImpl extends ServiceImpl<AddressMapper, Address> impl
         return addressMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Address> selectPage(Address address, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);

@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private UserMapper userMapper;
 
+    @Transactional
     @Override
     public List<User> selectAll(User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -32,6 +35,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -39,6 +43,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return PageInfo.of(list);
     }
 
+    @Transactional
     @Override
     public User login(User user) {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
@@ -47,6 +52,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.selectOne(queryWrapper);
     }
 
+    @Transactional
     @Override
     public boolean resetPassword(User request)
     {

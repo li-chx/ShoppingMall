@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
     @Resource
     private CartMapper cartMapper;
 
+    @Transactional
     @Override
     public List<Cart> selectAll(Cart cart) {
         QueryWrapper<Cart> queryWrapper = new QueryWrapper<>();
@@ -32,6 +34,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper,Cart> implements Car
         return cartMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Cart> selectPage(Cart cart, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);

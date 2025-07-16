@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
     @Resource
     private GoodsMapper goodsMapper;
 
+    @Transactional
     @Override
     public List<Goods> selectAll(Goods goods) {
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
@@ -39,6 +41,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
         return goodsMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Goods> selectPage(Goods goods, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -46,6 +49,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
         return PageInfo.of(list);
     }
 
+    @Transactional
     @Override
     public List<Goods> selectTop5() {
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
@@ -54,6 +58,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
         return goodsMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public List<Goods> selectByCategoryId(Integer categoryId) {
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
@@ -64,6 +69,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
 
 
 
+    @Transactional
     @Override
     public PageInfo<Goods> selectPageByName(String goodsName, Integer pageNum, Integer pageSize) {
         Page<Goods> page = new Page<>(pageNum, pageSize);
@@ -80,6 +86,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
         return pageInfo;
     }
 
+    @Transactional
     @Override
     public List<Goods> selectByKeyword(String keyword) {
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
