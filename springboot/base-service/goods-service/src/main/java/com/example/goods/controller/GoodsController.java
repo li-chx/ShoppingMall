@@ -10,6 +10,7 @@ import com.example.goods.feign.BusinessFeignClient;
 import com.example.goods.service.CategoryService;
 import com.example.goods.service.GoodsService;
 import com.github.pagehelper.PageInfo;
+import io.seata.spring.annotation.GlobalTransactional;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -114,6 +115,7 @@ public class GoodsController {
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
     @SentinelResource(value = "goods_select_by_id")
+    @GlobalTransactional
     @GetMapping("/selectById/{id}")
     public R selectById(@Parameter(description = "商品ID", required = true, in = ParameterIn.PATH)
                         @PathVariable Integer id) {
@@ -153,6 +155,7 @@ public class GoodsController {
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
     @SentinelResource(value = "goods_select_page")
+    @GlobalTransactional
     @GetMapping("/selectPage")
     public R selectPage(@Parameter(description = "商品查询条件", in = ParameterIn.QUERY)
                         Goods goods,

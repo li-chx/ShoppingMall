@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Resource
     private NoticeMapper noticeMapper;
 
+    @Transactional
     @Override
     public List<Notice> selectAll(Notice notice) {
         QueryWrapper<Notice> queryWrapper = new QueryWrapper<>();
@@ -29,6 +32,7 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         return noticeMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Notice> selectPage(Notice notice, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);

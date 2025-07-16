@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Resource
     private AdminMapper adminMapper;
 
+    @Transactional
     @Override
     public List<Admin> selectAll(Admin admin) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
@@ -32,6 +35,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return adminMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -39,6 +43,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return PageInfo.of(list);
     }
 
+    @Transactional
     @Override
     public Admin login(Admin admin) {
         QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
@@ -47,6 +52,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return adminMapper.selectOne(queryWrapper);
     }
 
+    @Transactional
     @Override
     public boolean resetPassword(Admin request)
     {

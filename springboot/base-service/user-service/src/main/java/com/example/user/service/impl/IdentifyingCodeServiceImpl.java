@@ -3,6 +3,7 @@ package com.example.user.service.impl;
 import com.example.user.service.IdentifyingCodeService;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -13,6 +14,7 @@ public class IdentifyingCodeServiceImpl implements IdentifyingCodeService {
 
     Dictionary<String, IdentifyingCodeStructure> data = new Hashtable<>();
 
+    @Transactional
     @Override
     public String getIdentifyingCode(String email, IdentifyingCodeType type, long expireTimeInSeconds) {
         dataClear();
@@ -24,6 +26,7 @@ public class IdentifyingCodeServiceImpl implements IdentifyingCodeService {
         return structure.code;
     }
 
+    @Transactional
     @Override
     public boolean testIdentifyingCode(String email, IdentifyingCodeType type, String code) {
         dataClear();
@@ -41,6 +44,7 @@ public class IdentifyingCodeServiceImpl implements IdentifyingCodeService {
         }
         return false;
     }
+
 
     private void dataClear() {
         var keys = data.keys();

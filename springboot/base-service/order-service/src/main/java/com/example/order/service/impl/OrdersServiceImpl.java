@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
     @Resource
     private OrdersMapper ordersMapper;
 
+    @Transactional
     @Override
     public List<Orders> selectAll(Orders orders) {
         QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
@@ -41,6 +43,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
         return ordersMapper.selectList(queryWrapper);
     }
 
+    @Transactional
     @Override
     public PageInfo<Orders> selectPage(Orders orders, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -48,6 +51,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
         return PageInfo.of(list);
     }
 
+    @Transactional
     @Override
     public PageInfo<Orders> selectPageByGoodIds(List<Integer> ids, Integer pageNum, Integer pageSize) {
         Page<Orders> page = new Page<>(pageNum, pageSize);
