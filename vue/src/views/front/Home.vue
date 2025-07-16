@@ -3,21 +3,36 @@
   <div>
 
 
-
+    
     <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 20px;">
-      <div style="color: #81d7ce; font-weight: bold; font-size: 36px; flex:1; font-family:'Nanum Pen Script'">
-        ShoppingMall</div>
+      <div style="color: #81d7ce; font-weight: bold; font-size: 16px;flex:1">ShoppingMall</div>
       <div style="display: flex;flex:5.4">
-        <el-autocomplete v-model="searchText" :fetch-suggestions="querySearchAsync" placeholder="请输入心仪的商品"
-          style="width: 100%;" prefix-icon="el-icon-search" @select="handleSelect" @keyup.enter.native="handleSearch"
-          :trigger-on-focus="false" :debounce="100" value-key="value" clearable>
-          <el-button slot="append" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+        <el-autocomplete
+        v-model="searchText"
+        :fetch-suggestions="querySearchAsync"
+        placeholder="请输入心仪的商品"
+        style="width: 100%;"
+        prefix-icon="el-icon-search"
+        @select="handleSelect"
+        @keyup.enter.native="handleSearch"
+        :trigger-on-focus="false"
+        :debounce="300"
+        value-key="value"
+        clearable
+      >
+      <template slot-scope="{ item }">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span>{{ item.value }}</span>
+          <span style="color: #999; font-size: 12px;" v-if="item.price">¥{{ item.price }}/{{ item.unit }}</span>
+        </div>
+      </template>
+      <el-button slot="append"  icon="el-icon-search" @click="handleSearch">搜索</el-button>
 
-        </el-autocomplete>
-
+      </el-autocomplete>
+      
       </div>
     </div>
-
+    
 
     <div v-if="!isSearching" style="display: flex; margin: 0 20px">
       <div style="flex: 1.5; background-color: #81d7ce; border-radius: 10px; margin-right: 10px; color: white;">
@@ -184,49 +199,7 @@ export default {
 
       searchText: '', // 搜索文本
       isSearching: false, // 是否处于搜索状态
-      searchSuggestions: [
-        { value: '苹果手机' },
-        { value: '苹果电脑' },
-        { value: '苹果耳机' },
-        { value: '华为手机' },
-        { value: '华为平板' },
-        { value: '小米手机' },
-        { value: '小米电视' },
-        { value: '耐克鞋子' },
-        { value: '耐克衣服' },
-        { value: '阿迪达斯运动鞋' },
-        { value: '阿迪达斯运动服' },
-        { value: '化妆品套装' },
-        { value: '化妆镜' },
-        { value: '护肤品' },
-        { value: '护肤水' },
-        { value: '衣服' },
-        { value: '衣柜' },
-        { value: '鞋子' },
-        { value: '鞋架' },
-        { value: '包包' },
-        { value: '背包' },
-        { value: '家电' },
-        { value: '家具' },
-        { value: '电脑' },
-        { value: '电视' },
-        { value: '笔记本电脑' },
-        { value: '笔记本' },
-        { value: '平板电脑' },
-        { value: '平板支架' },
-        { value: '运动装备' },
-        { value: '运动鞋' },
-        { value: '健身器材' },
-        { value: '健身服' },
-        { value: '食品' },
-        { value: '食用油' },
-        { value: '零食' },
-        { value: '零食盒' },
-        { value: '水果' },
-        { value: '水果刀' },
-        { value: '蔬菜' },
-        { value: '蔬菜篮' }
-      ], // 搜索建议列表
+      searchSuggestions: [], // 搜索建议列表（从后端动态获取）
     }
   },
   async mounted() {
@@ -234,12 +207,13 @@ export default {
     this.loadCategory();
     this.loadNotice();
     this.loadGoods(); // 初始加载第一页商品
+    this.loadSearchSuggestions(); // 加载搜索建议
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
 
     // 搜索功能
-    handleSearch() {
+    handleSearch(){
       console.log('搜索内容:', this.searchText);
       // 如果搜索框为空，显示原来的内容
       if (!this.searchText || this.searchText.trim() === '') {
@@ -253,27 +227,67 @@ export default {
     // 搜索建议查询方法
     querySearchAsync(queryString, cb) {
       console.log('查询字符串:', queryString); // 调试用
-
-      if (!queryString) {
+      
+      if (!queryString || queryString.trim() === '') {
         cb([]);
         return;
       }
-
-      // 过滤匹配的建议
-      const results = this.searchSuggestions.filter(item => {
-        return item.value.toLowerCase().includes(queryString.toLowerCase());
+      
+      // 直接调用后端搜索接口获取实时建议
+      this.$request.get('/goods/search', {
+        params: {
+          keyword: queryString.trim()
+        }
+      }).then(res => {
+        if (res.code === '200') {
+          // 将搜索结果转换为建议格式
+          const suggestions = res.data.map(item => ({
+            value: item.name,
+            id: item.id,
+            price: item.price,
+            unit: item.unit
+          }));
+          
+          console.log('实时搜索结果:', suggestions); // 调试用
+          
+          // 返回搜索建议
+          cb(suggestions.slice(0, 10)); // 最多显示10个建议
+        } else {
+          console.error('搜索失败:', res.msg);
+          cb([]);
+        }
+      }).catch(err => {
+        console.error('搜索异常:', err);
+        // 如果网络异常，回退到本地建议
+        const localResults = this.searchSuggestions.filter(item => {
+          return item.value.toLowerCase().includes(queryString.toLowerCase());
+        });
+        cb(localResults.slice(0, 5));
       });
-
-      console.log('搜索结果:', results); // 调试用
-
-      // 直接返回结果，不使用setTimeout
-      cb(results.slice(0, 10));
     },
 
     // 选择建议项后的处理
     handleSelect(item) {
       this.searchText = item.value;
       this.handleSearch();
+    },
+
+    // 加载搜索建议数据（备用建议，用于网络异常时）
+    loadSearchSuggestions() {
+      // 设置一些基础的备用搜索建议
+      this.searchSuggestions = [
+        { value: '手机' },
+        { value: '电脑' },
+        { value: '耳机' },
+        { value: '冰箱' },
+        { value: '护肤品' },
+        { value: '水果' },
+        { value: '蔬菜' },
+        { value: '汽车' },
+        { value: '书籍' },
+        { value: '包包' }
+      ];
+      console.log('备用搜索建议已加载');
     },
 
     getRandomBottomText() {

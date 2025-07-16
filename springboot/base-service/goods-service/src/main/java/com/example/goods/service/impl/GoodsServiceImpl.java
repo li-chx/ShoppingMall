@@ -79,4 +79,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
         pageInfo.setPages((int) pagination.getPages());
         return pageInfo;
     }
+
+    @Override
+    public List<Goods> selectByKeyword(String keyword) {
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            queryWrapper.like("name", keyword);
+        }
+        // 按ID降序排列，展示最新商品
+        queryWrapper.orderByDesc("id");
+        return goodsMapper.selectList(queryWrapper);
+    }
 } 

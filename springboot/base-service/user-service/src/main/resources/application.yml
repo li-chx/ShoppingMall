@@ -2,6 +2,11 @@ server:
   port: 8030
 
 spring:
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
   config:
     import: optional:nacos:application.yml,nacos:COS-service.properties,nacos:mail.properties
   application:
@@ -39,11 +44,7 @@ spring:
             groupId: DEFAULT_GROUP
             rule-type: flow
       eager: true
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password: 123456
+
 
 # MyBatis-Plus配置
 mybatis-plus:

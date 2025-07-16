@@ -237,4 +237,24 @@ public class GoodsController {
         PageInfo<Goods> page = goodsService.selectPageByName(goodsName, pageNum, pageSize);
         return R.success(page);
     }
+
+    @Operation(summary = "商品关键词搜索", description = "根据关键词对商品名进行模糊查询")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "查询成功",
+                    content = @Content(schema = @Schema(implementation = Goods.class))),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "goods_search_by_keyword")
+    @GetMapping("/search")
+    public R searchByKeyword(@Parameter(description = "搜索关键词", required = true, in = ParameterIn.QUERY)
+                             @RequestParam String keyword) {
+
+        List<Goods> list = goodsService.selectByKeyword(keyword);
+        return R.success(list);
+    }
+
+
+
+
+
 }

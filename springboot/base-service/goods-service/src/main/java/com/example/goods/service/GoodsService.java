@@ -15,4 +15,6 @@ public interface GoodsService extends IService<Goods> {
     List<Goods> selectByCategoryId(Integer categoryId);
     PageInfo<Goods> selectPageByName(String goodsName, Integer pageNum, Integer pageSize);
 
+    List<Goods> selectByKeyword(String keyword);
+
 } 
