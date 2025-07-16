@@ -47,6 +47,7 @@ const routes = [
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
   { path: '/register', name: 'Register', meta: { name: '注册' }, component: () => import('../views/Register.vue') },
+  { path: '/resetPassword', name: 'ResetPassword', meta: { name: '重置密码' }, component: () => import('../views/ResetPassword.vue') },
   { path: '*', name: 'NotFound', meta: { name: '无法访问' }, component: () => import('../views/404.vue') },
 ]
 
