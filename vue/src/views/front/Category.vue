@@ -55,11 +55,6 @@ export default {
       ]
       return arr[Math.floor(Math.random() * arr.length)]
     },
-    fixUrl(url) {
-      if (!url) return '';
-      if (url.startsWith('http')) return url;
-      return '/api' + url;
-    },
     loadCategory() {
       this.$request.get('/category/selectById/' + this.categoryId).then(res => {
         if (res.code === '200') {
