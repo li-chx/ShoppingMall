@@ -1,7 +1,26 @@
 <template>
+
   <div>
-    <div style="color: #81d7ce; margin: 15px 0 15px 18px; font-weight: bold; font-size: 16px">ShoppingMall</div>
-    <div style="display: flex; margin: 0 20px">
+
+
+    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 20px;">
+      <div style="color: #81d7ce; font-weight: bold; font-size: 16px;flex:1">ShoppingMall</div>
+      <div style="display: flex;flex:5">
+        <el-input
+        type="text"
+        prefix-icon="el-icon-search"
+        v-model="searchText"
+        placeholder="请输入心仪的商品"
+        style=" cursor: pointer"
+        @enter="handleSearch"
+      ></el-input>
+      <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+      </div>
+    </div>
+    
+
+    <div v-if="!isSearching" style="display: flex; margin: 0 20px">
       <div style="flex: 1.5; background-color: #81d7ce; border-radius: 10px; margin-right: 10px; color: white;">
         <div style="margin: 10px 10px; font-size: 16px"><b>分类</b></div>
         <div style="display: flex;  margin: 14px 10px" v-for="item in categoryData" :key="item.id">
@@ -77,7 +96,7 @@
     <div
       style="display: flex;  margin: 20px 0 0 20px; height: 40px; font-size: 20px; color: #81d7ce; line-height: 40px; align-items: center;">
       <img src="../../assets/icon/热卖.png" alt="" style="height: 30px; width: 30px;">
-      <div style="margin-left: 5px; "><b>热卖商品</b></div>
+      <div style="margin-left: 5px; "><b>{{ isSearching ? '搜索结果' : '热卖商品' }}</b></div>
     </div>
     <div style="margin: 0 20px">
       <!-- 商品展示区域 -->
@@ -161,6 +180,9 @@ export default {
       noMore: false,          // 是否已加载全部
       skeletonCount: 10,       // 骨架屏数量
       totalGoods: 0,          // 商品总数
+
+      searchText: '', // 搜索文本
+      isSearching: false, // 是否处于搜索状态
     }
   },
   async mounted() {
@@ -170,6 +192,19 @@ export default {
     this.loadGoods(); // 初始加载第一页商品
   },
   methods: {
+
+    // 搜索功能
+    handleSearch(){
+      console.log('搜索内容:', this.searchText);
+      // 如果搜索框为空，显示原来的内容
+      if (!this.searchText || this.searchText.trim() === '') {
+        this.isSearching = false;
+      } else {
+        // 如果搜索框有内容，隐藏轮播图等内容
+        this.isSearching = true;
+      }
+    },
+
     getRandomBottomText() {
       const arr = [
         '我也是有底线的!',
