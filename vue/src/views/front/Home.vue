@@ -426,8 +426,8 @@ export default {
     goTo(url) {
       this.$router.push(url)
     },
-    addCart(goodsId) {
-      let data = { num: 1, userId: this.user.id, goodsId: goodsId }
+    addCart() {
+      let data = { num: 1, userId: this.user.id, goodsId: this.goodsId, businessId: this.goodsData.businessId }
       this.$request.post('/cart/add', data).then(res => {
         if (res.code === '200') {
           this.$message.success('加入成功')
