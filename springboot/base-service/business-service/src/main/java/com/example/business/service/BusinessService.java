@@ -10,4 +10,5 @@ public interface BusinessService extends IService<Business> {
 
     List<Business> selectAll(Business business);
     PageInfo<Business> selectPage(Business business, Integer pageNum, Integer pageSize);
+    boolean updatePassword(Integer id, String newPassword);
 } 

@@ -69,4 +69,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
     }
 
-} 
+    @Override
+    public boolean updatePassword(Integer id, String newPassword) {
+        QueryWrapper<User>queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        User user = userMapper.selectOne(queryWrapper);
+        if(user==null)
+            return false;
+        else{
+            user.setPassword(newPassword);
+            int result = userMapper.updateById(user);
+            return result > 0;
+        }
+    }
+}

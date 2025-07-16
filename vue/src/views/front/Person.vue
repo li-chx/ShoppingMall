@@ -4,7 +4,7 @@
       <div style="text-align: right; margin-bottom: 20px">
         <el-button type="primary" @click="updatePassword">修改密码</el-button>
       </div>
-      <el-form :model="user" label-width="80px" style="padding: 0 20px">
+      <el-form :model="editUserData" label-width="80px" style="padding: 0 20px" ref="editUserDataRef">
         <div style="margin: 15px; text-align: center">
           <el-upload class="avatar-uploader" name="multipartFile" :action="'/api/files/upload'" :show-file-list="false"
             :on-success="handleAvatarSuccess">
@@ -30,7 +30,8 @@
       </el-form>
     </el-card>
     <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
-      <el-form :model="user" label-width="80px" style="padding-right: 20px" :rules="rules" ref="formRef">
+      <el-form :model="editUserData" label-width="80px" style="padding-right: 20px" :rules="rules"
+        ref="editUserDataRef">
         <el-form-item label="原始密码" prop="password">
           <el-input show-password v-model="editUserData.password" placeholder="原始密码"></el-input>
         </el-form-item>
@@ -51,13 +52,14 @@
 
 <script>
 import { fixUrl } from "@/utils/fixUrl";
+import { RouterLink } from "vue-router";
 
 export default {
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请确认密码'))
-      } else if (value !== this.user.newPassword) {
+      } else if (value !== this.editUserData.newPassword) {
         callback(new Error('确认密码错误'))
       } else {
         callback()
@@ -93,7 +95,7 @@ export default {
         if (res.code === '200') {
           // 成功更新
           this.$message.success('保存成功')
-          this.user = Object.assign(this.user, this.editUserData);
+          this.user = Object.assign(this.user, this.editUserData)
           // 更新浏览器缓存里的用户信息
           localStorage.setItem('xm-user', JSON.stringify(this.user))
 
@@ -125,13 +127,17 @@ export default {
       this.dialogVisible = true
     },
     save() {
-      this.$refs.formRef.validate((valid) => {
+      console.log(this.editUserDataRef);
+
+      this.$refs.editUserDataRef.validate((valid) => {
         if (valid) {
-          this.$request.put('/updatePassword', this.user).then(res => {
+          this.$request.post('/user/updatePassword?id=' + this.editUserData.id + '&newPassword=' + this.editUserData.newPassword).then(res => {
             if (res.code === '200') {
               // 成功更新
               this.$message.success('修改密码成功')
               this.$router.push('/login')
+              this.editUserData.newPassword = ''
+              this.editUserData.confirmPassword = ''
             } else {
               this.$message.error(res.msg)
             }

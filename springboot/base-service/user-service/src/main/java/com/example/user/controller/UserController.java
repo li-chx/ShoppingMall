@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.User;
 import com.example.user.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -113,6 +114,18 @@ public class UserController {
                        User user) {
         List<User> list = userService.selectAll(user);
         return R.success(list);
+    }
+
+    @PostMapping("/updatePassword")
+    public R updatePassword(@RequestParam Integer id,@RequestParam String newPassword){
+        if(userService.updatePassword(id,newPassword)) {
+            return R.success();
+        }else{
+            R result=R.error(ResultCodeEnum.PARAM_ERROR);
+            result.setMsg("更新密码失败，参数错误");
+            return result;
+        }
+
     }
 
     @Operation(summary = "分页查询用户", description = "根据条件分页获取用户信息")

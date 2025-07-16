@@ -17,8 +17,8 @@
         <el-table-column label="商品图片" align="center">
           <template v-slot="scope">
             <div style="display: flex; align-items: center; justify-content: center">
-              <el-image style="width: 40px; height: 40px; " v-if="scope.row.goodsImg"
-                        :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
+              <el-image style="width: 40px; height: 40px; " v-if="scope.row.goodsImg" :src="scope.row.goodsImg"
+                :preview-src-list="[scope.row.goodsImg]"></el-image>
             </div>
           </template>
         </el-table-column>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import {fixUrlList} from "@/utils/fixUrl";
+import { fixUrlList } from "@/utils/fixUrl";
 
 export default {
   name: "Notice",
@@ -73,7 +73,7 @@ export default {
     }
   },
   created() {
-    this.load(1)
+    this.load()
   },
   methods: {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
@@ -84,7 +84,7 @@ export default {
       }).then(res => {
         if (res.code === '200') {  // 表示成功保存
           this.$message.success('保存成功')
-          this.load(1)
+          this.load()
           this.fromVisible = false
         } else {
           this.$message.error(res.msg)  // 弹出错误的信息
@@ -96,7 +96,7 @@ export default {
         this.$request.delete('/orders/delete/' + id).then(res => {
           if (res.code === '200') {   // 表示操作成功
             this.$message.success('操作成功')
-            this.load(1)
+            this.load()
           } else {
             this.$message.error(res.msg)  // 弹出错误的信息
           }
@@ -124,8 +124,7 @@ export default {
       }).catch(() => {
       })
     },
-    load(pageNum) {  // 分页查询
-      if (pageNum) this.pageNum = pageNum
+    load() {  // 分页查询
       console.log(this.user.id);
       console.log(this.user.role === 'BUSINESS' ? this.user.id : null);
 
@@ -137,9 +136,9 @@ export default {
           orderId: this.orderId,
           businessId: this.user.role === 'BUSINESS' ? this.user.id : null
         }
-      }).then( async res => {
+      }).then(async res => {
         if (res.code === '200') {
-          this.tableData = await fixUrlList(res.data?.list, x=> x.goodsImg, (x, url) => {
+          this.tableData = await fixUrlList(res.data?.list, x => x.goodsImg, (x, url) => {
             x.goodsImg = url
             return x
           })

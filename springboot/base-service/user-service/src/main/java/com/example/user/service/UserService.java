@@ -11,4 +11,5 @@ public interface UserService extends IService<User> {
     PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize);
     User login(User user);
     boolean resetPassword(User request);
+    boolean updatePassword(Integer id,String newPassword);
 } 

@@ -67,7 +67,16 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
     }
 
 
-
+    @Override
+    public boolean updateGainCount(Integer id, Integer gainCount) {
+        Goods goods= goodsMapper.selectById(id);
+        if (goods == null) {
+            return false; // 商品不存在
+        }
+        goods.setCount(goods.getCount() + gainCount);
+        int rows = goodsMapper.updateById(goods);
+        return rows > 0; // 返回更新是否成功
+    }
 
     @Transactional
     @Override

@@ -39,6 +39,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
             if(orders.getBusinessId() != 0) {
                 queryWrapper.eq("business_id", orders.getBusinessId());
             }
+            if(orders.getOrderId() != null){
+                queryWrapper.like("order_id", orders.getOrderId());
+            }
         }
         return ordersMapper.selectList(queryWrapper);
     }

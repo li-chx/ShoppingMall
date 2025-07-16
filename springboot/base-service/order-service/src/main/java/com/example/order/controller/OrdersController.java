@@ -172,7 +172,7 @@ public class OrdersController {
         orders.setOrderId(orderId);
         orders.setBusinessId(businessId);
         orders.setUserId(userId);
-            ordersPageInfo = ordersService.selectPage(orders, pageNum, pageSize);
+        ordersPageInfo = ordersService.selectPage(orders, pageNum, pageSize);
 
         List<OrdersDTO> ordersDTOList = ordersPageInfo.getList().stream().map(OrdersDTO::new).toList();
         ordersDTOList.forEach(ordersDTO -> {

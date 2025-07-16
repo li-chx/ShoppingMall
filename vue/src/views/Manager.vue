@@ -3,7 +3,7 @@
     <!--  头部  -->
     <div class="manager-header">
       <div class="manager-header-left">
-        <img src="@/assets/imgs/logo.png"/>
+        <img src="@/assets/imgs/logo.png" />
         <div class="title">后台管理系统</div>
       </div>
 
@@ -17,7 +17,7 @@
       <div class="manager-header-right">
         <el-dropdown placement="bottom">
           <div class="avatar">
-            <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"/>
+            <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
             <span>{{ user.name || '管理员' }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
           </div>
           <el-dropdown-menu slot="dropdown">
@@ -64,7 +64,7 @@
 
       <!--  数据表格  -->
       <div class="manager-main-right">
-        <router-view @update:user="updateUser"/>
+        <router-view @update:user="updateUser" />
       </div>
     </div>
 
@@ -72,13 +72,14 @@
 </template>
 
 <script>
-import {fixUrl} from "@/utils/fixUrl";
+import { fixUrl } from "@/utils/fixUrl";
 
 export default {
   name: "Manager",
   data() {
     return {
-      user: JSON.parse(localStorage.getItem('xm-user') || '{}')
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      imgUrl: ''
     }
   },
   created() {
@@ -90,8 +91,9 @@ export default {
     this.user.avatar = await fixUrl(this.user.avatar);
   },
   methods: {
-    updateUser() {
+    async updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
+      this.imgUrl = await fixUrl(this.user.avatar);
     },
     goToPerson() {
       this.$router.push('/person')
