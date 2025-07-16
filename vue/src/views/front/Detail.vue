@@ -11,7 +11,7 @@
           <span class="price-value">¥{{ goodsData.price }}/{{ goodsData.unit }}</span>
           <span class="sales-info"> · 已售 {{ goodsData.count }} · 不足 {{ goodsData.inventory }}</span>
         </p>
-        <p class="product-merchant">商家：{{ goodsData.businessName }}</p>
+        <p class="product-merchant">商家：<a href="#" @click.prevent="goTo('/front/business?id=' + goodsData.businessId)">{{ goodsData.businessName }}</a></p>
         <p class="product-category">分类：<a href="#" @click.prevent="goTo('/front/category?id=' + goodsData.categoryId)">{{ goodsData.categoryName }}</a></p>
         <div class="product-actions">
           <el-button type="primary" class="custom-button" @click="addCart()">加入购物车</el-button>

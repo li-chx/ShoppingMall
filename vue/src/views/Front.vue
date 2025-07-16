@@ -9,14 +9,6 @@
         <div class="title" style="font-weight: bold; font-size: 50px;flex:1;font-family:'Nanum Pen Script'">ShoppingMall
         </div>
       </div>
-      <!-- <div class="front-header-center">
-        <div class="front-header-nav">
-          <el-menu :default-active="$route.path" mode="horizontal" router>
-						<el-menu-item index="/front/home">首页</el-menu-item>
-						<el-menu-item index="/front/person">个人中心</el-menu-item>
-          </el-menu>
-        </div>
-      </div> -->
       <div class="front-header-right">
         <div v-if="!user.username">
           <el-button @click="$router.push('/login')">登录</el-button>
@@ -45,9 +37,7 @@
         <div style="flex: 5; height: 30px; background-color: #81d7ce"></div>
         <div style="display: flex; min-height: calc(100vh - 120px);">
           <!-- 修复左侧图片显示问题 -->
-          <div class="left"
-            style="position: sticky; top: 60px; align-self: flex-start; background-size: contain; background-position: center; background-repeat: no-repeat;">
-          </div>
+          <div class="left" :style="{ backgroundImage: 'url(' + leftBgImage + ')' }"></div>
 
           <div style="width: 76%; border-radius: 15px; background-color: white; overflow-y: auto;">
             <router-view ref="child" @update:user="updateUser" />
@@ -55,9 +45,7 @@
           </div>
 
           <!-- 修复右侧图片显示问题 -->
-          <div class="right"
-            style="position: sticky; top: 60px; align-self: flex-start; background-size: contain; background-position: center; background-repeat: no-repeat;">
-          </div>
+          <div class="right" :style="{ backgroundImage: 'url(' + rightBgImage + ')' }"></div>
         </div>
         <footer style="height: 2em;"></footer>
       </div>
@@ -68,7 +56,7 @@
 
 <script>
 
-import { fixUrl } from "@/utils/fixUrl";
+import {fixUrl} from "@/utils/fixUrl";
 
 export default {
   name: "FrontLayout",
@@ -77,7 +65,9 @@ export default {
     return {
       top: '',
       notice: [],
-      user: JSON.parse(localStorage.getItem("xm-user") || '{}')
+      user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+      leftBgImage: require('@/assets/imgs/购物车.svg'),
+      rightBgImage: require('@/assets/imgs/购物.svg')
     }
   },
   async mounted() {
@@ -136,22 +126,32 @@ export default {
   min-height: calc(100vh - 60px);
   /*overflow: hidden;*/
   background-size: 100%;
-  background-image: url('@/assets/imgs/男生购物.svg');
-  /* background-color: #81d7ce; */
-  /* background-color: ; */
+  background-color: #81d7ce;
+  /* background-image: url('@/assets/imgs/男生购物.svg'); */
 }
 
+/* 修复左右两侧样式 */
 .left {
   width: 17%;
-  background-repeat: no-repeat;
-  background-image: url('@/assets/imgs/购物车.svg');
+  min-height: 500px;
   background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: sticky;
+  top: 60px;
+  align-self: flex-start;
 }
 
 .right {
   width: 17%;
-  background-repeat: no-repeat;
-  background-image: url('@/assets/imgs/购物.svg');
+  min-height: 500px;
   background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: sticky;
+  top: 60px;
+  align-self: flex-start;
 }
+
+
 </style>
