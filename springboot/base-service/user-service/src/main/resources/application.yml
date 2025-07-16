@@ -3,7 +3,7 @@ server:
 
 spring:
   config:
-    import: optional:nacos:application.yml,nacos:COS-service.properties
+    import: optional:nacos:application.yml,nacos:COS-service.properties,nacos:mail.properties
   application:
     name: user-service
   datasource:

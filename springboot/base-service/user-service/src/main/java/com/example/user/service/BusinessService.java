@@ -11,4 +11,5 @@ public interface BusinessService extends IService<Business> {
     List<Business> selectAll(Business business);
     PageInfo<Business> selectPage(Business business, Integer pageNum, Integer pageSize);
     Business login(Business account);
+    public boolean resetPassword(Business request);
 } 

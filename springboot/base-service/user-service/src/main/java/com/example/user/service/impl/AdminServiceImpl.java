@@ -47,4 +47,20 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return adminMapper.selectOne(queryWrapper);
     }
 
+    @Override
+    public boolean resetPassword(Admin request)
+    {
+        QueryWrapper<Admin> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", request.getUsername())
+                .eq("email", request.getEmail());
+        Admin admin = adminMapper.selectOne(queryWrapper);
+        if(admin == null)
+            return false;
+        else {
+            admin.setPassword(request.getPassword());
+            int result = adminMapper.updateById(admin);
+            return result > 0;
+        }
+    }
+
 } 

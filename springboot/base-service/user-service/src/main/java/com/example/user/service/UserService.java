@@ -10,4 +10,5 @@ public interface UserService extends IService<User> {
     List<User> selectAll(User user);
     PageInfo<User> selectPage(User user, Integer pageNum, Integer pageSize);
     User login(User user);
+    boolean resetPassword(User request);
 } 

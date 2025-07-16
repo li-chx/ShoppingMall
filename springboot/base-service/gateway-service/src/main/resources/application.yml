@@ -28,7 +28,7 @@ spring:
         - id: web-service
           uri: lb://user-service
           predicates:
-            - Path=/login,/register,/updatePassword
+            - Path=/login,/register,/updatePassword,/sendCode/**,/resetPassword
           filters:
             - StripPrefix=0
 

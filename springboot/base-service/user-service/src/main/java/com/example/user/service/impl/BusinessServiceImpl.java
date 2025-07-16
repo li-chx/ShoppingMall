@@ -64,4 +64,20 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
                 .eq("password", business.getPassword());
         return businessMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public boolean resetPassword(Business request)
+    {
+        QueryWrapper<Business> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", request.getUsername())
+                .eq("email", request.getEmail());
+        Business business = businessMapper.selectOne(queryWrapper);
+        if(business == null)
+            return false;
+        else {
+            business.setPassword(request.getPassword());
+            int result = businessMapper.updateById(business);
+            return result > 0;
+        }
+    }
 } 

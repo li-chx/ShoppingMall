@@ -21,7 +21,9 @@
           <el-button style="width: 100%; background-color: #333; border-color: #333; color: white" @click="login">登 录</el-button>
         </el-form-item>
         <div style="display: flex; align-items: center">
-         <div style="flex: 1"></div>
+         <div style="flex: 1">
+           <a href="/resetPassword" style="width: 100%;">忘记密码？</a>
+         </div>
          <div style="flex: 1; text-align: right">
            还没有账号？请 <a href="/register">注册</a>
          </div>

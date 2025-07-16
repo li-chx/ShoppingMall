@@ -10,4 +10,5 @@ public interface AdminService extends IService<Admin> {
     List<Admin> selectAll(Admin admin);
     PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize);
     Admin login(Admin admin);
+    boolean resetPassword(Admin request);
 } 
