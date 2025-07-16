@@ -76,7 +76,7 @@
         style="flex: 3; height: 490px; background-image: linear-gradient(#a2e0d9 0%, #f7f7f7 100%); margin-left:10px; border-radius: 10px">
         <div style="text-align: center; margin-top: 30px">
           <img :src="user.avatar" alt="" @click="goTo('/front/person')"
-            style="width: 80px; height: 80px; border-radius: 50%; cursor: pointer">
+            style="width: 80px; height: 80px; border-radius: 50%">
           <div style="margin-top:10px; font-size: 16px"><b>你好，{{ user.name }}</b></div>
         </div>
         <div style="margin: 20px 10px;">
@@ -117,20 +117,25 @@
       <!-- 商品展示区域 -->
       <div v-infinite-scroll="loadMore" :infinite-scroll-disabled="loading" :infinite-scroll-distance="100">
         <el-row>
-          <el-col :span="5" v-for="(item, index) in visibleGoods" :key="index">
-            <img :src="item.img" alt="" style="width: 100%; height: 180px; border-radius: 10px;"
-              @click="goTo('/front/detail?id=' + item.id)">
+          <el-col :span="5" v-for="(item, index) in visibleGoods" :key="index" class="product-card">
+            <div class="product-image-wrapper">
+              <img :src="item.img" alt="" class="product-image"
+                   @click="goTo('/front/detail?id=' + item.id)">
+            </div>
             <div class="text-overflow-ellipsis"
-              style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
+                 style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
               {{ item.name }}
             </div>
             <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
+            <div class="add-cart-bottom">
+              <el-button type="primary" size="mini" icon="el-icon-shopping-cart" @click="addCart(item.id)">加入购物车</el-button>
+            </div>
           </el-col>
         </el-row>
 
         <!-- 骨架屏加载效果 -->
         <div v-if="loading" style="display: flex; flex-wrap: wrap; margin-top: 20px;">
-          <div v-for="n in skeletonCount" :key="'skeleton-' + n" style="width: 20%; padding: 10px;">
+          <div v-for="n in skeletonCount" :key="'skeleton-'+n" style="width: 20%; padding: 10px;">
             <el-skeleton :loading="loading" animated>
               <template slot="template">
                 <el-skeleton-item variant="image" style="width: 100%; height: 180px; border-radius: 10px;" />
@@ -199,7 +204,49 @@ export default {
 
       searchText: '', // 搜索文本
       isSearching: false, // 是否处于搜索状态
-      searchSuggestions: [], // 搜索建议列表（从后端动态获取）
+      searchSuggestions: [
+        { value: '苹果手机' },
+        { value: '苹果电脑' },
+        { value: '苹果耳机' },
+        { value: '华为手机' },
+        { value: '华为平板' },
+        { value: '小米手机' },
+        { value: '小米电视' },
+        { value: '耐克鞋子' },
+        { value: '耐克衣服' },
+        { value: '阿迪达斯运动鞋' },
+        { value: '阿迪达斯运动服' },
+        { value: '化妆品套装' },
+        { value: '化妆镜' },
+        { value: '护肤品' },
+        { value: '护肤水' },
+        { value: '衣服' },
+        { value: '衣柜' },
+        { value: '鞋子' },
+        { value: '鞋架' },
+        { value: '包包' },
+        { value: '背包' },
+        { value: '家电' },
+        { value: '家具' },
+        { value: '电脑' },
+        { value: '电视' },
+        { value: '笔记本电脑' },
+        { value: '笔记本' },
+        { value: '平板电脑' },
+        { value: '平板支架' },
+        { value: '运动装备' },
+        { value: '运动鞋' },
+        { value: '健身器材' },
+        { value: '健身服' },
+        { value: '食品' },
+        { value: '食用油' },
+        { value: '零食' },
+        { value: '零食盒' },
+        { value: '水果' },
+        { value: '水果刀' },
+        { value: '蔬菜' },
+        { value: '蔬菜篮' }
+      ] // 搜索建议列表
     }
   },
   async mounted() {
@@ -207,7 +254,6 @@ export default {
     this.loadCategory();
     this.loadNotice();
     this.loadGoods(); // 初始加载第一页商品
-    this.loadSearchSuggestions(); // 加载搜索建议
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
@@ -228,7 +274,7 @@ export default {
     querySearchAsync(queryString, cb) {
       console.log('查询字符串:', queryString); // 调试用
       
-      if (!queryString || queryString.trim() === '') {
+      if (!queryString) {
         cb([]);
         return;
       }
@@ -247,9 +293,9 @@ export default {
             price: item.price,
             unit: item.unit
           }));
-          
+
           console.log('实时搜索结果:', suggestions); // 调试用
-          
+
           // 返回搜索建议
           cb(suggestions.slice(0, 10)); // 最多显示10个建议
         } else {
@@ -264,6 +310,9 @@ export default {
         });
         cb(localResults.slice(0, 5));
       });
+
+      // 直接返回结果，不使用setTimeout
+      cb(results.slice(0, 10));
     },
 
     // 选择建议项后的处理
@@ -291,7 +340,6 @@ export default {
     },
 
     getRandomBottomText() {
-      console.log(1);
 
       const arr = [
         '我也是有底线的!',
@@ -377,6 +425,16 @@ export default {
     },
     goTo(url) {
       this.$router.push(url)
+    },
+    addCart(goodsId) {
+      let data = { num: 1, userId: this.user.id, goodsId: goodsId }
+      this.$request.post('/cart/add', data).then(res => {
+        if (res.code === '200') {
+          this.$message.success('加入成功')
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   },
 }
@@ -390,9 +448,116 @@ export default {
   padding: 10px 10px;
 }
 
-.el-col-5:hover {
+.product-card {
   border-radius: 10px;
-  border: 1px solid #81d7ce;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.3s;
+  width: 20%;
+  max-width: 20%;
+  padding: 10px 10px 20px 10px;
+  box-sizing: border-box;
+  margin-bottom: 0;
+  background: #fff;
+  position: relative;
+  overflow: visible;
+}
+.product-card:hover {
+  box-shadow:
+      0 2px 8px rgba(0,0,0,0.08),
+      0 8px 24px 8px rgba(129,215,206,0.10),
+      0 16px 32px 16px rgba(0,0,0,0.18);
+  transform: translateY(-5px);
+}
+.product-card::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 32px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  border-radius: 0 0 10px 10px;
+  background: linear-gradient(to bottom, rgba(129,215,206,0) 0%, rgba(0,0,0,0.18) 100%);
+  z-index: 1;
+}
+.product-card:hover::after {
+  opacity: 1;
+}
+.add-cart-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 2;
+  position: relative;
+}
+.product-card:hover .add-cart-bottom {
+  opacity: 1;
+  transform: translateY(0);
+}
+.add-cart-bottom >>> .el-button {
+  background-color: #81d7ce !important;
+  border: none !important;
+  color: #fff !important;
+  border-radius: 24px !important;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 8px 28px;
+  transition: background 0.2s;
+}
+.add-cart-bottom >>> .el-button:hover {
+  background-color: #68c7bd !important;
+  color: #fff !important;
+}
+
+.product-image-wrapper {
+  overflow: hidden; /* 隐藏溢出的图片 */
+  border-radius: 10px;
+  position: relative;
+}
+
+.product-image {
+  width: 100%;
+  height: 180px;
+  border-radius: 10px;
+  transition: transform 0.3s ease; /* 添加过渡效果 */
+}
+
+.product-image:hover {
+  transform: scale(1.1); /* 悬停时放大图片 */
+}
+
+.add-cart-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-image-wrapper:hover .add-cart-button {
+  opacity: 1;
+}
+
+.add-cart-button .el-button {
+  background-color: #81d7ce;
+  border-color: #81d7ce;
+  color: white;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.add-cart-button .el-button:hover {
+  background-color: #66c2b8;
+  border-color: #66c2b8;
+  transform: translateY(-2px);
 }
 
 /* 文本溢出省略 */
@@ -410,5 +575,48 @@ a:hover {
   color: #666;
 }
 
+/* 改进的搜索框样式 */
+.custom-autocomplete .el-input__inner {
+  border-radius: 25px 0 0 25px;
+  border-right: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.custom-autocomplete .el-input__inner:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-btn {
+  border-radius: 0 25px 25px 0;
+  background-color: #81d7ce; /* 品牌一致的青色 */
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #68c7bd;
+  transform: scale(1.05);
+}
+
+/* 自动完成建议框样式 */
+.el-autocomplete-suggestion__list {
+  padding: 8px 0;
+}
+
+.el-autocomplete-suggestion__item {
+  padding: 6px 12px;
+  transition: background-color 0.2s;
+}
+
+.el-autocomplete-suggestion__item:hover {
+  background-color: #f5f5f5;
+}
+
+.el-autocomplete-suggestion__item.highlighted {
+  background-color: #e6f7f5;
+  color: #333;
+}
 /* 自动完成建议框样式 */
 </style>
