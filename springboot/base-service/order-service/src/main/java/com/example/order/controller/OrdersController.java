@@ -156,19 +156,22 @@ public class OrdersController {
                         @RequestParam(defaultValue = "10") Integer pageSize,
                         @RequestParam(defaultValue = "") String goodsName,
                         @RequestParam(defaultValue = "") String orderId,
-                        @RequestParam(defaultValue = "0") Integer businessId) {
+                        @RequestParam(defaultValue = "0") Integer businessId,
+                        @RequestParam(defaultValue = "0") Integer userId) {
         // 如果goodsName不为空，则根据商品名称查询
         PageInfo<Orders> ordersPageInfo = null;
         if (!goodsName.isEmpty()) {
             PageInfo<Goods> page = goodsFeignClient.selectPageByName(pageNum, pageSize, goodsName).getData();
             var goodsIds = new ArrayList<Integer>(page.getList().stream().map(Goods::getId).toList());
             ordersPageInfo = ordersService.selectPageByGoodIds(goodsIds, pageNum, pageSize);
-        } else {
-            log.info("businessId: {}", businessId);
-            orders.setOrderId(orderId);
-            orders.setBusinessId(businessId);
-            ordersPageInfo = ordersService.selectPage(orders, pageNum, pageSize);
         }
+        log.info("businessId: {}", businessId);
+        log.info("userId: {}", userId);
+        orders.setOrderId(orderId);
+        orders.setBusinessId(businessId);
+        orders.setUserId(userId);
+            ordersPageInfo = ordersService.selectPage(orders, pageNum, pageSize);
+
         List<OrdersDTO> ordersDTOList = ordersPageInfo.getList().stream().map(OrdersDTO::new).toList();
         ordersDTOList.forEach(ordersDTO -> {
             if (ordersDTO.getGoodsId() != null) {

@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
 @RequestMapping("/category")
 public class CategoryController {
 
+    private static final Logger log = LoggerFactory.getLogger(CategoryController.class);
     @Resource
     private CategoryService categoryService;
 
@@ -39,6 +42,7 @@ public class CategoryController {
             required = true,
             content = @Content(schema = @Schema(implementation = Category.class)))
                  @RequestBody Category category) {
+        log.info("category: {}", category);
         categoryService.save(category);
         return R.success();
     }
@@ -83,6 +87,7 @@ public class CategoryController {
             required = true,
             content = @Content(schema = @Schema(implementation = Category.class)))
                         @RequestBody Category category) {
+        log.info("Updating category: {}", category);
         categoryService.updateById(category);
         return R.success();
     }

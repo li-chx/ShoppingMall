@@ -17,8 +17,7 @@
             <el-table-column label="商品图片" width="120px" align="center">
               <template v-slot="scope">
                 <el-image style="width: 80px; height: 60px; border-radius: 3px" v-if="scope.row.goodsImg"
-                          :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
-                  :src="fixUrl(scope.row.goodsImg)" :preview-src-list="[fixUrl(scope.row.goodsImg)]"></el-image>
+                  :src="scope.row.goodsImg" :preview-src-list="[scope.row.goodsImg]"></el-image>
               </template>
             </el-table-column>
             <el-table-column prop="orderId" label="订单编号" align="center"></el-table-column>
@@ -54,14 +53,9 @@
           </el-table>
 
           <div class="pagination" style="margin-top: 20px">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="pageNum"
-                :page-sizes="[5, 10, 20]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="pageNum"
+              :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper"
+              :total="total">
             </el-pagination>
           </div>
         </div>
@@ -72,7 +66,7 @@
 
 <script>
 
-import {fixUrlList} from "@/utils/fixUrl";
+import { fixUrlList } from "@/utils/fixUrl";
 
 export default {
   data() {
@@ -96,7 +90,8 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          goodsName: this.goodsName
+          goodsName: this.goodsName,
+          userId: this.user.id
         }
       }).then(async res => {
         if (res.code === '200') {

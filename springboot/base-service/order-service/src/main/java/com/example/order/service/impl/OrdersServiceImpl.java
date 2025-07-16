@@ -25,7 +25,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
     public List<Orders> selectAll(Orders orders) {
         QueryWrapper<Orders> queryWrapper = new QueryWrapper<>();
         if (orders != null) {
-            if (orders.getUserId() != null) {
+            if (orders.getUserId() != 0) {
                 queryWrapper.eq("user_id", orders.getUserId());
             }
 //            if (orders.getOrderNo() != null) {
@@ -33,6 +33,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper,Orders> implemen
 //            }
             if (orders.getStatus() != null) {
                 queryWrapper.eq("status", orders.getStatus());
+            }
+            if(orders.getBusinessId() != 0) {
+                queryWrapper.eq("business_id", orders.getBusinessId());
             }
         }
         return ordersMapper.selectList(queryWrapper);

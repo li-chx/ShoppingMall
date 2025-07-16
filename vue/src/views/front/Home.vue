@@ -25,7 +25,8 @@
         <div style="margin: 10px 10px; font-size: 16px"><b>分类</b></div>
         <div style="display: flex;  margin: 14px 10px" v-for="item in categoryData" :key="item.id">
           <img :src="item.img" alt="" style="height: 20px; width: 20px; filter: invert(1)">
-          <div style="margin-left: 10px; font-size: 14px"><a href="#" @click.prevent="goTo('/front/category?id=' + item.id)">{{ item.name }}</a>
+          <div style="margin-left: 10px; font-size: 14px"><a href="#"
+              @click.prevent="goTo('/front/category?id=' + item.id)">{{ item.name }}</a>
           </div>
         </div>
       </div>
@@ -61,7 +62,7 @@
         style="flex: 3; height: 490px; background-image: linear-gradient(#a2e0d9 0%, #f7f7f7 100%); margin-left:10px; border-radius: 10px">
         <div style="text-align: center; margin-top: 30px">
           <img :src="user.avatar" alt="" @click="goTo('/front/person')"
-               style="width: 80px; height: 80px; border-radius: 50%">
+            style="width: 80px; height: 80px; border-radius: 50%">
           <div style="margin-top:10px; font-size: 16px"><b>你好，{{ user.name }}</b></div>
         </div>
         <div style="margin: 20px 10px;">
@@ -112,7 +113,7 @@
             <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
           </el-col>
         </el-row>
-        
+
         <!-- 骨架屏加载效果 -->
         <div v-if="loading" style="display: flex; flex-wrap: wrap; margin-top: 20px;">
           <div v-for="n in skeletonCount" :key="'skeleton-'+n" style="width: 20%; padding: 10px;">
@@ -127,13 +128,14 @@
             </el-skeleton>
           </div>
         </div>
-        
-        <div v-if="noMore" style="text-align: center; padding: 20px; color: #999;">
-          {{ getRandomBottomText() }}
-        </div>
+        <el-divider>{{ getRandomBottomText() }}</el-divider>
+<!--        <div v-if="noMore" style="text-align: center; padding: 20px; color: #999;">-->
+<!--          {{ getRandomBottomText() }}-->
+<!--        </div>-->
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -191,6 +193,7 @@ export default {
     this.loadNotice();
     this.loadGoods(); // 初始加载第一页商品
   },
+  // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
 
     // 搜索功能
@@ -206,6 +209,8 @@ export default {
     },
 
     getRandomBottomText() {
+      console.log(1);
+
       const arr = [
         '我也是有底线的!',
         '已经到底啦~',
@@ -246,9 +251,9 @@ export default {
     // 加载商品数据（后端分页）
     loadGoods() {
       if (this.loading) return;
-      
+
       this.loading = true;
-      
+
       // 请求后端分页数据
       this.$request.get('/goods/selectPage', {
         params: {
@@ -262,13 +267,13 @@ export default {
             x.img = url;
             return x;
           });
-          
+
           this.visibleGoods = [...this.visibleGoods, ...newGoods];
           this.totalGoods = res.data?.total || 0;
-          
+
           // 检查是否还有更多数据
           this.noMore = this.visibleGoods.length >= this.totalGoods;
-          
+
           // 更新页码
           if (newGoods.length > 0) {
             this.currentPage++;
@@ -276,7 +281,7 @@ export default {
         } else {
           this.$message.error(res.msg);
         }
-        
+
         this.loading = false;
       }).catch(err => {
         console.error('加载商品失败:', err);

@@ -1,13 +1,19 @@
 <template>
   <div>
-    <div style="display: flex; width: 80%; margin: 30px auto;">
+    <div style="color: #81d7ce; margin: 15px 0 15px 18px; font-weight: bold; font-size: 25px">{{ categoryData.name }}
+    </div>
+    <div style="display: flex; margin: 30px auto;">
       <div style="flex: 1; padding: 0 20px">
-        <div style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid">
-          {{ categoryData.name }}</div>
+        <!-- <div style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid">
+          {{ categoryData.name }}</div> -->
+        <el-card>
+          <div style="white-space: pre-line;">{{ categoryData.description }}</div>
+
+        </el-card>
         <div style="margin: 20px 0">
           <el-row :gutter="20">
             <el-col :span="6" v-for="item in goodsData" :key="item.id">
-              <img :src="fixUrl(item.img)" alt="" style="width: 100%; height: 180px; border-radius: 10px;"
+              <img :src="item.img" alt="" style="width: 100%; height: 180px; border-radius: 10px;"
                 @click="goTo('/front/detail?id=' + item.id)">
               <div class="text-overflow-ellipsis"
                 style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
@@ -26,10 +32,17 @@
 <script>
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/video/买买买.json';
-import {fixUrlList} from "@/utils/fixUrl";
+import { fixUrlList } from "@/utils/fixUrl";
 export default {
   components: {
     lottie: Lottie
+  },
+  computed: {
+    safeDescription() {
+      // 允许换行符、链接等基础HTML（可选）
+      return DOMPurify.sanitize(
+        this.categoryData.description.replace(/\n/g, '<br>'))
+    }
   },
   data() {
     return {
@@ -65,12 +78,14 @@ export default {
       })
     },
     loadGoods() {
-      this.$request.get('/goods/selectByCategoryId/' + this.categoryId).then(res => {
+      this.$request.get('/goods/selectByCategoryId/' + this.categoryId).then(async res => {
         if (res.code === '200') {
-          this.goodsData = fixUrlList(res.data, x => x.img, (x,url) => {
+          this.goodsData = await fixUrlList(res.data, x => x.img, (x, url) => {
             x.img = url;
             return x;
           })
+          console.log(this.goodsData);
+
         } else {
           this.$message.error(res.msg)
         }
