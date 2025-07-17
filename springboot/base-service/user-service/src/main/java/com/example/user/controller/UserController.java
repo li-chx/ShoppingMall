@@ -19,6 +19,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Tag(name = "用户接口", description = "用户信息管理相关接口")
 @RestController
@@ -99,6 +100,7 @@ public class UserController {
     public R<User> selectById(@Parameter(description = "用户ID", required = true, in = ParameterIn.PATH)
                               @PathVariable Integer id) {
         User user = userService.getById(id);
+        user.setPassword(null);
         return R.success(user);
     }
 
@@ -123,18 +125,30 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
     @SentinelResource(value = "user_update_password")
-    @PostMapping("/updatePassword")
+    @GetMapping("/updatePassword")
     public R updatePassword(@Parameter(description = "用户ID", required = true, in = ParameterIn.QUERY)
                             @RequestParam Integer id,
+                            @Parameter(description = "当前密码", required = true, in = ParameterIn.QUERY)
+                            @RequestParam String password,
                             @Parameter(description = "新密码", required = true, in = ParameterIn.QUERY)
                             @RequestParam String newPassword) {
-        if (userService.updatePassword(id, newPassword)) {
-            return R.success();
-        } else {
-            R result = R.error(ResultCodeEnum.PARAM_ERROR);
-            result.setMsg("更新密码失败，参数错误");
-            return result;
+        if (newPassword != null && !newPassword.isEmpty()) {
+            User user = userService.getById(id);
+            if (user == null) {
+                return R.error(ResultCodeEnum.PARAM_ERROR.code, "用户不存在");
+            }
+            if (!Objects.equals(user.getPassword(), password)) {
+                return R.error(ResultCodeEnum.PARAM_PASSWORD_ERROR);
+            }
+            if (userService.updatePassword(id, newPassword)) {
+                return R.success();
+            } else {
+                R result = R.error(ResultCodeEnum.PARAM_ERROR);
+                result.setMsg("更新密码失败，参数错误");
+                return result;
+            }
         }
+        return R.error(ResultCodeEnum.PARAM_ERROR.code, "新密码不能为空");
     }
 
     @Operation(summary = "分页查询用户", description = "根据条件分页获取用户信息")

@@ -11,4 +11,5 @@ public interface AdminService extends IService<Admin> {
     PageInfo<Admin> selectPage(Admin admin, Integer pageNum, Integer pageSize);
     Admin login(Admin admin);
     boolean resetPassword(Admin request);
+    boolean updatePassword(Integer id, String newPassword);
 } 

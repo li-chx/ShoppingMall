@@ -250,14 +250,20 @@ export default {
     }
   },
   async mounted() {
+    this.$bus.$on('closeSearch', () => {
+      this.searchText = "";
+      this.handleSearch();
+    });
     this.user.avatar = await fixUrl(this.user.avatar);
     this.loadCategory();
     this.loadNotice();
     this.loadGoods(); // 初始加载第一页商品
   },
+  beforeDestroy() {
+    this.$bus.$off('closeSearch');
+  },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-
     // 搜索功能
     async handleSearch() {
       const keyword = this.searchText && this.searchText.trim();

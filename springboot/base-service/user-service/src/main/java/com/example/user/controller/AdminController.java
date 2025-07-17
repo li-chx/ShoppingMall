@@ -2,6 +2,7 @@ package com.example.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Admin;
 import com.example.user.service.AdminService;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +19,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Tag(name = "管理员接口", description = "管理员信息管理相关接口")
 @RestController
@@ -134,5 +136,39 @@ public class AdminController {
         PageInfo<Admin> page = adminService.selectPage(admin, pageNum, pageSize);
         page.setList(page.getList().stream().peek(x -> x.setPassword(null)).toList());
         return R.success(page);
+    }
+
+    @Operation(summary = "更新商家密码", description = "根据商家ID更新商家的密码")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "更新成功"),
+            @ApiResponse(responseCode = "400", description = "参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "admin_update_password")
+    @GetMapping("/updatePassword")
+    public R updatePassword(@Parameter(description = "Admin ID", required = true, in = ParameterIn.QUERY)
+                            @RequestParam Integer id,
+                            @Parameter(description = "当前密码", required = true, in = ParameterIn.QUERY)
+                            @RequestParam String password,
+                            @Parameter(description = "新密码", required = true, in = ParameterIn.QUERY)
+                            @RequestParam String newPassword) {
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            Admin admin = adminService.getById(id);
+            if (admin == null) {
+                return R.error(ResultCodeEnum.PARAM_ERROR.code, "商家不存在");
+            }
+            if (!Objects.equals(admin.getPassword(), password)) {
+                return R.error(ResultCodeEnum.PARAM_PASSWORD_ERROR);
+            }
+            if (adminService.updatePassword(id, newPassword)) {
+                return R.success();
+            } else {
+                R result = R.error(ResultCodeEnum.PARAM_ERROR);
+                result.setMsg("更新密码失败，参数错误");
+                return result;
+            }
+        }
+        return R.error(ResultCodeEnum.PARAM_ERROR.code, "新密码不能为空");
     }
 }

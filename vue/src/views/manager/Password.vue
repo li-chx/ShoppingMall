@@ -27,7 +27,7 @@ export default {
       if (value === '') {
         callback(new Error('请确认密码'))
       } else if (value !== this.user.newPassword) {
-        callback(new Error('确认密码错误'))
+        callback(new Error('与第一次输入不一致'))
       } else {
         callback()
       }
@@ -55,7 +55,15 @@ export default {
     update() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          this.$request.post('/business/updatePassword?id=' + this.user.id + "&newPassword=" + this.user.newPassword,).then(res => {
+          console.log("test");
+          const url = this.user.role === 'ADMIN' ? '/admin/updatePassword' : '/business/updatePassword';
+          this.$request.get(url, {
+            params: {
+              id: this.user.id,
+              password: this.user.password,
+              newPassword: this.user.newPassword
+            }
+          } ).then(res => {
             if (res.code === '200') {
               // 成功更新
               localStorage.removeItem('xm-user')   // 清除缓存的用户信息

@@ -7,8 +7,8 @@
       <el-form :model="editUserData" label-width="80px" style="padding: 0 20px" ref="editUserDataRef">
         <div style="margin: 15px; text-align: center">
           <el-upload class="avatar-uploader" name="multipartFile" :action="'/api/files/upload'" :show-file-list="false"
-            :on-success="handleAvatarSuccess">
-            <img v-if="editUserData.avatar" :src="imgUrl" class="avatar" />
+                     :on-success="handleAvatarSuccess">
+            <img v-if="editUserData.avatar" :src="imgUrl" class="avatar"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -29,9 +29,10 @@
         </div>
       </el-form>
     </el-card>
-    <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="修改密码" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false"
+               destroy-on-close>
       <el-form :model="editUserData" label-width="80px" style="padding-right: 20px" :rules="rules"
-        ref="editUserDataRef">
+               ref="editUserDataRef">
         <el-form-item label="原始密码" prop="password">
           <el-input show-password v-model="editUserData.password" placeholder="原始密码"></el-input>
         </el-form-item>
@@ -51,8 +52,8 @@
 </template>
 
 <script>
-import { fixUrl } from "@/utils/fixUrl";
-import { RouterLink } from "vue-router";
+import {fixUrl} from "@/utils/fixUrl";
+import {RouterLink} from "vue-router";
 
 export default {
   data() {
@@ -60,7 +61,7 @@ export default {
       if (value === '') {
         callback(new Error('请确认密码'))
       } else if (value !== this.editUserData.newPassword) {
-        callback(new Error('确认密码错误'))
+        callback(new Error('与第一次输入不一致'))
       } else {
         callback()
       }
@@ -72,13 +73,13 @@ export default {
       imgUrl: '',
       rules: {
         password: [
-          { required: true, message: '请输入原始密码', trigger: 'blur' },
+          {required: true, message: '请输入原始密码', trigger: 'blur'},
         ],
         newPassword: [
-          { required: true, message: '请输入新密码', trigger: 'blur' },
+          {required: true, message: '请输入新密码', trigger: 'blur'},
         ],
         confirmPassword: [
-          { validator: validatePassword, required: true, trigger: 'blur' },
+          {validator: validatePassword, required: true, trigger: 'blur'},
         ],
       }
     }
@@ -100,7 +101,7 @@ export default {
           localStorage.setItem('xm-user', JSON.stringify(this.user))
 
           // 触发父级的数据更新
-          this.$emit('update:user')
+          this.$bus.$emit('updateUser')
         } else {
           this.$message.error(res.msg)
         }
@@ -131,11 +132,18 @@ export default {
 
       this.$refs.editUserDataRef.validate((valid) => {
         if (valid) {
-          this.$request.post('/user/updatePassword?id=' + this.editUserData.id + '&newPassword=' + this.editUserData.newPassword).then(res => {
+          this.$request.get('/user/updatePassword', {
+            params: {
+              id: this.editUserData.id,
+              password: this.editUserData.password,
+              newPassword: this.editUserData.newPassword
+            }
+          }).then(res => {
             if (res.code === '200') {
               // 成功更新
               this.$message.success('修改密码成功')
               this.$router.push('/login')
+              this.editUserData.password = ''
               this.editUserData.newPassword = ''
               this.editUserData.confirmPassword = ''
             } else {
@@ -150,15 +158,15 @@ export default {
 </script>
 
 <style scoped>
-/deep/.el-form-item__label {
+/deep/ .el-form-item__label {
   font-weight: bold;
 }
 
-/deep/.el-upload {
+/deep/ .el-upload {
   border-radius: 50%;
 }
 
-/deep/.avatar-uploader .el-upload {
+/deep/ .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   cursor: pointer;
   position: relative;
@@ -166,7 +174,7 @@ export default {
   border-radius: 50%;
 }
 
-/deep/.avatar-uploader .el-upload:hover {
+/deep/ .avatar-uploader .el-upload:hover {
   border-color: #409EFF;
 }
 

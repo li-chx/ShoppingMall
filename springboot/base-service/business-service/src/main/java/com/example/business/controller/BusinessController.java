@@ -2,6 +2,7 @@ package com.example.business.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
+import com.example.common.enums.ResultCodeEnum;
 import com.example.entity.Business;
 import com.example.business.service.BusinessService;
 import com.github.pagehelper.PageInfo;
@@ -20,6 +21,7 @@ import org.springframework.cloud.context.refresh.RefreshScopeLifecycle;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Tag(name = "商家接口", description = "商家信息管理相关接口")
 @RestController
@@ -82,18 +84,31 @@ public class BusinessController {
             @ApiResponse(responseCode = "500", description = "服务器内部错误")
     })
     @SentinelResource(value = "business_update_password")
-    @PostMapping("/updatePassword")
+    @GetMapping("/updatePassword")
     public R updatePassword(@Parameter(description = "商家ID", required = true, in = ParameterIn.QUERY)
                             @RequestParam Integer id,
+                            @Parameter(description = "当前密码", required = true, in = ParameterIn.QUERY)
+                            @RequestParam String password,
                             @Parameter(description = "新密码", required = true, in = ParameterIn.QUERY)
                             @RequestParam String newPassword) {
-        if (businessService.updatePassword(id, newPassword)) {
-            return R.success();
-        } else {
-            R result = R.error();
-            result.setMsg("更新密码失败，参数错误！");
-            return result;
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            Business business = businessService.getById(id);
+            if (business == null) {
+                return R.error(ResultCodeEnum.PARAM_ERROR.code, "商家不存在");
+            }
+            if (!Objects.equals(business.getPassword(), password)) {
+                return R.error(ResultCodeEnum.PARAM_PASSWORD_ERROR);
+            }
+            if (businessService.updatePassword(id, newPassword)) {
+                return R.success();
+            } else {
+                R result = R.error(ResultCodeEnum.PARAM_ERROR);
+                result.setMsg("更新密码失败，参数错误");
+                return result;
+            }
         }
+        return R.error(ResultCodeEnum.PARAM_ERROR.code, "新密码不能为空");
     }
 
     @Operation(summary = "修改商家", description = "根据ID更新商家信息")

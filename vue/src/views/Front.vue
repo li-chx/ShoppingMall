@@ -3,7 +3,7 @@
     <!-- <div class="front-notice"><i class="el-icon-bell" style="margin-right: 2px"></i>公告：{{ top }}</div> -->
     <!--头部-->
     <div class="front-header" style="position: fixed; top: 0; width: 100%; z-index: 1000;">
-      <div class="front-header-left" @click="goTo('/front/home')">
+      <div class="front-header-left" @click="closeSearchFunc">
         <img src="@/assets/imgs/logo.png" alt="">
         <!-- <div class="title"><i>ShoppingMall</i></div> -->
         <div class="title" style="font-weight: bold; font-size: 50px;flex:1;font-family:'Nanum Pen Script'">ShoppingMall
@@ -25,7 +25,7 @@
         <div v-else>
           <el-dropdown>
             <div class="front-header-dropdown">
-              <img :src="user.avatar" alt="" @click="goTo('/front/person')" style="cursor:pointer">
+              <img :src="imgUrl" alt="" @click="goTo('/front/person')" style="cursor:pointer">
               <div style="margin-left: 10px">
                 <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>
@@ -48,7 +48,7 @@
           <div class="left" :style="{ backgroundImage: 'url(' + leftBgImage + ')' }"></div>
 
           <div style="width: 76%; border-radius: 15px; background-color: white; overflow-y: auto;">
-            <router-view ref="child" @update:user="updateUser" />
+            <router-view ref="child" @update:user="updateUser"/>
             <footer style="height:30px"></footer>
           </div>
 
@@ -64,7 +64,7 @@
 
 <script>
 
-import { fixUrl } from "@/utils/fixUrl";
+import {fixUrl} from "@/utils/fixUrl";
 
 export default {
   name: "FrontLayout",
@@ -76,11 +76,13 @@ export default {
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
       leftBgImage: require('@/assets/imgs/购物车.svg'),
       rightBgImage: require('@/assets/imgs/购物.svg'),
-      imgUrl: ''
+      imgUrl: '',
     }
   },
   async mounted() {
-    this.user.avatar = await fixUrl(this.user.avatar);
+    this.$bus.$on('updateUser', async () => {
+      await this.updateUser()
+    });
     this.loadNotice();
 
     // 修复图片路径问题 - 动态设置背景图片
@@ -94,6 +96,10 @@ export default {
         rightDiv.style.backgroundImage = `url(${require('@/assets/imgs/购物.svg')})`;
       }
     });
+    await this.updateUser();
+  },
+  beforeDestroy() {
+    this.$bus.$off('updateUser');
   },
   methods: {
     loadNotice() {
@@ -114,6 +120,7 @@ export default {
     },
     async updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
+      console.log("update imgUrl")
       this.imgUrl = await fixUrl(this.user.avatar);
     },
     // 退出登录
@@ -123,6 +130,10 @@ export default {
     },
     goTo(url) {
       this.$router.push(url)
+    },
+    closeSearchFunc() {
+      this.$bus.$emit('closeSearch');
+      this.goTo('/front/home');
     }
   }
 

@@ -4,8 +4,8 @@
       <el-form :model="editUserData" label-width="100px" style="padding-right: 50px">
         <div style="margin: 15px; text-align: center">
           <el-upload class="avatar-uploader" :action="'/api/files/upload'" :show-file-list="false" name='multipartFile'
-            :on-success="handleAvatarSuccess">
-            <img v-if="imgUrl" :src="imgUrl" class="avatar" />
+                     :on-success="handleAvatarSuccess">
+            <img v-if="imgUrl" :src="imgUrl" class="avatar"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { fixUrl } from "@/utils/fixUrl";
+import {fixUrl} from "@/utils/fixUrl";
 
 export default {
   name: "AdminPerson",
@@ -66,17 +66,21 @@ export default {
           localStorage.setItem('xm-user', JSON.stringify(this.user))
 
           // 触发父级的数据更新
-          this.$emit('update:user')
+          console.log("test update user")
+          this.$bus.$emit('updateUser')
         } else {
           this.$message.error(res.msg)
         }
       })
     },
     async loadUser() {
-      this.$request.get('/business/selectById/' + JSON.parse(localStorage.getItem('xm-user') || '{}').id).then(async res => {
+      const url = JSON.parse(localStorage.getItem('xm-user') || '{}').role === 'ADMIN' ? '/admin/selectById/' : '/business/selectById/';
+      this.$request.get(url + JSON.parse(localStorage.getItem('xm-user') || '{}').id).then(async res => {
         if (res.code === '200') {
           this.user = res.data;
+          console.log(res)
           this.imgUrl = await fixUrl(this.user.avatar);
+          console.log(this.imgUrl)
           this.editUserData = Object.assign({}, this.user);
         } else {
           this.$message.error(res.msg)

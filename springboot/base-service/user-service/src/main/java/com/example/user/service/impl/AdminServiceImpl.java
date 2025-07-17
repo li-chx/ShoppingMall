@@ -69,4 +69,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
     }
 
+    @Transactional
+    @Override
+    public boolean updatePassword(Integer id, String newPassword) {
+        Admin admin = adminMapper.selectById(id);
+        if (admin != null) {
+            admin.setPassword(newPassword);
+            return adminMapper.updateById(admin) > 0;
+        }
+        return false;
+    }
+
 } 
