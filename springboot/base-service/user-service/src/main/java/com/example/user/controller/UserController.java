@@ -3,6 +3,7 @@ package com.example.user.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.example.common.R;
 import com.example.common.enums.ResultCodeEnum;
+import com.example.common.enums.RoleEnum;
 import com.example.entity.User;
 import com.example.user.service.UserService;
 import com.github.pagehelper.PageInfo;
@@ -41,6 +42,7 @@ public class UserController {
             required = true,
             content = @Content(schema = @Schema(implementation = User.class)))
                  @RequestBody User user) {
+        user.setRole("USER");
         userService.save(user);
         return R.success();
     }

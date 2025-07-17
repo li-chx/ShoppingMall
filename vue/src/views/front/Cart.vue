@@ -90,7 +90,11 @@ export default {
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
     loadAddress() {
-      this.$request.get('/address/selectAll').then(res => {
+      this.$request.get('/address/selectAll',{
+        params: {
+          userId: this.user.id
+        }
+      }).then(res => {
         if (res.code === '200') {
           this.addressData = res.data
         } else {
@@ -103,6 +107,7 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.id
         }
       }).then(async res => {
         if (res.code === '200') {

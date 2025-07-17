@@ -45,6 +45,7 @@ public class BusinessController {
             required = true,
             content = @Content(schema = @Schema(implementation = Business.class)))
                  @RequestBody Business business) {
+        business.setRole("BUSINESS");
         businessService.save(business);
         return R.success();
     }

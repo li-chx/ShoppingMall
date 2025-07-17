@@ -146,6 +146,8 @@ export default {
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          this.form.role='BUSINESS'
+          this.form.password=123
           this.$request({
             url: this.form.id ? '/business/update' : '/business/add',
             method: this.form.id ? 'PUT' : 'POST',

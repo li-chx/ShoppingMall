@@ -122,6 +122,7 @@ export default {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
+          userId: this.user.id
         }
       }).then(res => {
         if (res.code === '200') {

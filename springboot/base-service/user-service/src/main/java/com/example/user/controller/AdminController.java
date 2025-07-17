@@ -41,6 +41,7 @@ public class AdminController {
             required = true,
             content = @Content(schema = @Schema(implementation = Admin.class)))
                  @RequestBody Admin admin) {
+        admin.setRole("ADMIN");
         adminService.save(admin);
         return R.success();
     }
