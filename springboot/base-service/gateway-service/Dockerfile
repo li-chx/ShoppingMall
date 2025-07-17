@@ -1,12 +1,17 @@
 FROM openjdk:20-jdk
 LABEL authors="lichx"
-ARG SERVER_PORT=8080
-ENV SERVER_PORT=${SERVER_PORT}
 
-# 声明环境变量用于接收 docker-compose 传递的值
-ENV NACOS_HOST=localhost
-ENV SENTINEL_HOST=localhost
-ENV SERVICE_IP=localhost
+# 声明构建参数
+ARG SERVER_PORT=8080
+ARG NACOS_HOST=localhost
+ARG SENTINEL_HOST=localhost
+ARG SERVICE_IP=localhost
+
+# 设置环境变量
+ENV SERVER_PORT=${SERVER_PORT}
+ENV NACOS_HOST=${NACOS_HOST}
+ENV SENTINEL_HOST=${SENTINEL_HOST}
+ENV SERVICE_IP=${SERVICE_IP}
 
 COPY target/gateway-service-1.0.0.jar /app.jar
 EXPOSE ${SERVER_PORT}
