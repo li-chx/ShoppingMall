@@ -1,4 +1,4 @@
-FROM openjdk:20-jdk-alpine
+FROM openjdk:20-jdk
 LABEL authors="lichx"
 ARG SERVER_PORT=8020
 ENV SERVER_PORT=${SERVER_PORT}
