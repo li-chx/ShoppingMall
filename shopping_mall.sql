@@ -1,247 +1,385 @@
-/*
- Navicat Premium Data Transfer
+/*M!999999\- enable the sandbox mode */ 
+-- MariaDB dump 10.19  Distrib 10.11.13-MariaDB, for debian-linux-gnu (x86_64)
+--
+-- Host: 127.0.0.1    Database: shopping_mall
+-- ------------------------------------------------------
+-- Server version	9.3.0
 
- Source Server         : @localhost
- Source Server Type    : MySQL
- Source Server Version : 80031 (8.0.31)
- Source Host           : localhost:3306
- Source Schema         : shopping_mall
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
- Target Server Type    : MySQL
- Target Server Version : 80031 (8.0.31)
- File Encoding         : 65001
+--
+-- Current Database: `shopping_mall`
+--
 
- Date: 14/07/2025 13:58:40
-*/
-USE shopping_mall;
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `shopping_mall` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
--- ----------------------------
--- Table structure for address
--- ----------------------------
+USE `shopping_mall`;
+
+--
+-- Table structure for table `address`
+--
+
 DROP TABLE IF EXISTS `address`;
-CREATE TABLE `address`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `address` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` int NULL DEFAULT NULL COMMENT 'ç”¨æˆ·ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§äºº',
-  `useraddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'æ”¶è´§åœ°å€',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è”ç³»ç”µè¯',
+  `user_id` int DEFAULT NULL COMMENT 'ÓÃ»§ID',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÊÕ»õÈË',
+  `useraddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÊÕ»õµØÖ·',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÁªÏµµç»°',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'åœ°å€ä¿¡æ¯è¡¨' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='µØÖ·ĞÅÏ¢±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of address
--- ----------------------------
-INSERT INTO `address` VALUES (5, 2, 'mmm', 'æ­¦æ±‰ç†å·¥å¤§å­¦', '18888888888');
+--
+-- Dumping data for table `address`
+--
 
--- ----------------------------
--- Table structure for admin
--- ----------------------------
+LOCK TABLES `address` WRITE;
+/*!40000 ALTER TABLE `address` DISABLE KEYS */;
+INSERT INTO `address` VALUES
+(5,2,'mmm','ÎäººÀí¹¤´óÑ§','18888888888');
+/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `admin`
+--
+
 DROP TABLE IF EXISTS `admin`;
-CREATE TABLE `admin`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `admin` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”¨æˆ·å',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å¯†ç ',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å§“å',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å¤´åƒ',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è§’è‰²æ ‡è¯†',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”µè¯',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'é‚®ç®±',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÃ»§Ãû',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÃÜÂë',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ĞÕÃû',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Í·Ïñ',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '½ÇÉ«±êÊ¶',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'µç»°',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÊÏä',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'ç®¡ç†å‘˜' ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='¹ÜÀíÔ±';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of admin
--- ----------------------------
-INSERT INTO `admin` VALUES (1, 'admin', 'admin', 'ç®¡ç†å‘˜', '/files/2024-11-27_13-54-51_R.jpg', 'ADMIN', '13677889922', 'admin@sm.com');
+--
+-- Dumping data for table `admin`
+--
 
--- ----------------------------
--- Table structure for business
--- ----------------------------
+LOCK TABLES `admin` WRITE;
+/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
+INSERT INTO `admin` VALUES
+(1,'admin','admin','¹ÜÀíÔ±','c44f7797-147e-43f7-a2ef-bcd54caa1bf1','ADMIN','13677889922','admin@sm.com');
+/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `business`
+--
+
 DROP TABLE IF EXISTS `business`;
-CREATE TABLE `business`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `business` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”¨æˆ·å',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å¯†ç ',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åº—é“ºå',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å¤´åƒ',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è§’è‰²æ ‡è¯†',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”µè¯',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'é‚®ç®±',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åº—é“ºä»‹ç»',
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åº—é“ºå®¡æ ¸çŠ¶æ€',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÃ»§Ãû',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÃÜÂë',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'µêÆÌÃû',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Í·Ïñ',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '½ÇÉ«±êÊ¶',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'µç»°',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÊÏä',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'µêÆÌ½éÉÜ',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'µêÆÌÉóºË×´Ì¬',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'åº—é“ºä¿¡æ¯è¡¨' ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='µêÆÌĞÅÏ¢±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of business
--- ----------------------------
-INSERT INTO `business` VALUES (7, 'åŒ–å¦†å“', '123', 'ShoppingMallåŒ–å¦†å“å®˜æ–¹æ——èˆ°åº—', '/files/2024-11-28_11-45-24_OIP-C.jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallåŒ–å¦†å“ï¼Œ100å¹´ä¸“æ³¨åŒ–å¦†ï¼Œç§‘å­¦æŠ¤è‚¤ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (8, 'æˆ·å¤–è¿åŠ¨', '123', 'ShoppingMallæˆ·å¤–è¿åŠ¨å®˜æ–¹æ——èˆ°åº—', '/files/2024-11-28_11-58-02_æˆ·å¤–è¿åŠ¨.png', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallæˆ·å¤–è¿åŠ¨ï¼Œ100å¹´ä¸“æ³¨æˆ·å¤–è¿åŠ¨ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (9, 'å®¶ç”¨ç”µå™¨', '123', 'ShoppingMallå®¶ç”¨ç”µå™¨å®˜æ–¹æ——èˆ°åº—', '/files/2024-11-28_12-08-07_å®¶ç”¨ç”µå™¨.jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallå®¶ç”¨ç”µå™¨ï¼Œ100å¹´ä¸“æ³¨å®¶ç”¨ç”µå™¨ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (10, 'æ¯å©´ç”¨å“', '123', 'ShoppingMallæ¯å©´ç”¨å“å®˜æ–¹æ——èˆ°åº—', '/files/2024-12-15_15-02-56_æ¯å©´ç”¨å“.jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallæ¯å©´ç”¨å“ï¼Œ100å¹´ä¸“æ³¨æ¯å©´ç”¨å“ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (12, 'æ°´æœ', '123', 'ShoppingMallæœè”¬å®˜æ–¹æ——èˆ°åº—', '/files/2024-12-15_14-47-10_æ°´æœ.jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallæœè”¬ï¼Œ100å¹´ä¸“æ³¨æœè”¬ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (13, 'æ•°ç ', '123', 'ShoppingMallæ•°ç å®˜æ–¹æ——èˆ°åº—', '/files/2024-12-15_14-58-18_æ•°ç .jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallæ•°ç ï¼Œ100å¹´ä¸“æ³¨æ•°ç ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (14, 'å›¾ä¹¦', '123', 'ShoppingMallå›¾ä¹¦å®˜æ–¹æ——èˆ°åº—', '/files/2024-12-15_15-09-09_å›¾ä¹¦.jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallå›¾ä¹¦ï¼Œ100å¹´ä¸“æ³¨å›¾ä¹¦ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (15, 'æ±½è½¦é…ä»¶', '123', 'ShoppingMallæ±½è½¦é…ä»¶å®˜æ–¹æ——èˆ°åº—', '/files/2024-12-15_15-15-25_æ±½è½¦.jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallæ±½è½¦é…ä»¶ï¼Œ100å¹´ä¸“æ³¨æ±½è½¦é…ä»¶ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
-INSERT INTO `business` VALUES (16, 'ç®±åŒ…', '123', 'ShoppingMallç®±åŒ…å®˜æ–¹æ——èˆ°åº—', '/files/2024-12-15_15-12-34_ç®±åŒ….jpg', 'BUSINESS', '18888888888', '188@sm.com', 'ShoppingMallç®±åŒ…ï¼Œ100å¹´ä¸“æ³¨ç®±åŒ…ï¼Œä½ å€¼å¾—æ‹¥æœ‰', 'å®¡æ ¸é€šè¿‡');
+--
+-- Dumping data for table `business`
+--
 
--- ----------------------------
--- Table structure for cart
--- ----------------------------
+LOCK TABLES `business` WRITE;
+/*!40000 ALTER TABLE `business` DISABLE KEYS */;
+INSERT INTO `business` VALUES
+(7,'»¯×±Æ·','123','ShoppingMall»¯×±Æ·¹Ù·½Æì½¢µê','a57351ad-1d0c-4935-b848-340eade3bc5b','BUSINESS','18888888888','188@sm.com','ShoppingMall»¯×±Æ·£¬100Äê×¨×¢»¯×±£¬¿ÆÑ§»¤·ô£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(8,'»§ÍâÔË¶¯','123','ShoppingMall»§ÍâÔË¶¯¹Ù·½Æì½¢µê','58db155f-1dca-44d1-9e71-959b36954355','BUSINESS','18888888888','188@sm.com','ShoppingMall»§ÍâÔË¶¯£¬100Äê×¨×¢»§ÍâÔË¶¯£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(9,'¼ÒÓÃµçÆ÷','123','ShoppingMall¼ÒÓÃµçÆ÷¹Ù·½Æì½¢µê','12477161-c3f3-4460-a9ac-642e7f8a4ec1','BUSINESS','18888888888','188@sm.com','ShoppingMall¼ÒÓÃµçÆ÷£¬100Äê×¨×¢¼ÒÓÃµçÆ÷£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(10,'Ä¸Ó¤ÓÃÆ·','123','ShoppingMallÄ¸Ó¤ÓÃÆ·¹Ù·½Æì½¢µê','75973325-481d-4358-85ef-dd56a7a083fd','BUSINESS','18888888888','188@sm.com','ShoppingMallÄ¸Ó¤ÓÃÆ·£¬100Äê×¨×¢Ä¸Ó¤ÓÃÆ·£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(12,'Ë®¹û','123','ShoppingMall¹ûÊß¹Ù·½Æì½¢µê','60e11569-f1b0-4d21-b61d-2ebd9ef9ee85','BUSINESS','18888888888','188@sm.com','ShoppingMall¹ûÊß£¬100Äê×¨×¢¹ûÊß£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(13,'ÊıÂë','123','ShoppingMallÊıÂë¹Ù·½Æì½¢µê','66959ead-4049-4e37-b59a-003457611a56','BUSINESS','18888888888','188@sm.com','ShoppingMallÊıÂë£¬100Äê×¨×¢ÊıÂë£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(14,'Í¼Êé','123','ShoppingMallÍ¼Êé¹Ù·½Æì½¢µê','c32b6f34-c9d3-4d9c-b277-1e682cea88bd','BUSINESS','18888888888','188@sm.com','ShoppingMallÍ¼Êé£¬100Äê×¨×¢Í¼Êé£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(15,'Æû³µÅä¼ş','123','ShoppingMallÆû³µÅä¼ş¹Ù·½Æì½¢µê','eda0d65b-a2ae-4d48-b46c-359bdc481a22','BUSINESS','18888888888','188@sm.com','ShoppingMallÆû³µÅä¼ş£¬100Äê×¨×¢Æû³µÅä¼ş£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı'),
+(16,'Ïä°ü','123','ShoppingMallÏä°ü¹Ù·½Æì½¢µê','6a1a56d3-188a-4d5b-902f-01f9e4157efc','BUSINESS','18888888888','188@sm.com','ShoppingMallÏä°ü£¬100Äê×¨×¢Ïä°ü£¬ÄãÖµµÃÓµÓĞ','ÉóºËÍ¨¹ı');
+/*!40000 ALTER TABLE `business` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cart`
+--
+
 DROP TABLE IF EXISTS `cart`;
-CREATE TABLE `cart`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` int NULL DEFAULT NULL COMMENT 'ç”¨æˆ·ID',
-  `goods_id` int NULL DEFAULT NULL COMMENT 'å•†å“ID',
-  `business_id` int NULL DEFAULT NULL COMMENT 'åº—é“ºID',
-  `num` int NULL DEFAULT NULL COMMENT 'æ•°é‡',
+  `user_id` int DEFAULT NULL COMMENT 'ÓÃ»§ID',
+  `goods_id` int DEFAULT NULL COMMENT 'ÉÌÆ·ID',
+  `business_id` int DEFAULT NULL COMMENT 'µêÆÌID',
+  `num` int DEFAULT NULL COMMENT 'ÊıÁ¿',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'è´­ç‰©è½¦è¡¨' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='¹ºÎï³µ±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of cart
--- ----------------------------
-INSERT INTO `cart` VALUES (13, 2, 20, 13, 1);
-INSERT INTO `cart` VALUES (16, 2, 16, 12, 1);
-INSERT INTO `cart` VALUES (17, 2, 11, 7, 1);
-INSERT INTO `cart` VALUES (18, 2, 14, 7, 7);
+--
+-- Dumping data for table `cart`
+--
 
--- ----------------------------
--- Table structure for category
--- ----------------------------
+LOCK TABLES `cart` WRITE;
+/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
+INSERT INTO `cart` VALUES
+(13,2,20,13,1),
+(16,2,16,12,1),
+(17,2,11,7,1),
+(18,2,14,7,7),
+(19,2,15,12,1);
+/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category`
+--
+
 DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åˆ†ç±»åç§°',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åˆ†ç±»æè¿°',
-  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åˆ†ç±»å›¾æ ‡',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '·ÖÀàÃû³Æ',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '·ÖÀàÃèÊö',
+  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '·ÖÀàÍ¼±ê',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'å•†å“åˆ†ç±»è¡¨' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='ÉÌÆ··ÖÀà±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of category
--- ----------------------------
-INSERT INTO `category` VALUES (3, 'å¥³è£…å†…è¡£', 'è¿™æ˜¯å¥³è£…å†…è¡£ä¸“æ ', '/files/2024-11-27_13-55-24_å¥³è£…å†…è¡£.png');
-INSERT INTO `category` VALUES (4, 'å®¶ç”¨ç”µå™¨', 'è¿™æ˜¯å®¶ç”¨ç”µå™¨ä¸“æ ', '/files/2024-11-27_14-04-54_jiayongdianqi.png');
-INSERT INTO `category` VALUES (5, 'åŒ–å¦†å“', 'è¿™æ˜¯åŒ–å¦†å“ä¸“æ ', '/files/2024-11-27_14-10-57_huazhuangpin.png');
-INSERT INTO `category` VALUES (6, 'æˆ·å¤–è¿åŠŸ', 'è¿™æ˜¯æˆ·å¤–è¿åŠ¨ä¸“æ ', '/files/2024-11-27_14-11-22_huwaiyundong.png');
-INSERT INTO `category` VALUES (7, 'å®¶çººå®¶é¥°', 'è¿™æ˜¯å®¶çººå®¶é¥°ä¸“æ ', '/files/2024-11-27_14-11-51_jiafangjiashi.png');
-INSERT INTO `category` VALUES (8, 'æ¯å©´ç”¨å“', 'è¿™æ˜¯æ¯å©´ç”¨å“ä¸“æ ', '/files/2024-11-27_14-12-20_muyingwanju.png');
-INSERT INTO `category` VALUES (10, 'æ±½è½¦é…ä»¶', 'è¿™æ˜¯æ±½è½¦é…ä»¶ä¸“æ ', '/files/2024-11-27_14-13-06_qichepeijian.png');
-INSERT INTO `category` VALUES (12, 'æ•°ç æ‰‹æœº', 'è¿™æ˜¯æ•°ç æ‰‹æœºä¸“æ ', '/files/2024-11-27_14-14-15_shumashouji.png');
-INSERT INTO `category` VALUES (13, 'å›¾ä¹¦éŸ³åƒ', 'è¿™æ˜¯å›¾ä¹¦å½±åƒä¸“æ ', '/files/2024-11-27_14-14-41_tushuyinxiang.png');
-INSERT INTO `category` VALUES (15, 'é‹\\ç®±åŒ…', 'è¿™æ˜¯é‹\\ç®±åŒ…ä¸“æ ', '/files/2024-11-27_14-16-04_xiexiangbao.png');
-INSERT INTO `category` VALUES (16, 'åŒ»è¯ä¿å¥', 'è¿™æ˜¯åŒ»è¯ä¿å¥ä¸“æ ', '/files/2024-11-27_14-16-41_yiyaobaojian.png');
-INSERT INTO `category` VALUES (17, 'ç å®é¥°å“', 'è¿™æ˜¯ç å®é¥°å“ä¸“æ ', '/files/2024-11-27_14-17-06_zhubaoshipin.png');
-INSERT INTO `category` VALUES (18, 'æ°´æœ', 'è¿™æ˜¯æ°´æœä¸“æ ', '/files/2024-11-27_14-37-57_shuiguo.png');
+--
+-- Dumping data for table `category`
+--
 
--- ----------------------------
--- Table structure for goods
--- ----------------------------
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES
+(3,'Å®×°ÄÚÒÂ','ÕâÊÇÅ®×°ÄÚÒÂ×¨À¸','2a8c4f58-c00d-49d3-afe1-3e9c2f4b0e21'),
+(4,'¼ÒÓÃµçÆ÷','ÕâÊÇ¼ÒÓÃµçÆ÷×¨À¸','e4a889f7-270d-4279-ad72-1308de5d810c'),
+(5,'»¯×±Æ·','ÕâÊÇ»¯×±Æ·×¨À¸','a7217d29-45bd-48c3-8109-7aacb4dff009'),
+(6,'»§ÍâÔË¹¦','ÕâÊÇ»§ÍâÔË¶¯×¨À¸','b5609bb2-08af-4470-bcd8-ff5c8d0d5d6b'),
+(7,'¼Ò·Ä¼ÒÊÎ','ÕâÊÇ¼Ò·Ä¼ÒÊÎ×¨À¸','7e293f8e-1a86-4e30-a20b-0bf426d98e48'),
+(8,'Ä¸Ó¤ÓÃÆ·','ÕâÊÇÄ¸Ó¤ÓÃÆ·×¨À¸','41f277e2-0aea-4759-97a8-6b6a3bf77079'),
+(10,'Æû³µÅä¼ş','ÕâÊÇÆû³µÅä¼ş×¨À¸','58aa7478-787a-4e91-ad06-441a17599c02'),
+(12,'ÊıÂëÊÖ»ú','ÕâÊÇÊıÂëÊÖ»ú×¨À¸','ba207fb6-a7d4-4f02-9637-d6a8fac2376c'),
+(13,'Í¼ÊéÒôÏñ','ÕâÊÇÍ¼ÊéÓ°Ïñ×¨À¸','c71dde84-72e6-46cd-8125-f493db6285c7'),
+(15,'Ğ¬\\Ïä°ü','ÕâÊÇĞ¬\\Ïä°ü×¨À¸','ba1461c5-ddad-4654-9db3-5ad27d755bef'),
+(16,'Ò½Ò©±£½¡','ÕâÊÇÒ½Ò©±£½¡×¨À¸','19c5cd1b-af3f-4be3-adc2-64b9894a40d5'),
+(17,'Öé±¦ÊÎÆ·','ÕâÊÇÖé±¦ÊÎÆ·×¨À¸','e9737173-b94f-4bc2-9cbd-482e7b46b899'),
+(18,'Ë®¹û','ÕâÊÇË®¹û×¨À¸','2d22c678-dcd3-42d6-b67b-8f7d1721637d');
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `goods`
+--
+
 DROP TABLE IF EXISTS `goods`;
-CREATE TABLE `goods`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `goods` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å•†å“åç§°',
-  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å•†å“ä¸»å›¾',
-  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT 'å•†å“ä»‹ç»',
-  `price` double(10, 2) NULL DEFAULT NULL COMMENT 'å•†å“ä»·æ ¼',
-  `unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è®¡ä»¶å•ä½',
-  `count` int NULL DEFAULT 0 COMMENT 'å•†å“é”€é‡',
-  `inventory` int NULL DEFAULT 100 COMMENT 'å•†å“åº“å­˜',
-  `category_id` int NULL DEFAULT NULL COMMENT 'åˆ†ç±»ID',
-  `business_id` int NULL DEFAULT NULL COMMENT 'åº—é“ºID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÉÌÆ·Ãû³Æ',
+  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÉÌÆ·Ö÷Í¼',
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT 'ÉÌÆ·½éÉÜ',
+  `price` double(10,2) DEFAULT NULL COMMENT 'ÉÌÆ·¼Û¸ñ',
+  `unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '¼Æ¼şµ¥Î»',
+  `count` int DEFAULT '0' COMMENT 'ÉÌÆ·ÏúÁ¿',
+  `inventory` int DEFAULT '100' COMMENT 'ÉÌÆ·¿â´æ',
+  `category_id` int DEFAULT NULL COMMENT '·ÖÀàID',
+  `business_id` int DEFAULT NULL COMMENT 'µêÆÌID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'å•†å“ä¿¡æ¯è¡¨' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='ÉÌÆ·ĞÅÏ¢±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of goods
--- ----------------------------
-INSERT INTO `goods` VALUES (8, 'å†°ç®±', '/files/2024-11-30_18-08-26_å†°ç®±.png', '<p>è¿™ä¸ªå†°ç®±æ˜¯æœ€å¥½çš„</p>', 5000.00, 'ä»¶', 102, 2, 4, 9);
-INSERT INTO `goods` VALUES (11, 'é¢éœœ', '/files/2024-12-09_15-27-29_huazhuangpin.jpg', '<p>æœ€å¥½çš„</p>', 100.00, 'ç›’', 6, 94, 5, 7);
-INSERT INTO `goods` VALUES (13, 'æŠ¤è‚¤å“å¥—è£…', '/files/2024-12-15_14-43-57_æŠ¤è‚¤å“å¥—è£….jpg', '', 500.00, 'å¥—', 0, 100, 5, 7);
-INSERT INTO `goods` VALUES (14, 'ç²¾åæ°´', '/files/2024-12-15_14-44-48_jinhuashui.jpg', '', 99.00, 'ç“¶', 2, 98, 5, 7);
-INSERT INTO `goods` VALUES (15, 'è¥¿ç“œ', '/files/2024-12-15_14-48-19_è¥¿ç“œ.jpg', '', 30.00, 'ä¸ª', 1, 99, 18, 12);
-INSERT INTO `goods` VALUES (16, 'æ©™å­', '/files/2024-12-15_14-49-12_æ©™å­.jpg', '', 20.00, 'ç®±', 0, 100, 18, 12);
-INSERT INTO `goods` VALUES (17, 'è‰è“', '/files/2024-12-15_14-49-45_è‰è“.jpg', '', 20.00, 'æ–¤', 0, 100, 18, 12);
-INSERT INTO `goods` VALUES (18, 'ç”µè„‘', '/files/2024-12-15_14-58-30_ç”µè„‘.png', '<p><img src=\"http://localhost:9090/files/2024-12-15_20-52-49_è¯¦æƒ…å›¾ç‰‡_34.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/><img src=\"http://localhost:9090/files/2024-12-15_20-52-58_è¯¦æƒ…å›¾ç‰‡_01.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/></p>', 9999.00, 'ä»¶', 0, 100, 12, 13);
-INSERT INTO `goods` VALUES (19, 'æ‰‹æœº', '/files/2024-12-15_14-59-03_æ‰‹æœº.png', '', 6999.00, 'ä»¶', 1, 99, 12, 13);
-INSERT INTO `goods` VALUES (20, 'è€³æœº', '/files/2024-12-15_14-59-26_è€³æœº.jpg', '', 1999.00, 'ä»¶', 0, 100, 12, 13);
-INSERT INTO `goods` VALUES (21, 'å¥¶ç²‰', '/files/2024-12-15_15-03-10_å¥¶ç²‰.jpg', '', 199.00, 'ç“¶', 0, 100, 8, 10);
-INSERT INTO `goods` VALUES (22, 'å¥¶ç“¶', '/files/2024-12-15_15-03-43_å¥¶ç“¶.jpg', '', 59.00, 'ä»¶', 0, 100, 8, 10);
-INSERT INTO `goods` VALUES (23, 'å››å¤§åè‘—', '/files/2024-12-15_15-09-20_åè‘—.jpg', '', 199.00, 'å¥—', 0, 100, 13, 14);
-INSERT INTO `goods` VALUES (24, 'ç§‘å¹»å°è¯´', '/files/2024-12-15_15-09-51_ç§‘å¹».jpg', '', 59.00, 'æœ¬', 0, 100, 13, 14);
-INSERT INTO `goods` VALUES (25, 'è¡Œæç®±', '/files/2024-12-15_15-12-45_è¡Œæç®±.jpg', '', 2999.00, 'ä»¶', 1, 99, 15, 16);
-INSERT INTO `goods` VALUES (26, 'åŒ…', '/files/2024-12-15_15-13-11_åŒ….jpg', '', 19999.00, 'ä»¶', 0, 100, 15, 16);
-INSERT INTO `goods` VALUES (27, 'æ±½è½¦è½®èƒ', '/files/2024-12-15_15-15-38_è½®èƒ.jpg', '', 1999.00, 'ä¸ª', 0, 100, 10, 15);
-INSERT INTO `goods` VALUES (28, 'æ±½è½¦é›¶éƒ¨ä»¶', '/files/2024-12-15_15-16-16_é›¶éƒ¨ä»¶.jpg', '', 199.00, 'ä¸ª', 0, 100, 10, 15);
+--
+-- Dumping data for table `goods`
+--
 
--- ----------------------------
--- Table structure for notice
--- ----------------------------
+LOCK TABLES `goods` WRITE;
+/*!40000 ALTER TABLE `goods` DISABLE KEYS */;
+INSERT INTO `goods` VALUES
+(8,'±ùÏä','adfb20ae-7b12-4d65-bac3-65d3884d61b7','<p>Õâ¸ö±ùÏäÊÇ×îºÃµÄ</p>',5000.00,'¼ş',102,2,4,9),
+(11,'ÃæËª','64f03bb0-2776-43e6-8c7b-6e42a6130af6','<p>×îºÃµÄ</p>',100.00,'ºĞ',6,94,5,7),
+(13,'»¤·ôÆ·Ì××°','8819170c-174c-4cff-9842-707143ac12b2','',500.00,'Ì×',0,100,5,7),
+(14,'¾«»ªË®','5cc0c69e-0cfc-4fbf-bb76-f3780d52822a','',99.00,'Æ¿',2,98,5,7),
+(15,'Î÷¹Ï','3846e7df-4b4e-4611-9f6a-9a1f08359b5d','',30.00,'¸ö',1,99,18,12),
+(16,'³È×Ó','c70ea0e9-e54c-4442-9188-054bdf300abb','',20.00,'Ïä',0,100,18,12),
+(17,'²İİ®','e60a0b0d-b95b-4f6f-b168-d0d43f5420b3','',20.00,'½ï',0,100,18,12),
+(18,'µçÄÔ','971de849-187e-4db2-b07c-06220313e056','<p><img src=\"http://localhost:9090/files/2024-12-15_20-52-49_ÏêÇéÍ¼Æ¬_34.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/><img src=\"http://localhost:9090/files/2024-12-15_20-52-58_ÏêÇéÍ¼Æ¬_01.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/></p>',9999.00,'¼ş',0,100,12,13),
+(19,'ÊÖ»ú','5b469c52-9020-436d-82d6-e8c3e5425600','',6999.00,'¼ş',1,99,12,13),
+(20,'¶ú»ú','8113d9a7-63f6-406e-856c-63e6761bce22','',1999.00,'¼ş',0,100,12,13),
+(21,'ÄÌ·Û','1caee39a-de00-48c4-af87-ef4e10e346e0','',199.00,'Æ¿',0,100,8,10),
+(22,'ÄÌÆ¿','ea656605-5619-44ee-8963-dc824fbf99c9','',59.00,'¼ş',0,100,8,10),
+(23,'ËÄ´óÃûÖø','8b774730-0925-433a-8405-29452c5ef411','',199.00,'Ì×',0,100,13,14),
+(24,'¿Æ»ÃĞ¡Ëµ','90204675-817b-48c7-8800-9d7f4daf0802','',59.00,'±¾',0,100,13,14),
+(25,'ĞĞÀîÏä','51661c95-d8c3-45d7-8f41-222b7edd3f76','',2999.00,'¼ş',1,99,15,16),
+(26,'°ü','ceb6616a-2a04-497f-9ea5-86acbba7f9cb','',19999.00,'¼ş',0,100,15,16),
+(27,'Æû³µÂÖÌ¥','b1053aeb-b2c9-4024-9bc5-86168cc39f4d','',1999.00,'¸ö',0,100,10,15),
+(28,'Æû³µÁã²¿¼ş','0fb0c73b-d338-44b6-b0f9-1e2e212aa1d9','',199.00,'¸ö',0,100,10,15);
+/*!40000 ALTER TABLE `goods` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notice`
+--
+
 DROP TABLE IF EXISTS `notice`;
-CREATE TABLE `notice`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notice` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'æ ‡é¢˜',
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å†…å®¹',
-  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åˆ›å»ºæ—¶é—´',
-  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'åˆ›å»ºäºº',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '±êÌâ',
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÄÚÈİ',
+  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '´´½¨Ê±¼ä',
+  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '´´½¨ÈË',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'å…¬å‘Šä¿¡æ¯è¡¨' ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='¹«¸æĞÅÏ¢±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of notice
--- ----------------------------
-INSERT INTO `notice` VALUES (4, 'ShoppingMallå¼€ä¸šå¤§å‰', 'ShoppingMallå¼€ä¸šå¤§å‰ï¼Œä»Šå¤©å…¨åœº5æŠ˜ï¼ï¼ï¼', '2024-12-01', 'admin');
-INSERT INTO `notice` VALUES (5, 'ç–¯ç‹‚å‘¨æœ«', 'å‡¡å‘¨æœ«åŒ–å¦†å“ã€é‹\\åŒ…ã€æˆ·å¤–è¿åŠ¨ç­‰ä¸“æ å•†å“8æŠ˜èµ·ï¼ï¼ï¼', '2024-12-01', 'admin');
+--
+-- Dumping data for table `notice`
+--
 
--- ----------------------------
--- Table structure for orders
--- ----------------------------
+LOCK TABLES `notice` WRITE;
+/*!40000 ALTER TABLE `notice` DISABLE KEYS */;
+INSERT INTO `notice` VALUES
+(4,'ShoppingMall¿ªÒµ´ó¼ª','ShoppingMall¿ªÒµ´ó¼ª£¬½ñÌìÈ«³¡5ÕÛ£¡£¡£¡','2024-12-01','admin'),
+(5,'·è¿ñÖÜÄ©','·²ÖÜÄ©»¯×±Æ·¡¢Ğ¬\\°ü¡¢»§ÍâÔË¶¯µÈ×¨À¸ÉÌÆ·8ÕÛÆğ£¡£¡£¡','2024-12-01','admin');
+/*!40000 ALTER TABLE `notice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `orders`
+--
+
 DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è®¢å•ID',
-  `goods_id` int NULL DEFAULT NULL COMMENT 'å•†å“ID',
-  `business_id` int NULL DEFAULT NULL COMMENT 'å•†å®¶ID',
-  `num` int NULL DEFAULT NULL COMMENT 'å•†å“æ•°é‡',
-  `user_id` int NULL DEFAULT NULL COMMENT 'ç”¨æˆ·ID',
-  `price` double(10, 2) NULL DEFAULT NULL COMMENT 'è®¢å•ä»·æ ¼',
-  `address_id` int NULL DEFAULT NULL COMMENT 'åœ°å€ID',
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è®¢å•çŠ¶æ€',
+  `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '¶©µ¥ID',
+  `goods_id` int DEFAULT NULL COMMENT 'ÉÌÆ·ID',
+  `business_id` int DEFAULT NULL COMMENT 'ÉÌ¼ÒID',
+  `num` int DEFAULT NULL COMMENT 'ÉÌÆ·ÊıÁ¿',
+  `user_id` int DEFAULT NULL COMMENT 'ÓÃ»§ID',
+  `price` double(10,2) DEFAULT NULL COMMENT '¶©µ¥¼Û¸ñ',
+  `address_id` int DEFAULT NULL COMMENT 'µØÖ·ID',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '¶©µ¥×´Ì¬',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'è®¢å•ä¿¡æ¯è¡¨' ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='¶©µ¥ĞÅÏ¢±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of orders
--- ----------------------------
-INSERT INTO `orders` VALUES (4, '20241209160453', 8, 9, 3, 2, 15000.00, 5, 'å¾…å‘è´§');
-INSERT INTO `orders` VALUES (9, '20241215203402', 15, 12, 1, 2, 30.00, 5, 'å¾…å‘è´§');
-INSERT INTO `orders` VALUES (10, '20241215203402', 14, 7, 2, 2, 198.00, 5, 'å¾…å‘è´§');
-INSERT INTO `orders` VALUES (11, '20241215203402', 19, 13, 1, 2, 6999.00, 5, 'å¾…å‘è´§');
-INSERT INTO `orders` VALUES (12, '20241215203402', 25, 16, 1, 2, 2999.00, 5, 'å¾…å‘è´§');
+--
+-- Dumping data for table `orders`
+--
 
--- ----------------------------
--- Table structure for user
--- ----------------------------
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES
+(4,'20241209160453',8,9,3,2,15000.00,5,'´ı·¢»õ'),
+(9,'20241215203402',15,12,1,2,30.00,5,'´ı·¢»õ'),
+(10,'20241215203402',14,7,2,2,198.00,5,'´ı·¢»õ'),
+(11,'20241215203402',19,13,1,2,6999.00,5,'´ı·¢»õ'),
+(12,'20241215203402',25,16,1,2,2999.00,5,'´ı·¢»õ');
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `undo_log`
+--
+
+DROP TABLE IF EXISTS `undo_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `undo_log` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `branch_id` bigint NOT NULL,
+  `xid` varchar(100) NOT NULL,
+  `context` varchar(128) NOT NULL,
+  `rollback_info` longblob NOT NULL,
+  `log_status` int NOT NULL,
+  `log_created` datetime NOT NULL,
+  `log_modified` datetime NOT NULL,
+  `ext` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `undo_log`
+--
+
+LOCK TABLES `undo_log` WRITE;
+/*!40000 ALTER TABLE `undo_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `undo_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”¨æˆ·å',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å¯†ç ',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”¨æˆ·æ˜µç§°',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'å¤´åƒ',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'è§’è‰²æ ‡è¯†',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'ç”µè¯',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT 'é‚®ç®±',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÃ»§Ãû',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÃÜÂë',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÃ»§êÇ³Æ',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Í·Ïñ',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '½ÇÉ«±êÊ¶',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'µç»°',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ÓÊÏä',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'ç”¨æˆ·ä¿¡æ¯è¡¨' ROW_FORMAT = DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='ÓÃ»§ĞÅÏ¢±í';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------
--- Records of user
--- ----------------------------
-INSERT INTO `user` VALUES (2, 'mmm', '123', 'mmm', '/files/2024-12-01_19-03-50_å¤´åƒ.jpeg', 'USER', '18888888888', '188@sm.com');
-INSERT INTO `user` VALUES (5, '1', '123', '1', NULL, 'USER', NULL, NULL);
+--
+-- Dumping data for table `user`
+--
 
-SET FOREIGN_KEY_CHECKS = 1;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES
+(2,'mmm','123','mmm','406a07e1-ef53-40d6-9ac2-056a7c3eff1d','USER','18888888888','188@sm.com'),
+(5,'1','123','1',NULL,'USER',NULL,NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-07-17 16:45:35

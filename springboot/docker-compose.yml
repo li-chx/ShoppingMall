@@ -1,79 +1,73 @@
 version: '3.8'
-
 services:
-  # MySQL数据库
-  mysql:
-    image: mysql:8.0
-    container_name: shopping-mall-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: msh20040720
-      MYSQL_DATABASE: shopping_mall
-      MYSQL_USER: shopping
-      MYSQL_PASSWORD: shopping123
+  seata-server:
+    image: seataio/seata-server:1.5.0
+    container_name: seata-server
     ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d
-    command: --default-authentication-plugin=mysql_native_password
-
-  # Nacos服务注册中心
+      - "8091:8091"
+      - "7091:7091"
+  sentinel-dashboard:
+    image: bladex/sentinel-dashboard:latest
+    container_name: sentinel-dashboard
+    ports:
+      - "8858:8858"
+    restart: always
   nacos:
-    image: nacos/nacos-server:v2.2.3
-    container_name: shopping-mall-nacos
+    image: nacos/nacos-server:v2.4.3
+    container_name: nacos
     environment:
       - MODE=standalone
-      - SPRING_DATASOURCE_PLATFORM=mysql
-      - MYSQL_SERVICE_HOST=mysql
-      - MYSQL_SERVICE_PORT=3306
-      - MYSQL_SERVICE_DB_NAME=nacos_config
-      - MYSQL_SERVICE_USER=root
-      - MYSQL_SERVICE_PASSWORD=msh20040720
     ports:
       - "8848:8848"
       - "9848:9848"
-    depends_on:
-      - mysql
-    volumes:
-      - nacos_data:/home/nacos/data
-      - nacos_logs:/home/nacos/logs
-
-  # Sentinel控制台
-  sentinel:
-    image: bladex/sentinel-dashboard:1.8.6
-    container_name: shopping-mall-sentinel
+      - "9849:9849"
+    restart: always
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - "3306:3306"
+    restart: always
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: always
+  gateway-service:
+    build:
+      context: ./base-service/gateway-service
+    container_name: gateway-service
     ports:
       - "8080:8080"
-    environment:
-      - SERVER_PORT=8080
-      - SPRING_PROFILES_ACTIVE=nacos
-      - NACOS_ADDR=nacos:8848
-      - NACOS_NAMESPACE=public
-      - NACOS_GROUP=SENTINEL_GROUP
-    depends_on:
-      - nacos
-
-  # Seata事务协调器 - 暂时注释掉，待需要时恢复
-  # seata:
-  #   image: seataio/seata-server:1.6.1
-  #   container_name: shopping-mall-seata
-  #   environment:
-  #     - SEATA_PORT=8091
-  #     - SEATA_IP=seata
-  #     - SEATA_REGISTRY_TYPE=nacos
-  #     - SEATA_REGISTRY_NACOS_SERVER_ADDR=nacos:8848
-  #     - SEATA_REGISTRY_NACOS_NAMESPACE=public
-  #     - SEATA_REGISTRY_NACOS_GROUP=SEATA_GROUP
-  #     - SEATA_CONFIG_TYPE=nacos
-  #     - SEATA_CONFIG_NACOS_SERVER_ADDR=nacos:8848
-  #     - SEATA_CONFIG_NACOS_NAMESPACE=public
-  #     - SEATA_CONFIG_NACOS_GROUP=SEATA_GROUP
-  #   ports:
-  #     - "8091:8091"
-  #   depends_on:
-  #     - nacos
-
-volumes:
-  mysql_data:
-  nacos_data:
-  nacos_logs: 
+    restart: always
+  business-service:
+    build:
+      context: ./base-service/business-service
+    container_name: business-service
+    ports:
+      - "8000:8000"
+    restart: always
+  goods-service:
+    build:
+      context: ./base-service/goods-service
+    container_name: goods-service
+    ports:
+      - "8010:8010"
+    restart: always
+  order-service:
+    build:
+      context: ./base-service/order-service
+    container_name: order-service
+    ports:
+      - "8020:8020"
+    restart: always
+  user-service:
+    build:
+      context: ./base-service/user-service
+    container_name: user-service
+    ports:
+      - "8030:8030"
+    restart: always
