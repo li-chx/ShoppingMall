@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import {fixUrl} from "@/utils/fixUrl";
+import { fixUrl } from "@/utils/fixUrl";
 
 export default {
   name: "AdminPerson",
@@ -52,6 +52,7 @@ export default {
   },
   async mounted() {
     // this.user.avatar = await fixUrl(this.user.avatar);
+    this.user = JSON.parse(localStorage.getItem('xm-user') || '{}');
     await this.loadUser();
   },
   methods: {

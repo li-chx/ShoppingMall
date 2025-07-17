@@ -1,15 +1,15 @@
 <template>
   <div>
     <el-card style="width: 50%">
-      <el-form ref="formRef" :model="user" :rules="rules" label-width="100px" style="padding-right: 50px">
+      <el-form ref="formRef" :model="editUserData" :rules="rules" label-width="100px" style="padding-right: 50px">
         <el-form-item label="原始密码" prop="password">
-          <el-input show-password v-model="user.password" placeholder="原始密码"></el-input>
+          <el-input show-password v-model="editUserData.password" placeholder="原始密码"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPassword">
-          <el-input show-password v-model="user.newPassword" placeholder="新密码"></el-input>
+          <el-input show-password v-model="editUserData.newPassword" placeholder="新密码"></el-input>
         </el-form-item>
         <el-form-item label="确认新密码" prop="confirmPassword">
-          <el-input show-password v-model="user.confirmPassword" placeholder="确认密码"></el-input>
+          <el-input show-password v-model="editUserData.confirmPassword" placeholder="确认密码"></el-input>
         </el-form-item>
         <div style="text-align: center; margin-bottom: 20px">
           <el-button type="primary" @click="update">确认修改</el-button>
@@ -35,9 +35,20 @@ export default {
 
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      editUserData: {},
       rules: {
         password: [
           { required: true, message: '请输入原始密码', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value == this.user.password) {
+                callback()
+              } else {
+                callback(new Error('原始密码不正确'))
+              }
+            },
+            trigger: 'blur'
+          }
         ],
         newPassword: [
           { required: true, message: '请输入新密码', trigger: 'blur' },
@@ -49,7 +60,7 @@ export default {
     }
   },
   created() {
-
+    this.editUserData = JSON.parse(JSON.stringify(this.user)); // 深拷贝用户数据
   },
   methods: {
     update() {

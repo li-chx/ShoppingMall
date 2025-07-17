@@ -2,7 +2,9 @@
   <div class="product-detail-container">
     <div class="product-header">
       <div class="product-image">
-        <img :src="goodsData.img" alt="" style="width: 100%; height: auto; border-radius: 10px; transition: transform 0.3s ease-in-out;" @mouseover="scaleImage(true)" @mouseout="scaleImage(false)">
+        <img :src="goodsData.img" alt=""
+          style="width: 100%; height: auto; border-radius: 10px; transition: transform 0.3s ease-in-out;"
+          @mouseover="scaleImage(true)" @mouseout="scaleImage(false)">
       </div>
       <div class="product-info">
         <h1 class="product-title">{{ goodsData.name }}</h1>
@@ -11,16 +13,18 @@
           <span class="price-value">¥{{ goodsData.price }}/{{ goodsData.unit }}</span>
           <span class="sales-info"> · 已售 {{ goodsData.count }} · 不足 {{ goodsData.inventory }}</span>
         </p>
-        <p class="product-merchant">商家：<a href="#" @click.prevent="goTo('/front/business?id=' + goodsData.businessId)">{{ goodsData.businessName }}</a></p>
-        <p class="product-category">分类：<a href="#" @click.prevent="goTo('/front/category?id=' + goodsData.categoryId)">{{ goodsData.categoryName }}</a></p>
+        <p class="product-merchant">商家：<a href="#"
+            @click.prevent="goTo('/front/business?id=' + goodsData.businessId)">{{ goodsData.businessName }}</a></p>
+        <p class="product-category">分类：<a href="#"
+            @click.prevent="goTo('/front/category?id=' + goodsData.categoryId)">{{ goodsData.categoryName }}</a></p>
         <div class="product-actions">
           <el-button type="primary" class="custom-button" @click="addCart()">加入购物车</el-button>
-          <el-button type="primary" class="custom-button">收藏</el-button>
+          <!-- <el-button type="primary" class="custom-button">收藏</el-button> -->
         </div>
       </div>
     </div>
     <div class="product-tabs">
-      <el-tabs v-model="activeName" @tab-click="handleClick" >
+      <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="商品详情" name="first" class="custom-tabs">
           <div class="product-description" v-html="goodsData.description"></div>
         </el-tab-pane>
@@ -32,7 +36,7 @@
 <script>
 import Lottie from 'vue-lottie';
 import * as animationData from '../../assets/video/买买买.json';
-import {fixUrl} from "@/utils/fixUrl";
+import { fixUrl } from "@/utils/fixUrl";
 
 export default {
   components: {
@@ -184,7 +188,7 @@ export default {
 
 .custom-tabs .el-tabs__item {
   font-weight: 600;
-  font-size: 30px; 
+  font-size: 30px;
   color: #81d7ce;
   padding: 10px 20px;
 }

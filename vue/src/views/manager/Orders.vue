@@ -2,7 +2,7 @@
   <div>
     <div class="search">
       <el-input placeholder="请输入订单编号" style="width: 200px" v-model="orderId" suffix-icon="el-icon-search"></el-input>
-      <el-button type="info" plain style="margin-left: 10px" @click="load(1)">查询</el-button>
+      <el-button type="info" plain style="margin-left: 10px" @click="load()">查询</el-button>
       <el-button type="warning" plain style="margin-left: 10px" @click="reset">重置</el-button>
     </div>
 

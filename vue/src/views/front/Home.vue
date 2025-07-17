@@ -3,36 +3,27 @@
   <div>
 
 
-    
-    <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 20px;">
-      <div style="color: #81d7ce; font-weight: bold; font-size: 25px;flex:1;font-family:'Nanum Pen Script'">ShoppingMall</div>
-      <div style="display: flex;flex:5.4">
-        <el-autocomplete
-        v-model="searchText"
-        :fetch-suggestions="querySearchAsync"
-        placeholder="请输入心仪的商品"
-        style="width: 100%;"
-        prefix-icon="el-icon-search"
-        @select="handleSelect"
-        @keyup.enter.native="handleSearch"
-        :trigger-on-focus="false"
-        :debounce="300"
-        value-key="value"
-        clearable
-      >
-      <template slot-scope="{ item }">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span>{{ item.value }}</span>
-          <span style="color: #999; font-size: 12px;" v-if="item.price">¥{{ item.price }}/{{ item.unit }}</span>
-        </div>
-      </template>
-      <el-button slot="append"  icon="el-icon-search" @click="handleSearch">搜索</el-button>
 
-      </el-autocomplete>
-      
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 20px;">
+      <div style="color: #81d7ce; font-weight: bold; font-size: 35px;flex:1;font-family:'Nanum Pen Script'">ShoppingMall
+      </div>
+      <div style="display: flex;flex:5.4">
+        <el-autocomplete v-model="searchText" :fetch-suggestions="querySearchAsync" placeholder="请输入心仪的商品"
+          style="width: 100%;" prefix-icon="el-icon-search" @select="handleSelect" @keyup.enter.native="handleSearch"
+          :trigger-on-focus="false" :debounce="300" value-key="value" clearable>
+          <template slot-scope="{ item }">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>{{ item.value }}</span>
+              <span style="color: #999; font-size: 12px;" v-if="item.price">¥{{ item.price }}/{{ item.unit }}</span>
+            </div>
+          </template>
+          <el-button slot="append" icon="el-icon-search" @click="handleSearch" style="color: #4DBEB2;">搜索</el-button>
+
+        </el-autocomplete>
+
       </div>
     </div>
-    
+
 
     <div v-if="!isSearching" style="display: flex; margin: 0 20px">
       <div style="flex: 1.5; background-color: #81d7ce; border-radius: 10px; margin-right: 10px; color: white;">
@@ -76,7 +67,7 @@
         style="flex: 3; height: 490px; background-image: linear-gradient(#a2e0d9 0%, #f7f7f7 100%); margin-left:10px; border-radius: 10px">
         <div style="text-align: center; margin-top: 30px">
           <img :src="user.avatar" alt="" @click="goTo('/front/person')"
-            style="width: 80px; height: 80px; border-radius: 50%">
+            style="width: 80px; height: 80px; border-radius: 50%; cursor: pointer">
           <div style="margin-top:10px; font-size: 16px"><b>你好，{{ user.name }}</b></div>
         </div>
         <div style="margin: 20px 10px;">
@@ -86,20 +77,20 @@
           </div>
         </div>
         <div style="display: flex; margin-top: 30px">
-          <div style="flex: 1; text-align: center">
+          <!-- <div style="flex: 1; text-align: center">
             <img src="../../assets/imgs/shoucang.png" alt="" style="height: 25px; width: 25px">
             <div>我的收藏</div>
-          </div>
+          </div> -->
           <div style="flex: 1; text-align: center" @click="goTo('/front/cart')">
-            <img src="../../assets/imgs/gouwuche.png" alt="" style="height: 25px; width: 25px">
+            <img src="../../assets/imgs/gouwuche.png" alt="" style="height: 25px; width: 25px; cursor:pointer">
             <div>我的购物车</div>
           </div>
           <div style="flex: 1; text-align: center" @click="goTo('/front/orders')">
-            <img src="../../assets/imgs/dingdan.png" alt="" style="height: 25px; width: 25px">
+            <img src="../../assets/imgs/dingdan.png" alt="" style="height: 25px; width: 25px; cursor:pointer">
             <div>我的订单</div>
           </div>
           <div style="flex: 1; text-align: center" @click="goTo('/front/address')">
-            <img src="../../assets/imgs/dizhi.png" alt="" style="height: 25px; width: 25px">
+            <img src="../../assets/imgs/dizhi.png" alt="" style="height: 25px; width: 25px; cursor:pointer">
             <div>我的地址</div>
           </div>
         </div>
@@ -119,23 +110,23 @@
         <el-row>
           <el-col :span="5" v-for="(item, index) in visibleGoods" :key="index" class="product-card">
             <div class="product-image-wrapper">
-              <img :src="item.img" alt="" class="product-image"
-                   @click="goTo('/front/detail?id=' + item.id)">
+              <img :src="item.img" alt="" class="product-image" @click="goTo('/front/detail?id=' + item.id)">
             </div>
             <div class="text-overflow-ellipsis"
-                 style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
+              style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 180px; color: #000000FF;">
               {{ item.name }}
             </div>
             <div style="margin-top: 5px; font-size: 18px; color: #FF5000FF">¥{{ item.price }}/{{ item.unit }}</div>
             <div class="add-cart-bottom">
-              <el-button type="primary" size="mini" icon="el-icon-shopping-cart" @click="addCart(item.id,item.businessId)">加入购物车</el-button>
+              <el-button type="primary" size="mini" icon="el-icon-shopping-cart"
+                @click="addCart(item.id, item.businessId)">加入购物车</el-button>
             </div>
           </el-col>
         </el-row>
 
         <!-- 骨架屏加载效果 -->
         <div v-if="loading" style="display: flex; flex-wrap: wrap; margin-top: 20px;">
-          <div v-for="n in skeletonCount" :key="'skeleton-'+n" style="width: 20%; padding: 10px;">
+          <div v-for="n in skeletonCount" :key="'skeleton-' + n" style="width: 20%; padding: 10px;">
             <el-skeleton :loading="loading" animated>
               <template slot="template">
                 <el-skeleton-item variant="image" style="width: 100%; height: 180px; border-radius: 10px;" />
@@ -314,12 +305,12 @@ export default {
     // 搜索建议查询方法
     querySearchAsync(queryString, cb) {
       console.log('查询字符串:', queryString); // 调试用
-      
+
       if (!queryString) {
         cb([]);
         return;
       }
-      
+
       // 直接调用后端搜索接口获取实时建议
       this.$request.get('/goods/search', {
         params: {
@@ -351,7 +342,7 @@ export default {
         });
         cb(localResults.slice(0, 5));
       });
-      
+
     },
 
     // 选择建议项后的处理
@@ -500,7 +491,7 @@ export default {
     goTo(url) {
       this.$router.push(url)
     },
-    addCart(goodsId,businessId) {
+    addCart(goodsId, businessId) {
       let data = { num: 1, userId: this.user.id, goodsId: goodsId, businessId: businessId }
       this.$request.post('/cart/add', data).then(res => {
         if (res.code === '200') {
@@ -526,13 +517,16 @@ export default {
 .el-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px 0; /* 行间距20px，列间距0 */
+  gap: 20px 0;
+  /* 行间距20px，列间距0 */
 }
+
 .product-card {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.3s;
-  width: calc(20% - 16px); /* 5个一行，减去gap */
+  transition: box-shadow 0.4s cubic-bezier(.4, 0, .2, 1), transform 0.3s;
+  width: calc(20% - 16px);
+  /* 5个一行，减去gap */
   margin-right: 20px;
   margin-bottom: 20px;
   background: #fff;
@@ -540,16 +534,19 @@ export default {
   overflow: visible;
   box-sizing: border-box;
 }
+
 .el-row .product-card:nth-child(5n) {
   margin-right: 0;
 }
+
 .product-card:hover {
   box-shadow:
-    0 2px 8px rgba(0,0,0,0.08),
-    0 16px 48px 0 rgba(129,215,206,0.18),
-    0 32px 64px 0 rgba(0,0,0,0.22);
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 16px 48px 0 rgba(129, 215, 206, 0.18),
+    0 32px 64px 0 rgba(0, 0, 0, 0.22);
   transform: translateY(-5px);
 }
+
 .product-card::after {
   content: '';
   display: block;
@@ -562,12 +559,14 @@ export default {
   opacity: 0;
   transition: opacity 0.3s;
   border-radius: 0 0 10px 10px;
-  background: linear-gradient(to bottom, rgba(129,215,206,0) 0%, rgba(0,0,0,0.18) 100%);
+  background: linear-gradient(to bottom, rgba(129, 215, 206, 0) 0%, rgba(0, 0, 0, 0.18) 100%);
   z-index: 1;
 }
+
 .product-card:hover::after {
   opacity: 1;
 }
+
 .add-cart-bottom {
   display: flex;
   justify-content: center;
@@ -579,11 +578,13 @@ export default {
   z-index: 2;
   position: relative;
 }
+
 .product-card:hover .add-cart-bottom {
   opacity: 1;
   transform: translateY(0);
 }
-.add-cart-bottom >>> .el-button {
+
+.add-cart-bottom>>>.el-button {
   background-color: #81d7ce !important;
   border: none !important;
   color: #fff !important;
@@ -593,13 +594,15 @@ export default {
   padding: 8px 28px;
   transition: background 0.2s;
 }
-.add-cart-bottom >>> .el-button:hover {
+
+.add-cart-bottom>>>.el-button:hover {
   background-color: #68c7bd !important;
   color: #fff !important;
 }
 
 .product-image-wrapper {
-  overflow: hidden; /* 隐藏溢出的图片 */
+  overflow: hidden;
+  /* 隐藏溢出的图片 */
   border-radius: 10px;
   position: relative;
 }
@@ -608,11 +611,13 @@ export default {
   width: 100%;
   height: 180px;
   border-radius: 10px;
-  transition: transform 0.3s ease; /* 添加过渡效果 */
+  transition: transform 0.3s ease;
+  /* 添加过渡效果 */
 }
 
 .product-image:hover {
-  transform: scale(1.1); /* 悬停时放大图片 */
+  transform: scale(1.1);
+  /* 悬停时放大图片 */
 }
 
 .add-cart-button {
@@ -671,7 +676,8 @@ a:hover {
 
 .search-btn {
   border-radius: 0 25px 25px 0;
-  background-color: #81d7ce; /* 品牌一致的青色 */
+  background-color: #81d7ce;
+  /* 品牌一致的青色 */
   color: white;
   border: none;
   transition: all 0.3s ease;
@@ -700,5 +706,6 @@ a:hover {
   background-color: #e6f7f5;
   color: #333;
 }
+
 /* 自动完成建议框样式 */
 </style>
