@@ -1,41 +1,5 @@
 version: '3.8'
 services:
-  seata-server:
-    image: seataio/seata-server:1.5.0
-    container_name: seata-server
-    ports:
-      - "8091:8091"
-      - "7091:7091"
-  sentinel-dashboard:
-    image: bladex/sentinel-dashboard:latest
-    container_name: sentinel-dashboard
-    ports:
-      - "8858:8858"
-    restart: always
-  nacos:
-    image: nacos/nacos-server:v2.4.3
-    container_name: nacos
-    environment:
-      - MODE=standalone
-    ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9849:9849"
-    restart: always
-  mysql:
-    image: mysql:latest
-    container_name: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=123456
-    ports:
-      - "3306:3306"
-    restart: always
-  redis:
-    image: redis:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
-    restart: always
   gateway-service:
     build:
       context: ./base-service/gateway-service
@@ -71,3 +35,4 @@ services:
     ports:
       - "8030:8030"
     restart: always
+
