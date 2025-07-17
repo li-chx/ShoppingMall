@@ -157,7 +157,6 @@ export default {
           delete submitForm.confirmPassword  // 删除确认密码字段
           if(submitForm.role === undefined)
             submitForm.role = 'ADMIN';  // 如果没有设置角色，默认设置为管理员角色
-          console.log(submitForm);
           this.$request({
             url: this.form.id ? '/admin/update' : '/admin/add',
             method: this.form.id ? 'PUT' : 'POST',

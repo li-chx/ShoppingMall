@@ -98,7 +98,6 @@ export default {
   methods: {
     getCode() {
       this.$refs['formRef'].validateField('email', (valid) => {
-        console.log(this.form.email)
         if (valid === undefined || valid.length === 0) {
           // 验证通过
           this.$request.get('/sendCode/PASSWORD_RESET', {params: {email: this.form.email}}).then(res => {
@@ -129,7 +128,6 @@ export default {
       this.$refs['formRef'].validate((valid) => {
         if (valid) {
           // 验证通过
-          console.log(this.form);
           this.$request.get('/resetPassword', {
             params: {
               username: this.form.username,

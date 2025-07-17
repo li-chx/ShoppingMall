@@ -55,7 +55,6 @@ export default {
     update() {
       this.$refs.formRef.validate((valid) => {
         if (valid) {
-          console.log("test");
           const url = this.user.role === 'ADMIN' ? '/admin/updatePassword' : '/business/updatePassword';
           this.$request.get(url, {
             params: {

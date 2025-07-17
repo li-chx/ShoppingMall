@@ -66,7 +66,6 @@ export default {
           localStorage.setItem('xm-user', JSON.stringify(this.user))
 
           // 触发父级的数据更新
-          console.log("test update user")
           this.$bus.$emit('updateUser')
         } else {
           this.$message.error(res.msg)
@@ -78,9 +77,7 @@ export default {
       this.$request.get(url + JSON.parse(localStorage.getItem('xm-user') || '{}').id).then(async res => {
         if (res.code === '200') {
           this.user = res.data;
-          console.log(res)
           this.imgUrl = await fixUrl(this.user.avatar);
-          console.log(this.imgUrl)
           this.editUserData = Object.assign({}, this.user);
         } else {
           this.$message.error(res.msg)

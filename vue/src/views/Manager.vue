@@ -99,9 +99,7 @@ export default {
   methods: {
     async updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
-      console.log("test")
       this.imgUrl = await fixUrl(this.user.avatar);
-      console.log(this.imgUrl)
     },
     goToPerson() {
       this.$router.push('/person')

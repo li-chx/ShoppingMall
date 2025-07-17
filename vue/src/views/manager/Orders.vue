@@ -125,10 +125,6 @@ export default {
       })
     },
     load() {  // 分页查询
-      console.log(this.user.id);
-      console.log(this.user.role === 'BUSINESS' ? this.user.id : null);
-
-
       this.$request.get('/orders/selectPage', {
         params: {
           pageNum: this.pageNum,

@@ -54,7 +54,6 @@ export default {
   methods: {
     loadGoods() {
       this.$request.get('/goods/selectById/' + this.goodsId).then(async res => {
-        console.log(res);
         if (res.code === '200') {
           res.data.img = await fixUrl(res.data.img);
           this.goodsData = res.data

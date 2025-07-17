@@ -19,7 +19,7 @@
           </div>
         </el-form-item>
         <el-form-item prop="identifyingCode">
-          <el-input placeholder="请输入验证码" show-password  v-model="form.identifyingCode"></el-input>
+          <el-input placeholder="请输入验证码" v-model="form.identifyingCode"></el-input>
         </el-form-item>
         <el-form-item prop="role">
           <el-select v-model="form.role" placeholder="请选择角色" style="width: 100%">
@@ -90,8 +90,6 @@ export default {
   methods: {
     getCode() {
       this.$refs['formRef'].validateField('email', (valid) => {
-        console.log(this.form.email);
-        console.log(valid);
         if (valid === undefined || valid.length === 0) {
           // 验证通过
           this.$request.get('/sendCode/REGISTER', { params: { email: this.form.email } }).then(res => {
@@ -123,8 +121,6 @@ export default {
         if (valid) {
           // 验证通过
           this.$request.post('/register', this.form, {params: {email: this.form.email, identifyingCode: this.form.identifyingCode}}).then(res => {
-            console.log(res);
-            
             if (res.code === '200') {
               this.$router.push('/login')  // 跳转登录页面
               this.$message.success('注册成功')

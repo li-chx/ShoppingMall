@@ -128,8 +128,6 @@ export default {
       this.dialogVisible = true
     },
     save() {
-      console.log(this.editUserDataRef);
-
       this.$refs.editUserDataRef.validate((valid) => {
         if (valid) {
           this.$request.get('/user/updatePassword', {

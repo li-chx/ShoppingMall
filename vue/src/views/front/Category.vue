@@ -90,7 +90,6 @@ export default {
             x.img = url;
             return x;
           });
-          console.log(this.goodsData);
         } else {
           this.$message.error(res.msg)
         }

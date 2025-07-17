@@ -63,8 +63,6 @@ export default {
           this.$request.post('/login', this.form).then(res => {
             if (res.code === '200') {
               let user = res.data
-              console.log(user);
-              
               localStorage.setItem("xm-user", JSON.stringify(user))  // 存储用户数据
               // 判断
               if(user.role === 'USER') {

@@ -220,7 +220,6 @@ export default {
     async loadCategoryAndBusiness(id) {
       this.$request.get('/category/selectAll').then(res => {
         if (res.code === '200') {
-          console.log(res.data);
           this.categoryData = res.data
         } else {
           this.$message.error(res.msg)
@@ -229,7 +228,6 @@ export default {
 
       this.$request.get('/business/selectById/' + id).then(res => {
         if (res.code === '200') {
-          console.log(res.data);
           this.businessData = res.data
         } else {
           this.$message.error(res.msg)
@@ -246,8 +244,6 @@ export default {
     // },
     async save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       if (this.user.role === 'ADMIN' && this.businessStatus !== '审核通过') {
-        console.log(this.businessStatus);
-
         this.$message.warning("该店铺信息尚未审核通过，请先审核通过后再增加商品")
         return
       }

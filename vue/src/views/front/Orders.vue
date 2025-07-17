@@ -101,7 +101,6 @@ export default {
       }).then(async res => {
         if (res.code === '200') {
           this.ordersData = await fixUrlList(res.data.list, x => x.goodsImg, (x, url) => {
-            console.log(x);
             x.goodsImg = url;
             return x;
           });

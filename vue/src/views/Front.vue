@@ -120,7 +120,6 @@ export default {
     },
     async updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
-      console.log("update imgUrl")
       this.imgUrl = await fixUrl(this.user.avatar);
     },
     // 退出登录
