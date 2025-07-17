@@ -9,12 +9,12 @@ spring:
   cloud:
     nacos:
       discovery:
-        ip: 127.0.0.1
-        server-addr: 127.0.0.1:8848
+        ip: ${SERVICE_IP:localhost}
+        server-addr: ${NACOS_HOST:localhost}:8848
         namespace: public
         group: DEFAULT_GROUP
       config:
-        server-addr: 127.0.0.1:8848
+        server-addr: ${NACOS_HOST:localhost}:8848
         namespace: public
         group: DEFAULT_GROUP
         file-extension: yml
@@ -118,12 +118,12 @@ spring:
 #当触发限流时，会返回429状态码和指定的错误信息
     sentinel:
       transport:
-        dashboard: 127.0.0.1:8858
+        dashboard: ${SENTINEL_HOST:localhost}:8858
         port: 8718
       datasource:
         ds:
           nacos:  # 从Nacos加载限流规则
-            server-addr: 127.0.0.1:8848
+            server-addr: ${NACOS_HOST:localhost}:8848
             dataId: gateway-sentinel-rules
             groupId: DEFAULT_GROUP
             rule-type: gw-flow    # 网关流控规则类型

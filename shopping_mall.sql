@@ -1,14 +1,13 @@
-/*M!999999\- enable the sandbox mode */ 
--- MariaDB dump 10.19  Distrib 10.11.13-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: shopping_mall
+-- Host: localhost    Database: shopping_mall
 -- ------------------------------------------------------
--- Server version	9.3.0
+-- Server version	8.0.31
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -20,7 +19,7 @@
 -- Current Database: `shopping_mall`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `shopping_mall` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `shopping_mall` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `shopping_mall`;
 
@@ -30,15 +29,15 @@ USE `shopping_mall`;
 
 DROP TABLE IF EXISTS `address`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` int DEFAULT NULL COMMENT '�û�ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�ջ���',
-  `useraddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�ջ���ַ',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��ϵ�绰',
+  `user_id` int DEFAULT NULL COMMENT '用户ID',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收货人',
+  `useraddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '收货地址',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '联系电话',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='��ַ��Ϣ��';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='地址信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,8 +46,7 @@ CREATE TABLE `address` (
 
 LOCK TABLES `address` WRITE;
 /*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES
-(5,2,'mmm','�人������ѧ','18888888888');
+INSERT INTO `address` VALUES (5,2,'mmm','武汉理工大学','18888888888');
 /*!40000 ALTER TABLE `address` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,18 +56,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�û���',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ͷ��',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��ɫ��ʶ',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�绰',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '姓名',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色标识',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '电话',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='����Ա';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='管理员';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,8 +76,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES
-(1,'admin','admin','����Ա','c44f7797-147e-43f7-a2ef-bcd54caa1bf1','ADMIN','13677889922','admin@sm.com');
+INSERT INTO `admin` VALUES (1,'admin','admin','管理员','c44f7797-147e-43f7-a2ef-bcd54caa1bf1','ADMIN','13677889922','admin@sm.com');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,20 +86,20 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `business`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `business` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�û���',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '������',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ͷ��',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��ɫ��ʶ',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�绰',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '���̽���',
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�������״̬',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '店铺名',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色标识',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '电话',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '店铺介绍',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '店铺审核状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='������Ϣ��';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='店铺信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,16 +108,7 @@ CREATE TABLE `business` (
 
 LOCK TABLES `business` WRITE;
 /*!40000 ALTER TABLE `business` DISABLE KEYS */;
-INSERT INTO `business` VALUES
-(7,'��ױƷ','123','ShoppingMall��ױƷ�ٷ��콢��','a57351ad-1d0c-4935-b848-340eade3bc5b','BUSINESS','18888888888','188@sm.com','ShoppingMall��ױƷ��100��רע��ױ����ѧ��������ֵ��ӵ��','���ͨ��'),
-(8,'�����˶�','123','ShoppingMall�����˶��ٷ��콢��','58db155f-1dca-44d1-9e71-959b36954355','BUSINESS','18888888888','188@sm.com','ShoppingMall�����˶���100��רע�����˶�����ֵ��ӵ��','���ͨ��'),
-(9,'���õ���','123','ShoppingMall���õ����ٷ��콢��','12477161-c3f3-4460-a9ac-642e7f8a4ec1','BUSINESS','18888888888','188@sm.com','ShoppingMall���õ�����100��רע���õ�������ֵ��ӵ��','���ͨ��'),
-(10,'ĸӤ��Ʒ','123','ShoppingMallĸӤ��Ʒ�ٷ��콢��','75973325-481d-4358-85ef-dd56a7a083fd','BUSINESS','18888888888','188@sm.com','ShoppingMallĸӤ��Ʒ��100��רעĸӤ��Ʒ����ֵ��ӵ��','���ͨ��'),
-(12,'ˮ��','123','ShoppingMall���߹ٷ��콢��','60e11569-f1b0-4d21-b61d-2ebd9ef9ee85','BUSINESS','18888888888','188@sm.com','ShoppingMall���ߣ�100��רע���ߣ���ֵ��ӵ��','���ͨ��'),
-(13,'����','123','ShoppingMall����ٷ��콢��','66959ead-4049-4e37-b59a-003457611a56','BUSINESS','18888888888','188@sm.com','ShoppingMall���룬100��רע���룬��ֵ��ӵ��','���ͨ��'),
-(14,'ͼ��','123','ShoppingMallͼ��ٷ��콢��','c32b6f34-c9d3-4d9c-b277-1e682cea88bd','BUSINESS','18888888888','188@sm.com','ShoppingMallͼ�飬100��רעͼ�飬��ֵ��ӵ��','���ͨ��'),
-(15,'�������','123','ShoppingMall��������ٷ��콢��','eda0d65b-a2ae-4d48-b46c-359bdc481a22','BUSINESS','18888888888','188@sm.com','ShoppingMall���������100��רע�����������ֵ��ӵ��','���ͨ��'),
-(16,'���','123','ShoppingMall����ٷ��콢��','6a1a56d3-188a-4d5b-902f-01f9e4157efc','BUSINESS','18888888888','188@sm.com','ShoppingMall�����100��רע�������ֵ��ӵ��','���ͨ��');
+INSERT INTO `business` VALUES (7,'化妆品','123','ShoppingMall化妆品官方旗舰店','a57351ad-1d0c-4935-b848-340eade3bc5b','BUSINESS','18888888888','188@sm.com','汇聚全球顶奢美妆（香奈儿高定香氛、莱珀妮反重力精华），每款产品经瑞士实验室分子级调试。首创「1v1 肤质解码」服务：AI 扫描肌底，联合皮肤科博士定制「早 C 晚 A + 抗糖」配方，搭配私人美容顾问全年驻点，让「上妆即奢护」成为日常仪式。','审核通过'),(8,'户外运动','123','ShoppingMall户外运动官方旗舰店','58db155f-1dca-44d1-9e71-959b36954355','BUSINESS','18888888888','188@sm.com','严选北欧军工级装备（挪威 Helly Hansen 极地冲锋衣、美国 Black Diamond 攀岩斧），经珠峰科考队极限测试。为玩家定制「场景化装备库」：撒哈拉穿越的「沙暴防御系统」（防风沙 + 储水模块）、珠峰攀登的「-40℃抗寒套组」，用专业守护探险家的「无畏野心」。','审核通过'),(9,'家用电器','123','ShoppingMall家用电器官方旗舰店','12477161-c3f3-4460-a9ac-642e7f8a4ec1','BUSINESS','18888888888','188@sm.com','融合德系精工 + 未来科技（博世嵌入式厨电、三星画壁艺术电视），搭载「** 分子级控温」「隐形智能」** 黑科技。提供「家居美学定制」：为别墅设计「星空顶影音舱」（声光电同步调控），给私厨打造「全隐藏式厨电矩阵」，让家电成为「空间艺术的一部分」。','审核通过'),(10,'母婴用品','123','ShoppingMall母婴用品官方旗舰店','75973325-481d-4358-85ef-dd56a7a083fd','BUSINESS','18888888888','188@sm.com','严守欧盟 0 风险认证（婴儿床用北欧百年原木 + 抗菌涂层，睡袋植入「医学级控温纤维」）。联合三甲儿科专家推出「成长护航计划」：按月龄定制「辅食消毒 - 睡眠监测」方案，24 小时母婴护理师在线，更提供「早产宝宝特护包」（模拟母体环境），筑造「无菌奢护结界」。','审核通过'),(12,'水果','123','ShoppingMall果蔬官方旗舰店','60e11569-f1b0-4d21-b61d-2ebd9ef9ee85','BUSINESS','18888888888','188@sm.com','直采全球珍稀果品（日本冈山晴王葡萄「皇室专供级」、智利金凤凰车厘子「钻石果径」），全程航空级冷链锁鲜（糖度误差≤0.5°）。首创「私宴级果品定制」：按米其林主厨菜单搭配「当季限定果盘」（如松露蜜瓜 + 鱼子酱草莓），为高端宴请雕琢「味蕾的奢华前序」。','审核通过'),(13,'数码','123','ShoppingMall数码官方旗舰店','66959ead-4049-4e37-b59a-003457611a56','BUSINESS','18888888888','188@sm.com','同步全球旗舰数码首发（华为折叠屏「航天级铰链」、哈苏联名相机「定制感光元件」）。专属「极客管家」服务：上门调试「家庭智能中枢」（联动灯光 + 影音），为摄影师校准「哈苏色彩参数」，更可定制「鎏金版数码礼盒」（限量编号 + 大师签名），定义科技玩家的「身份图腾」。','审核通过'),(14,'图书','123','ShoppingMall图书官方旗舰店','c32b6f34-c9d3-4d9c-b277-1e682cea88bd','BUSINESS','18888888888','188@sm.com','网罗珍稀典籍孤本（首版《追忆似水年华》「巴黎工坊装帧」、张大千题跋古籍），全系列采用意大利小牛皮封面 + 24K 金箔书口。为藏书家打造「私人文化档案库」：恒温恒湿仓储（复刻梵蒂冈图书馆标准）、古籍修复师上门，让每本藏书成为「可传承的文化资产」。','审核通过'),(15,'汽车配件','123','ShoppingMall汽车配件官方旗舰店','eda0d65b-a2ae-4d48-b46c-359bdc481a22','BUSINESS','18888888888','188@sm.com','原厂同源工艺，超跑轮毂用 F1 锻造铝，豪车内饰选爱马仕同源皮料。提供「定制化驾乘升级」：为劳斯莱斯设计「星空顶呼吸灯」（随车速变光），给保时捷定制「碳纤维包围」（风洞级优化），更有「豪车基因检测」（匹配原厂数据），让改装成为「身份与性能的双重延伸」。','审核通过'),(16,'箱包','123','ShoppingMall箱包官方旗舰店','6a1a56d3-188a-4d5b-902f-01f9e4157efc','BUSINESS','18888888888','188@sm.com','甄选意大利托斯卡纳植鞣革（百年工坊直供），搭配航天级钛合金五金，大师设计兼顾「商务隐奢」与「旅行抗压」。每只箱包附赠「私人物品管家」：全球行李追踪（卫星级定位）、高端皮具养护上门，更可定制「家族徽章压印」，让出行成为「低调的身份宣示」。','审核通过'),(17,'珠宝饰品','123','ShoppingMall珠宝饰品官方旗舰店','53912f16-8e32-450b-927c-4b8d49e13de5','BUSINESS','18888888888','188@sm.com','典藏GIA 彩钻 TOP1%、缅甸皇家蓝翡翠（拍卖行级），联合梵克雅宝设计师推出「高定系列」，非遗錾刻复刻「宫廷纹样」。每件配「区块链传承证书」（存证设计手稿 + 大师签名），更提供「传世翻新」（保留原始工艺），让珠宝成为「跨越世代的家族符号」。','审核通过'),(18,'医疗保健','123','ShoppingMall医疗保健官方旗舰店','24908307-889d-4111-87a4-b54e1f5d2f2a','BUSINESS','18888888888','188@sm.com','引入瑞士抗衰黑科技（细胞级焕活仪器）、日本精准理疗舱，联合三甲专家定制「金字塔尖健康方案」：为企业家设计「高压续航」私护（筋膜枪 + 营养针剂），给名媛打造「逆龄管理」（基因抗衰 + 医美定制）。更对接「全球医疗资源」（瑞士抗衰诊所、日本精密体检），重构高端健康的「守护边界」。','审核通过');
 /*!40000 ALTER TABLE `business` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -130,15 +118,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `cart`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `user_id` int DEFAULT NULL COMMENT '�û�ID',
-  `goods_id` int DEFAULT NULL COMMENT '��ƷID',
-  `business_id` int DEFAULT NULL COMMENT '����ID',
-  `num` int DEFAULT NULL COMMENT '����',
+  `user_id` int DEFAULT NULL COMMENT '用户ID',
+  `goods_id` int DEFAULT NULL COMMENT '商品ID',
+  `business_id` int DEFAULT NULL COMMENT '店铺ID',
+  `num` int DEFAULT NULL COMMENT '数量',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='���ﳵ��';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='购物车表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,12 +135,7 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES
-(13,2,20,13,1),
-(16,2,16,12,1),
-(17,2,11,7,1),
-(18,2,14,7,7),
-(19,2,15,12,1);
+INSERT INTO `cart` VALUES (16,2,16,12,1),(17,2,11,7,1),(18,2,14,7,8),(19,2,15,12,1),(20,2,33,9,1),(21,2,32,8,1),(22,2,49,13,1);
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,14 +145,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��������',
-  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '��������',
-  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����ͼ��',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分类名称',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '分类描述',
+  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '分类图标',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='��Ʒ�����';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='商品分类表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,20 +161,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES
-(3,'Ůװ����','����Ůװ����ר��','2a8c4f58-c00d-49d3-afe1-3e9c2f4b0e21'),
-(4,'���õ���','���Ǽ��õ���ר��','e4a889f7-270d-4279-ad72-1308de5d810c'),
-(5,'��ױƷ','���ǻ�ױƷר��','a7217d29-45bd-48c3-8109-7aacb4dff009'),
-(6,'�����˹�','���ǻ����˶�ר��','b5609bb2-08af-4470-bcd8-ff5c8d0d5d6b'),
-(7,'�ҷļ���','���Ǽҷļ���ר��','7e293f8e-1a86-4e30-a20b-0bf426d98e48'),
-(8,'ĸӤ��Ʒ','����ĸӤ��Ʒר��','41f277e2-0aea-4759-97a8-6b6a3bf77079'),
-(10,'�������','�����������ר��','58aa7478-787a-4e91-ad06-441a17599c02'),
-(12,'�����ֻ�','���������ֻ�ר��','ba207fb6-a7d4-4f02-9637-d6a8fac2376c'),
-(13,'ͼ������','����ͼ��Ӱ��ר��','c71dde84-72e6-46cd-8125-f493db6285c7'),
-(15,'Ь\\���','����Ь\\���ר��','ba1461c5-ddad-4654-9db3-5ad27d755bef'),
-(16,'ҽҩ����','����ҽҩ����ר��','19c5cd1b-af3f-4be3-adc2-64b9894a40d5'),
-(17,'�鱦��Ʒ','�����鱦��Ʒר��','e9737173-b94f-4bc2-9cbd-482e7b46b899'),
-(18,'ˮ��','����ˮ��ר��','2d22c678-dcd3-42d6-b67b-8f7d1721637d');
+INSERT INTO `category` VALUES (3,'女装内衣','女装内衣专栏 👙✨\n这里是身体的高定艺术馆🎨！法国尚蒂伊蕾丝如晨雾轻覆🌫️，意大利真丝缎面似流金裹身✨。每件内衣由巴黎匠人手工裁剪✂️，融合「3D 立体工学」与「高定刺绣美学」—— 无钢圈设计藏起束缚，记忆软托随姿承托🌙。更有私人体态定制：三维扫描乳型，匹配专属杯型与承托力，让内衣成为「身体的第二层肌肤」，在隐秘处书写奢护诗意💌。','2a8c4f58-c00d-49d3-afe1-3e9c2f4b0e21'),(4,'家用电器','家用电器专栏 📺🤖\n科技隐于优雅的生活哲学馆🌿！德系精工碰撞未来黑科技：博世厨电以「分子级控温」重构烹饪烟火🍳，三星画壁电视化作「移动艺术画框」🖼️。搭载「隐形智能」系统，语音唤醒时，灯光与香氛同步响应🎵；故障前，AI 已预判报修🔍。更推家居美学定制：为别墅设计「星空顶影音舱」，让科技隐于优雅，重构奢宅的「智能基因」🧬。','e4a889f7-270d-4279-ad72-1308de5d810c'),(5,'化妆品','化妆品专栏 💄🧪\n解码成分宇宙的极境实验室🔬！莱珀妮「反重力」精华的冰川能量❄️，香奈儿高定香氛的花萃奥秘🌸，皆经「量子渗透」直送肌底，「缓释微囊」包裹视黄醇温和抗老🌿。设1v1 肤质解码服务：AI 扫描肌底，联合皮肤科博士定制「早 C 晚 A + 抗糖」配方，搭配私人美容顾问全年驻点，让「上妆即奢护」成为日常修行🧘♀️。','a7217d29-45bd-48c3-8109-7aacb4dff009'),(6,'户外运功','户外运动专栏 ⛷️🏔️\n极限人生的专业装备军火库🔫！严选北欧军工级装备：Helly Hansen 抗 - 40℃冲锋衣抵御极寒❄️，Black Diamond 攀岩斧经珠峰验证⛰️。为玩家定制「场景化装备库」—— 撒哈拉「沙暴防御系统」（防风沙 + 储水模块）🌪️，雨林「防虫透气套组」（纳米驱蚊 + 速干面料）🌿。附赠《国家地理探险家手册》，用专业守护无畏野心🌍。','b5609bb2-08af-4470-bcd8-ff5c8d0d5d6b'),(7,'家纺家饰','家纺家饰专栏 🛏️🌙\n睡眠的五感沉浸圣殿🛋️！铺陈埃及长绒棉（纤维≥38mm）如云朵覆身☁️，苏绣真丝床品藏星轨纹路✨。意大利大师操刀「隐奢美学」：床幔垂坠如哥特穹顶，刺绣暗藏月光流动🌕。更提供睡眠系统定制：调配床垫软硬度，搭配香氛助眠（薰衣草 + 雪松复方），让卧室成为「呼吸都温柔」的休憩秘境💤。','7e293f8e-1a86-4e30-a20b-0bf426d98e48'),(8,'母婴用品','母婴用品专栏 👶⚕️\n生命之初的无菌守护结界🛡️！严守欧盟「0 风险」认证：婴儿床用北欧抗菌原木（抑菌率 99.9%）🌳，睡袋植入「医学级控温纤维」（温差≤0.5℃）❄️。联合三甲儿科专家推成长护航计划：按月龄定制「辅食消毒 - 睡眠监测」方案，24 小时母婴护理师在线📞，为早产宝宝备「羊水模拟包」（仿生环境 + 抚触音乐）🎵，用医学守护柔软。','41f277e2-0aea-4759-97a8-6b6a3bf77079'),(10,'汽车配件',' 汽车配件专栏 🏎️✨\n豪车的隐形身份锻造厂🏭！原厂同源工艺：超跑轮毂用 F1 锻造铝（强度超 3 倍）🏎️，内饰选爱马仕皮料（12 道鞣制）👜。定制「驾乘升级」：劳斯莱斯「星空顶呼吸灯」（随车速变光）🌌，保时捷「碳纤维包围」（风洞优化）🏁。更有豪车基因检测（匹配原厂数据），让改装成为性能与格调的双生延伸🚀。','58aa7478-787a-4e91-ad06-441a17599c02'),(12,'数码手机','数码手机专栏 📱🚀\n掌心的科技勋章馆🏅！同步华为折叠屏「航天铰链」（20 万次弯折无损）📱，哈苏联名相机「定制感光」（1 亿像素 + 徕卡色彩）📸。专属极客管家服务：上门调试「家庭智能中枢」（联动灯光 + 影音）🏠，校准哈苏色彩参数🎨。可定制「鎏金典藏版」（限量编号 + 大师签名），让数码装备成为握在掌心的未来图腾🔮。','ba207fb6-a7d4-4f02-9637-d6a8fac2376c'),(13,'图书音像','图书音像专栏 📚🏛️\n文明传承的私人 Vault🔒！网罗首版《追忆似水年华》（小牛皮封面 + 烫金书口）📖，张大千题跋古籍（水墨防伪 + 非遗装帧）🖼️。全系列采用「意大利小牛皮 + 24K 金箔」，搭配「梵蒂冈级恒温仓储」（湿度≤40%）🌡️。提供古籍修复师上门（修补虫蛀、还原墨色），让藏书成为可触摸的文明切片，在翻阅中对话时光⏳。','c71dde84-72e6-46cd-8125-f493db6285c7'),(15,'鞋\\箱包','鞋箱包专栏 👜✈️\n行走的高定符号库💼！甄选托斯卡纳植鞣革（百年工坊直供）👞，搭配航天级钛合金五金🔩。大师设计兼顾「商务隐奢」与「旅行抗压」：公文包内置「电脑悬浮层」（抗震 9 级）💻，旅行箱配「磁悬浮轮」（静音 + 顺滑）🛫。附赠私人物品管家：全球行李追踪（卫星定位）🌍，高端皮具养护上门，更可定制家族徽章，让出行成为身份宣示🌟。','ba1461c5-ddad-4654-9db3-5ad27d755bef'),(16,'医药保健','医药保健专栏 🏥💉\n金字塔尖的健康结界🛡️！引入瑞士抗衰黑科技（细胞焕活仪，逆龄 10%）🧬，日本精准理疗舱（压力误差≤0.1Pa）💆。联合三甲专家定制私护方案：企业家「高压续航」套餐（筋膜枪 + 营养针剂）💪，名媛「逆龄管理」体系（基因抗衰 + 医美定制）✨。对接全球医疗资源（瑞士抗衰诊所、日本精密体检）🌐，让健康管理成为超越时间的特权。','19c5cd1b-af3f-4be3-adc2-64b9894a40d5'),(17,'珠宝饰品',' 珠宝饰品专栏 💎👑\n时光淬炼的传世孤品阁🏺！典藏 GIA 彩钻 TOP1%（D 色 / IF 净度）💎，缅甸皇家蓝翡翠（拍卖行级）💙。梵克雅宝设计师操刀，非遗錾刻复刻宫廷纹（龙鳞、云纹）🐉。每件配区块链传承证书（存证设计手稿 + 大师签名）📜，提供「传世翻新」（保留原始纹理），让珠宝成为跨越世代的家族符号，在流转中续写传奇📜。','e9737173-b94f-4bc2-9cbd-482e7b46b899'),(18,'水果','水果专栏 🍒🍇\n味蕾的环球私宴厅🍽️！直采日本晴王（糖度≥18°，皇室专供级）🍇，智利金凤凰车厘子（直径≥32mm，钻石果径）🍒。全程「航空冷链锁鲜」（糖度误差≤0.5°）❄️，定制「米其林果盘」（松露蜜瓜 + 鱼子酱草莓，搭配勃艮第红酒）🥂。为高端宴请雕琢「味蕾的奢华前序」，每一口都是天地精华的凝练🌍。','2d22c678-dcd3-42d6-b67b-8f7d1721637d');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,20 +171,20 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `goods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `goods` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��Ʒ����',
-  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��Ʒ��ͼ',
-  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '��Ʒ����',
-  `price` double(10,2) DEFAULT NULL COMMENT '��Ʒ�۸�',
-  `unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�Ƽ���λ',
-  `count` int DEFAULT '0' COMMENT '��Ʒ����',
-  `inventory` int DEFAULT '100' COMMENT '��Ʒ���',
-  `category_id` int DEFAULT NULL COMMENT '����ID',
-  `business_id` int DEFAULT NULL COMMENT '����ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品名称',
+  `img` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '商品主图',
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '商品介绍',
+  `price` double(10,2) DEFAULT NULL COMMENT '商品价格',
+  `unit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '计件单位',
+  `count` int DEFAULT '0' COMMENT '商品销量',
+  `inventory` int DEFAULT '100' COMMENT '商品库存',
+  `category_id` int DEFAULT NULL COMMENT '分类ID',
+  `business_id` int DEFAULT NULL COMMENT '店铺ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='��Ʒ��Ϣ��';
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='商品信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,25 +193,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
-INSERT INTO `goods` VALUES
-(8,'����','adfb20ae-7b12-4d65-bac3-65d3884d61b7','<p>�����������õ�</p>',5000.00,'��',102,2,4,9),
-(11,'��˪','64f03bb0-2776-43e6-8c7b-6e42a6130af6','<p>��õ�</p>',100.00,'��',6,94,5,7),
-(13,'����Ʒ��װ','8819170c-174c-4cff-9842-707143ac12b2','',500.00,'��',0,100,5,7),
-(14,'����ˮ','5cc0c69e-0cfc-4fbf-bb76-f3780d52822a','',99.00,'ƿ',2,98,5,7),
-(15,'����','3846e7df-4b4e-4611-9f6a-9a1f08359b5d','',30.00,'��',1,99,18,12),
-(16,'����','c70ea0e9-e54c-4442-9188-054bdf300abb','',20.00,'��',0,100,18,12),
-(17,'��ݮ','e60a0b0d-b95b-4f6f-b168-d0d43f5420b3','',20.00,'��',0,100,18,12),
-(18,'����','971de849-187e-4db2-b07c-06220313e056','<p><img src=\"http://localhost:9090/files/2024-12-15_20-52-49_����ͼƬ_34.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/><img src=\"http://localhost:9090/files/2024-12-15_20-52-58_����ͼƬ_01.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/></p>',9999.00,'��',0,100,12,13),
-(19,'�ֻ�','5b469c52-9020-436d-82d6-e8c3e5425600','',6999.00,'��',1,99,12,13),
-(20,'����','8113d9a7-63f6-406e-856c-63e6761bce22','',1999.00,'��',0,100,12,13),
-(21,'�̷�','1caee39a-de00-48c4-af87-ef4e10e346e0','',199.00,'ƿ',0,100,8,10),
-(22,'��ƿ','ea656605-5619-44ee-8963-dc824fbf99c9','',59.00,'��',0,100,8,10),
-(23,'�Ĵ�����','8b774730-0925-433a-8405-29452c5ef411','',199.00,'��',0,100,13,14),
-(24,'�ƻ�С˵','90204675-817b-48c7-8800-9d7f4daf0802','',59.00,'��',0,100,13,14),
-(25,'������','51661c95-d8c3-45d7-8f41-222b7edd3f76','',2999.00,'��',1,99,15,16),
-(26,'��','ceb6616a-2a04-497f-9ea5-86acbba7f9cb','',19999.00,'��',0,100,15,16),
-(27,'������̥','b1053aeb-b2c9-4024-9bc5-86168cc39f4d','',1999.00,'��',0,100,10,15),
-(28,'�����㲿��','0fb0c73b-d338-44b6-b0f9-1e2e212aa1d9','',199.00,'��',0,100,10,15);
+INSERT INTO `goods` VALUES (8,'冰箱','adfb20ae-7b12-4d65-bac3-65d3884d61b7','<h3><strong>❄️ 十字对开门风冷冰箱 | 食材的「恒鲜结界」🌿✨</strong></h3><p><strong>核心科技</strong>：双循环风冷系统（冷藏室、冷冻室独立送风，告别「串味噩梦」—— 鱼腥味再也染不上草莓🍓），AI 智慧控温（精度 ±0.1℃，榴莲在母婴区 4℃ 安心催熟，牛排锁鲜 -18℃ 不结霜），铂金净味模块（24 小时除菌率 99.9%，连洋葱味都能「一键清零」）。</p><p><br/></p><p><strong>分区魔法</strong>：</p><p><br/></p><ul><li>🌱&nbsp;<strong>母婴专属区</strong>：4℃ 精准控温，母乳冷藏 7 天活性不变，辅食食材单独存储，避免交叉污染；</li><li>🥩&nbsp;<strong>生鲜急冻区</strong>：-3℃ 微冻保鲜，三文鱼切开会「冒油」，牛排纹理清晰如刚切下；</li><li>🍷&nbsp;<strong>干货窖藏区</strong>：湿度≤45%，茶叶、药材不发霉，红酒柜级避光，单宁更醇厚。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>📱&nbsp;<strong>远程管家</strong>：APP 实时调温，下班前打开「快速制冷」，到家就能喝冰阔落；</li><li>📅&nbsp;<strong>食材日历</strong>：内置摄像头 + AI 识别，自动记录食材保质期（牛油果第 3 天变黄，系统会提醒「快吃！」）；</li><li>✨&nbsp;<strong>玻璃面板</strong>：星空灰防指纹工艺，指纹擦一下就掉，颜值能当客厅「艺术品」。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：日均耗电 0.8 度（一级能效），冷藏室保湿率 90%（草莓 7 天缩水率＜5%），冷冻能力 12kg/24h（整鸡 2 小时冻透）。</p>',5000.00,'台',102,2,4,9),(11,'面霜','64f03bb0-2776-43e6-8c7b-6e42a6130af6','<h3>🌟 量子肌因修护面霜 | 28 天淡纹的「昼夜修护仪式」🌙✨</h3><p><strong>核心科技</strong>：「量子渗透 + 缓释微囊」双引擎🌌，将&nbsp;<strong>5% 黄金胜肽复合物</strong>&nbsp;与&nbsp;<strong>3% 视黄醇微球</strong>&nbsp;精准锚定肌底 1.2mm 处 —— 白天构建「抗氧防护盾」，抵御紫外线、尾气等 98% 氧化侵袭；夜间启动「胶原再生网」，28 天淡褪表情纹，让岁月痕迹化作「可逆转的密码」。</p><p><br/></p><p><strong>成分解码</strong>：</p><p><br/></p><ul><li>✨&nbsp;<strong>5% 黄金胜肽复合物</strong>：像 “胶原指挥官”，唤醒休眠的 Ⅲ 型胶原合成，使苹果肌膨润度提升 127%，轮廓线如被「时光手捏紧」；</li><li>🌙&nbsp;<strong>3% 缓释视黄醇微球</strong>：裹着 “温柔外衣” 的抗老猛将，夜间匀速释放，抚平细纹同时避免泛红刺痛，敏感肌也能安心 “啃老”；</li><li>💧&nbsp;<strong>玻尿酸微球体</strong>：智能捕捉环境水分，形成「72 小时锁水网」，沙漠肌掐得出水，油痘肌也告别 “拔干紧绷”；</li><li>🌿&nbsp;<strong>甘草酸二钾</strong>：给敏感肌的 “安抚符”，褪红舒敏，把修护过程变成「无痛焕新」，连刷酸后都能无缝衔接。</li></ul><p><br/></p><p><strong>质地与仪式</strong>：<br/>丝缎质地如晨露融肤🌅：</p><p><br/></p><ul><li><strong>日间</strong>：轻抹化作「抗氧防护膜」，搭配「菱形分区涂抹法」（从面中向外推开），防晒更服帖，底妆像焊在脸上；</li><li><strong>夜间</strong>：厚敷变身「胶原面膜」，配合「淋巴引流按摩」（随赠教学视频📽️），从耳下轻推至锁骨，加速成分渗透，晨起脸亮得像打了高光；</li><li><strong>1v1 肤质解码</strong>：AI 扫描肌底（油脂、纹路、敏感区），联合皮肤科博士定制「早 C 晚 A + 抗糖」配方，连 “用错顺序烂脸” 的风险都帮你规避。</li></ul>',100.00,'盒',6,94,5,7),(13,'护肤品套装','8819170c-174c-4cff-9842-707143ac12b2','<h3>🏆 光蕴焕颜奢护套装 | 全链路抗老的「鎏金仪式闭环」✨🎁</h3><p><strong>核心逻辑</strong>：从「清洁唤醒」到「深彻修护」，4 大单品 + 1 款定制面膜组成「72 小时焕变矩阵」，搭配&nbsp;<strong>限量鎏金礼盒</strong>（浮雕烫金 + 天鹅绒内衬），开箱即仪式 —— 丝带轻解，香薰卡飘出「雪松 + 玫瑰」复方香，连拆箱都像在拆「时光盲盒」。</p><p><br/></p><p><strong>单品协同密码</strong>：</p><p><br/></p><ol><li>🧴&nbsp;<strong>氨基酸洁面乳（150ml）</strong>：像「云朵擦过脸」，绵密泡沫带走油脂，却保留天然屏障（PH≈5.5，与健康肌同频），洗完脸润得能反光，油痘肌再也不用 “假滑 vs 拔干” 二选一；</li><li>🌊&nbsp;<strong>光蕴精华液（30ml）</strong>：5% 烟酰胺 +「光蕴因子」双剑合璧，像给肌底打了「追光针」——2 周击退熬夜暗沉，鼻翼两侧的 “三角区” 都能亮成反光板；</li><li>🍯&nbsp;<strong>抗皱面霜（50ml）</strong>：三重肽复合物 + 量子渗透，白天抗氧（抵御蓝光损伤），夜间修护（促生 Ⅰ 型胶原），法令纹像被「隐形手抚平」；</li><li>👁️&nbsp;<strong>抗皱眼霜（15ml）</strong>：小球藻提取物 + 微压按摩头，3 周淡褪眼纹，按走浮肿，连内双都能 “睁开”，眼周变成「无龄区」；</li><li>🎁&nbsp;<strong>定制面膜（5 片，赠品）</strong>：「仿生人皮」膜布 + 浓缩版光蕴精华，敷上像给脸贴了「分子级保鲜膜」，15 分钟褪红提亮，急救效果堪比医美。</li></ol><p><br/></p><p><strong>专属服务</strong>：</p><p><br/></p><ul><li>🛌&nbsp;<strong>睡眠监测计划</strong>：随赠智能手环，监测夜间翻身、呼吸，联动「面霜厚敷方案」—— 浅眠夜厚敷锁水，深眠夜轻涂修护，把睡眠变成「抗老疗程」；</li><li>🍼&nbsp;<strong>母婴级安心</strong>：全系列通过欧盟「0 风险认证」，敏感肌、孕妈闭眼入，连成分表都像「营养食谱」（无酒精、无香精、无激素）；</li><li>🚚&nbsp;<strong>奢宠配送</strong>：顺丰隔日达 +「开箱即仪式」包装（附赠香薰卡、丝质束发带），收到货先拍 100 张美照，再开始护肤都不晚。</li></ul>',500.00,'套',0,100,5,7),(14,'精华水','5cc0c69e-0cfc-4fbf-bb76-f3780d52822a','<h3>🔑 光蕴焕颜精华水 | 3 秒渗透的「肌底唤醒密钥」🌊⏳</h3><p><strong>核心科技</strong>：「双相微囊」黑科技🌌—— 上层是&nbsp;<strong>挪威冰川发酵滤液</strong>（含 98% 天然活性肽，像「肌底钥匙」），下层封存&nbsp;<strong>南极极光藻提取物</strong>（专利成分，清除 90% 氧化自由基）。轻摇后，微囊交融成「渗透引擎」，3 秒穿透角质层，为后续护肤打开「营养高速路」，让面霜效果直接翻倍。</p><p><br/></p><p><strong>成分与渗透</strong>：</p><p><br/></p><ul><li>❄️&nbsp;<strong>挪威冰川水</strong>：小分子团（直径≤0.5nm），像「肌肤的细吸管」，带着营养直钻肌底，连鼻翼沟的 “卡粉死角” 都能喂饱；</li><li>🌌&nbsp;<strong>南极极光藻</strong>：在极夜中存活的神奇藻类，萃取物给细胞「充电」，熬夜脸秒变「透光肌」，黄气像被「橡皮擦抹掉」；</li><li>🔗&nbsp;<strong>微囊包裹技术</strong>：把活性成分锁在「纳米胶囊」里，遇肤即融，避免氧化失效 —— 哪怕开封 3 个月，每滴都像「新鲜榨取的抗老能量」。</li></ul><p><br/></p><p><strong>使用仪式</strong>：</p><p><br/></p><ul><li><strong>晨间唤醒</strong>：取 3-5 滴于掌心，轻拍面部时，配合「淋巴引流手法」（从耳下到锁骨轻推），像给脸做「醒肤操」，后续防晒更服帖，底妆牢牢焊在脸上；</li><li><strong>夜间强化</strong>：叠加 2 滴在面霜前，搭配「热敷毛巾敷面 30 秒」（温度≤40℃），让成分渗透力提升 40%，把夜晚变成「肌底狂欢派对」，晨起脸亮得能当镜子；</li><li><strong>进阶玩法</strong>：泡压缩面膜（随赠蚕丝膜布），每周 1 次「密集渗透护理」—— 相当于给脸灌了「抗老能量弹」，急救约会、面试超绝。</li></ul><p><br/></p><p><strong>服务加成</strong>：</p><p><br/></p><ul><li>🧬&nbsp;<strong>肌底检测服务</strong>：随单附赠「智能肌底扫描仪」（家用版），检测水分、纹路、敏感区，生成「专属渗透方案」—— 油区少拍，干区多敷，精准到每寸皮肤；</li><li>📱&nbsp;<strong>专家在线答疑</strong>：皮肤科博士每周三直播，解答「如何让精华水效果翻倍」—— 比如 “敷面膜前拍 3 遍精华水，吸收率暴增”，把成分党变成「渗透专家」。</li></ul><p><br/></p><p><strong>设计精髓</strong>：</p><p><br/></p><ul><li><strong>emoji 锚定场景</strong>：用🌙区分昼夜修护、🏆强化套装稀缺、🔑突出精华水的 “钥匙” 定位，让视觉与文字共震；</li><li><strong>科技具象化</strong>：把 “量子渗透” 比作引擎，“微囊” 比作胶囊，让专业术语秒变生动故事；</li><li><strong>仪式感拉满</strong>：从按摩手法、随赠服务（视频、手环）到拆箱体验，把 “高端护肤” 变成「有温度的日常仪式」；</li><li><strong>数据强化信任</strong>：127% 膨润度、98% 氧化抵御，用具体数字让效果 “摸得着、算得清”。</li></ul>',99.00,'瓶',2,98,5,7),(15,'西瓜','3846e7df-4b4e-4611-9f6a-9a1f08359b5d','<h3><strong>🍉 海南麒麟西瓜 | 夏天的「糖水炸弹」🍃✨</strong></h3><p><strong>产地密码</strong>：海南澄迈核心产区（年均日照 2200 小时），沙质土壤种出「糖心瓜」—— 瓜脐小如硬币，瓜纹间距≤1.5cm（越密越甜），敲击声如「空鼓」（成熟度 95%+）。</p><p><br/></p><p><strong>采摘标准</strong>：</p><p><br/></p><ul><li>🍯&nbsp;<strong>糖度≥13°</strong>：比普通西瓜甜 30%，刀尖一碰就爆汁，红瓤像「流动的红宝石」；</li><li>🌿&nbsp;<strong>自然成熟</strong>：拒绝催熟剂，瓜藤新鲜翠绿（采摘前 12 小时还在光合作用），连瓜皮都能凉拌吃；</li><li>🚚&nbsp;<strong>冷链锁鲜</strong>：现摘后 4 小时内进冷链（温度≤8℃），72 小时直达，瓜蒂还带着「海南的阳光味」。</li></ul><p><br/></p><p><strong>仪式感吃法</strong>：</p><p><br/></p><ul><li>🔪&nbsp;<strong>仪式开瓜</strong>：用随赠的「西瓜刀」（钛合金材质，切瓜不流汁），从中间一刀切下，糖心像「火山喷发」；</li><li>🍨&nbsp;<strong>创意吃法</strong>：挖球做成「西瓜冰沙杯」（搭配薄荷、酸奶），或冻成「西瓜冰棒」（咬一口，凉到天灵盖）；</li><li>📅&nbsp;<strong>保鲜贴士</strong>：冷藏前裹上保鲜膜（隔绝串味），3 天内吃完，每一口都像在喝「液态砂糖」。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单瓜重 6 - 8 斤（全家共享刚好），含水量 92%（补水堪比敷面膜），维生素 C 含量≈2 个橙子，炎夏吃它 =「喝水 + 吃维 C」双 buff。</p>',30.00,'个',1,99,18,12),(16,'橙子','c70ea0e9-e54c-4442-9188-054bdf300abb','<h3><strong>🍊 赣南脐橙 | 秋冬的「阳光金币」🍃✨</strong></h3><p><strong>产地神话</strong>：江西赣南（世界橙乡，PH5.5 - 6.5 红壤），每颗橙子享受 1800 小时日照，积累「15° 甜 + 0.8% 酸」黄金比例 —— 甜润中带一丝微酸，像「阳光在舌尖跳舞」。</p><p><br/></p><p><strong>筛选标准</strong>：</p><p><br/></p><ul><li>🌟&nbsp;<strong>果径 70 - 80mm</strong>：手捧刚好，果肉饱满不空心；</li><li>🍯&nbsp;<strong>糖酸比 18:1</strong>：甜得纯粹，酸得清新，连果皮都散发「橙花精油香」；</li><li>🌿&nbsp;<strong>生态种植</strong>：不打腊、不催熟，表皮带天然「麻点」（日照斑），才是正宗赣南味。</li></ul><p><br/></p><p><strong>仪式感吃法</strong>：</p><p><br/></p><ul><li>🧃&nbsp;<strong>鲜榨橙汁</strong>：用随赠的「螺旋榨汁器」（不破坏纤维），1 颗榨出 150ml 纯汁，连渣都能做「橙皮糖」；</li><li>🍊&nbsp;<strong>手剥仪式</strong>：从脐部轻划一刀，果皮像「花瓣展开」，果肉粒粒分明，吃相优雅不脏手；</li><li>❄️&nbsp;<strong>冷藏进阶</strong>：冰箱冷藏 2 小时，取出后撒少许盐（激发甜味），冰爽酸甜赛过饮料。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单果维生素 C 含量≈80mg（抵 4 个苹果），类黄酮含量是普通橙的 2 倍（抗氧化一把手），连皮煮水还能治咳嗽，一颗橙 =「水果 + 药箱」双功能。</p>',20.00,'箱',0,100,18,12),(17,'草莓','e60a0b0d-b95b-4f6f-b168-d0d43f5420b3','<h3><strong>🍓 丹东 99 草莓 | 冬日的「粉钻蜜罐」❄️✨</strong></h3><p><strong>产地王冠</strong>：辽宁丹东（昼夜温差 10℃+，黑土有机质含量 3%+），每颗草莓像「被雪吻过的红宝石」—— 果型心形（越心越甜），萼片鲜绿（采摘≤6 小时），蒂部泛白（自然成熟标志）。</p><p><br/></p><p><strong>甜蜜密码</strong>：</p><p><br/></p><ul><li>🍯&nbsp;<strong>糖度≥12°</strong>：比普通草莓甜 50%，咬开爆汁，甜得像「蜂蜜灌进果肉」；</li><li>🌸&nbsp;<strong>奶香四溢</strong>：独特「牛奶施肥法」，果肉自带奶香，连呼吸都是「草莓味」；</li><li>❄️&nbsp;<strong>冷链护航</strong>：现摘后 2 小时进恒温箱（0 - 2℃），48 小时直达，收到时萼片还能扦插种着玩。</li></ul><p><br/></p><p><strong>仪式感吃法</strong>：</p><p><br/></p><ul><li>🍰&nbsp;<strong>草莓塔</strong>：用随赠的「草莓叉」（水晶材质，颜值爆表），层层叠成塔，顶端插薄荷，拍照发圈必获赞；</li><li>🍓&nbsp;<strong>冻草莓</strong>：洗净冻成「冰球」，追剧时当零食，冰爽酸甜超过瘾；</li><li>🧁&nbsp;<strong>烘焙灵魂</strong>：切碎做蛋糕夹心（搭配淡奶油），或熬成「草莓果酱」（零添加，抹面包绝了）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单果重 30 - 50g（手掌心大小），含水量 89%（咬一口飚汁），叶酸含量是苹果的 10 倍（孕妈友好），一颗草莓 =「甜品 + 补品」双身份。</p>',20.00,'斤',0,100,18,12),(18,'电脑','971de849-187e-4db2-b07c-06220313e056','<h3><strong>💻 旗舰轻薄本 | 职场人的「效率战舰」🚀✨</strong></h3><p><strong>核心科技</strong>：第 13 代酷睿 i7（多核性能 ↑40%），3.2K OLED 屏（90Hz 高刷，ΔE≤0.5 色准），双雷电 4 接口（10Gbps 传输，1 秒传 1G 文件），65W 快充（30 分钟回血 50%）。</p><p><br/></p><p><strong>场景魔法</strong>：</p><p><br/></p><ul><li>🌆&nbsp;<strong>职场模式</strong>：AI 降噪麦克风（开会时秒滤键盘声），Fn+Q 切换性能模式（剪视频时风扇智能狂飙，写文档时安静如猫）；</li><li>✈️&nbsp;<strong>差旅模式</strong>：1.2kg 轻量化（比 MacBook 轻 200g），18 小时续航（看剧从早到晚），磁吸充电线（再也不怕绊到线摔电脑）；</li><li>🎨&nbsp;<strong>创作模式</strong>：100% P3 色域（修图时色彩精准到发丝），压感触控板（画图像在纸上涂鸦），连设计师都忍不住换本。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>💎&nbsp;<strong>航空铝机身</strong>： CNC 一体成型，手感丝滑如婴儿肌，指纹一擦就掉；</li><li>📦&nbsp;<strong>开箱惊喜</strong>：附赠「氮化镓扩展坞」（支持 4K 投屏 + 5 设备充电），出差只带一个包；</li><li>🔒&nbsp;<strong>安全护航</strong>：红外人脸识别（戴眼镜也能秒解），硬盘加密（公司机密锁在「数字保险箱」）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：Geekbench 6 单核 2500+，多核 12000+（剪 4K 视频导出快 3 倍），屏幕峰值亮度 600nit（强光下也能看清报表），职场卷王必备。</p><p><img src=\"http://localhost:9090/files/2024-12-15_20-52-58_详情图片_01.jpg\" style=\"max-width:100%;\" contenteditable=\"false\"/></p>',9999.00,'件',0,100,12,13),(19,'手机','5b469c52-9020-436d-82d6-e8c3e5425600','<h3><strong>📱 折叠屏旗舰 | 掌心的「未来魔方」🔮✨</strong></h3><p><strong>核心黑科技</strong>：航天级铰链（20 万次弯折无损，折痕比发丝还细），7.8 英寸 OLED 柔性屏（120Hz 高刷，折叠后像「水晶戒面」），5000 万像素三摄（折叠悬停拍 vlog，解放双手）。</p><p><br/></p><p><strong>场景颠覆</strong>：</p><p><br/></p><ul><li>🌍&nbsp;<strong>办公模式</strong>：分屏同时聊微信 + 写邮件，文档拖到副屏批注，效率直接拉满；</li><li>🎮&nbsp;<strong>游戏模式</strong>：展开当「小平板」，多指操作更丝滑，王者视野比别人广 20%；</li><li>📷&nbsp;<strong>影像模式</strong>：悬停自拍（屏幕当取景器，再也不用举着手机找角度），夜景模式直出「单反级」大片。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>💎&nbsp;<strong>陶瓷背板</strong>：手感温润如和田玉，指纹自动隐身，拿在手里像握「科技玉佩」；</li><li>🎁&nbsp;<strong>开箱彩蛋</strong>：附赠「折叠屏支架」（磁吸式，横竖都能立），还有专属主题壁纸（星空、鎏金等 8 款）；</li><li>🔋&nbsp;<strong>续航安心</strong>：4800mAh 双电池（折叠时也能快充），支持 66W 闪充，重度使用撑过一天。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：折叠态厚度 11.8mm（比普通旗舰薄），展开态 5.4mm（比平板轻），安兔兔跑分 160 万 +（性能碾压同级），未来感拉满。</p>',6999.00,'件',1,99,12,13),(20,'耳机','8113d9a7-63f6-406e-856c-63e6761bce22','<h3><strong>🎧 降噪头戴耳机 | 世界的「静音结界」🔇✨</strong></h3><p><strong>核心科技</strong>： hybrid 混合降噪（4 麦克风阵列，主动抵消 99% 低频噪音），40mm 生物振膜（解析力堪比监听级），空间音频（看电影像坐在影院 C 位）。</p><p><br/></p><p><strong>场景沉浸</strong>：</p><p><br/></p><ul><li>🚇&nbsp;<strong>通勤模式</strong>：开启「强降噪」，地铁轰鸣秒变「白噪音」，连报站声都能过滤（可自定义通透模式）；</li><li>🎵&nbsp;<strong>音乐模式</strong>：aptX Lossless 无损传输（听古典像在音乐厅），触控板滑动切歌（比按按钮优雅 10 倍）；</li><li>🎮&nbsp;<strong>游戏模式</strong>：超低延迟（≤30ms），脚步声从哪个方向来都听得清，吃鸡胜率直接翻倍。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>🖤&nbsp;<strong>蛋白皮耳罩</strong>：触感像撸猫，透气性好（内置散热孔），戴 3 小时也不闷汗；</li><li>🔋&nbsp;<strong>续航怪兽</strong>：60 小时超长续航（降噪开着也能用 30 小时），快充 10 分钟，听歌 5 小时；</li><li>🎁&nbsp;<strong>收纳美学</strong>：附赠「磁吸收纳盒」（真皮材质，能当手包），耳机折叠后自动吸附，不怕线缠成球。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：降噪深度 42dB（飞机引擎声也能压到耳鸣消失），频响范围 20 - 40kHz（连小提琴泛音都听得清），发烧友听了都想退烧。</p>',1999.00,'件',2,100,12,13),(21,'奶粉','1caee39a-de00-48c4-af87-ef4e10e346e0','<h3>🍼 有机 A2 奶粉 | 给宝宝的「液态黄金」🥛✨</h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>🌿&nbsp;<strong>黄金奶源锁鲜术</strong>：源自新西兰南岛<strong>有机认证牧场</strong>（全年 200 天日照，奶牛食有机苜蓿草，每滴奶都带「阳光味」），仅选<strong>A2 型纯繁奶牛</strong>（基因认证，产奶含 A2 β- 酪蛋白，比普通奶粉好吸收 34%，减少肚胀哭闹）；</li><li>❄️&nbsp;<strong>湿法冷链黑科技</strong>：鲜奶挤出<strong>2 小时内冷链运输</strong>（≤4℃锁鲜），48 小时制成奶粉（保留 95% 天然活性蛋白，像「把牧场直接装进罐」），拒绝干法工艺的营养流失，冲开后还能闻到「生牛乳的清甜」；</li><li>🔬&nbsp;<strong>分阶营养密码</strong>：<ul><li><strong>1 段（0-6 月）</strong>：添加<strong>母乳低聚糖 HMO</strong>（模拟母乳，增强免疫力，宝宝少生病），搭配<strong>天然乳糖</strong>（拒绝蔗糖，保护乳牙，远离龋齿）；</li><li><strong>2 段（6-12 月）</strong>：<strong>OPO 结构脂</strong>（减少 40% 便秘，便便如「黄金软膏」），+<strong>叶黄素 + ARA</strong>（视网膜发育双 buff，追视玩具更灵活）；</li><li><strong>3 段（12-36 月）</strong>：<strong>乳铁蛋白 + 双益生菌</strong>（Bb-12+HN019，调节肠道，换季少感冒），+<strong>90% 高纯度 DHA 藻油</strong>（眼脑发育更聪明，搭积木、背儿歌快人一步）。</li></ul></li></ul><p><br/></p><p><strong>喂养仪式感</strong>：</p><p><br/></p><ul><li>🧴&nbsp;<strong>秒溶黑科技</strong>：奶粉经<strong>球型造粒工艺</strong>（颗粒圆润如珍珠，流动性提升 60%），温水冲调时像「雪花落进湖面」，3 秒沉底，摇晃 10 下彻底溶解，奶瓶底再也没有「疙瘩残留」，夜奶冲调快到「不吵醒宝宝」；</li><li>⚖️&nbsp;<strong>精准控量系统</strong>：罐盖内置<strong>磁吸量勺</strong>（一舀精准 5.5g，误差≤0.1g），侧边「<strong>刻度放大镜</strong>」（老人也能看清水量），搭配「<strong>温感冲调贴</strong>」（遇 45℃以上变粉，提醒降温，避免烫嘴）；</li><li>✈️&nbsp;<strong>外出无忧包</strong>：随罐赠<strong>保鲜分装机</strong>（一格装 1 次量，充氮锁鲜 7 天），+<strong>温感奶瓶套</strong>（实时显温，外出喂奶不翻车），甚至能当「临时储奶袋」（密封防潮，背奶妈妈狂喜）。</li></ul><p><br/></p><p><strong>服务加成</strong>：</p><p><br/></p><ul><li>🔍&nbsp;<strong>区块链溯源</strong>：罐底扫码查 **「奶牛档案」**（编号、产奶量、体检报告）、<strong>生产全流程</strong>（挤奶→加工→装罐，每步带时间戳），比查高考分数还细致，「透明化喂养」更安心；</li><li>🩺&nbsp;<strong>儿科专家护航</strong>：扫码加入 **「喂养社群」<strong>，三甲儿科医生每周直播（讲辅食添加、睡眠训练），还能预约</strong>1v1 喂养规划 **（根据宝宝体重、月龄定制奶量，胖宝、瘦宝都适配）；</li><li>🎁&nbsp;<strong>试错礼包</strong>：首购送 **「脱敏体验装」<strong>（5 小袋，先试喝，过敏包退）+</strong>「残奶吸奶器」**（彻底排空奶瓶，避免细菌滋生，守护「奶瓶清洁强迫症」）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>认证硬货：<strong>欧盟 + 中国双有机认证</strong>（从牧场到成品全链路审核，比普通奶粉严格 10 倍）；</li><li>活性保留：免疫球蛋白 IgG 保留率<strong>92%</strong>（普通奶粉仅 60%），叶酸含量<strong>0.18mg/100g</strong>（接近母乳水平）；</li><li>临床验证：喝 A2 奶粉的宝宝，<strong>便秘发生率降低 57%</strong>，夜间安睡时长<strong>增加 1.2 小时</strong>（第三方儿科医院测试数据）。</li></ul><p><br/></p><p><strong>妈妈真心话</strong>：“以前冲奶像打仗，现在连老人都能轻松操作！宝宝喝了 3 个月，湿疹少了，体检时医生说‘生长曲线完美’～”</p><p><br/></p><p>这罐奶粉，把「有机牧场的纯净、分阶营养的精准、喂养场景的体贴」全揉进罐里，是新手爸妈的「定心丸」，更是宝宝的「液态黄金」。</p>',199.00,'瓶',0,100,8,10),(22,'奶瓶','ea656605-5619-44ee-8963-dc824fbf99c9','<h3><strong>🍼 医用级抗菌奶瓶 | 新生的「无菌守护符」⚕️✨</strong></h3><p><strong>核心安全</strong>：医用级 PPsu 材质（耐 180℃ 高温，摔不烂、无异味），纳米银抗菌涂层（奶嘴抑菌率 99.9%，告别「奶垢发霉」），防胀气阀（减少 80% 吞气，宝宝不吐奶、不打嗝）。</p><p><br/></p><p><strong>设计细节</strong>：</p><p><br/></p><ul><li>👶&nbsp;<strong>仿生奶嘴</strong>：3D 母乳实感（弧度、软硬度和乳头一致），宝宝断奶不抗拒；</li><li>📏&nbsp;<strong>刻度精准</strong>：激光蚀刻刻度（洗 100 次也不掉），冲奶时 5ml 误差都没有；</li><li>✋&nbsp;<strong>易握手柄</strong>：防滑纹理 + 人体工学设计，6 个月宝宝就能自己握（早抓握早发育）。</li></ul><p><br/></p><p><strong>仪式感喂养</strong>：</p><p><br/></p><ul><li>🍼&nbsp;<strong>冲泡指南</strong>：随赠「冲奶温度贴」（贴奶瓶上，40℃ 变绿，避免烫嘴）；</li><li>🧼&nbsp;<strong>清洁礼包</strong>：附赠「硅胶清洁刷」（360° 无死角刷奶嘴）和「奶瓶消毒袋」（微波炉 3 分钟除菌）；</li><li>📱&nbsp;<strong>成长记录</strong>：扫码关注公众号，获取「按月龄喂养方案」（0 - 12 个月奶量、辅食表），新手爸妈秒变专家。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：通过欧盟 EN 14350 认证（婴儿用品最高标准），奶嘴回气速度 0.3 秒（比普通奶瓶快 3 倍），宝宝每口奶都像「喝妈妈的爱」。</p>',59.00,'件',0,100,8,10),(23,'四大名著','8b774730-0925-433a-8405-29452c5ef411','<h3>📜 四大名著・皇家典藏复刻版 | 活字墨香里的「文明活化石」</h3><p><strong>版本溯源</strong>：</p><p><br/></p><ul><li>🏛️&nbsp;<strong>故宫文物级复刻</strong>：参照<strong>国家图书馆藏明代汲古阁原刻本</strong>（文字、版式 1:1 复刻，连页边「虫蛀痕迹」都经非遗修复师手工做旧，还原「古籍重生」的岁月肌理）；</li><li>🪶&nbsp;<strong>纸墨藏光阴</strong>：选用<strong>安徽泾县「蝉翼宣」</strong>（纤维长度≥3mm，经 365 天日光自然漂白，千年不脆化），墨汁遵循 **《天工开物》矿墨配方 **（松烟 + 珍珠粉，书写处泛幽光，如「字间藏星河」）；</li><li>🔩&nbsp;<strong>榫卯函套</strong>：楠木函套采用<strong>宋式无钉榫卯</strong>（开合时「咔嗒」声似古琴泛音），表面 24K 真金烫印「四大名著」篆体字（氧化后呈「传世古铜色」，越旧越显贵气）。</li></ul><p><br/></p><p><strong>阅读仪式</strong>：</p><p><br/></p><ul><li>🕯️&nbsp;<strong>烛影摇红</strong>：随套赠<strong>仿唐青铜烛台</strong>（可调暖光，映照《红楼梦》时，宝玉黛玉似从纸间凝眸），配套「<strong>沉水香薰匣</strong>」（翻页时香雾缭绕，秒穿明清书斋）；</li><li>✍️&nbsp;<strong>批注传承</strong>：书页设「<strong>朱砂批注区</strong>」（配非遗狼毫小楷笔，墨汁渗而不晕），支持<strong>AR 家族传承</strong>（扫码上传批注，后代扫码可见，家族阅读史成「数字文物」）；</li><li>🎭&nbsp;<strong>元宇宙入梦</strong>：扫描书脊「<strong>动态二维码</strong>」，进入「<strong>名著元宇宙</strong>」：读《三国》看赤壁 3D 火烧，读《水浒》听武松打虎拟声，「蒋干盗书」可 VR 重演，比追剧更 immersive。</li></ul><p><br/></p><p><strong>收藏级服务</strong>：</p><p><br/></p><ul><li>📜&nbsp;<strong>古籍修复师上门</strong>：购书满 3 年，可预约<strong>国家图书馆修复师</strong>上门保养（除霉、补蛀、调墨色），让古籍「青春永驻」；</li><li>🏛️&nbsp;<strong>故宫认证证书</strong>：每套装帧带<strong>故宫专家签名编号证书</strong>（1-999 号赠「文渊阁藏书章」拓片），可入「家族信托」世代传承；</li><li>🎬&nbsp;<strong>名著剧本杀定制</strong>：凭购书凭证，免费定制「<strong>大观园谜案</strong>」「<strong>三国谍影</strong>」等剧本杀（专业 DM 上门带本，把书里故事玩成现实）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>工艺耗时：单套雕版制作<strong>180 天</strong>（非遗匠人手工修版，比普通复刻多 120 天）；</li><li>文化稀缺：明代汲古阁刻本存世≤10 套，本套为<strong>唯一可流通复刻版</strong>；</li><li>保值预期：近 10 年古籍复刻品年均涨幅<strong>15%</strong>（超黄金投资），某拍卖公司预估价「单套百万级」。</li></ul>',199.00,'套',0,100,13,14),(24,'科幻小说','90204675-817b-48c7-8800-9d7f4daf0802','<h3>🌌 科幻小说・银河典藏馆 | 把「宇宙」钉进书架的浪漫</h3><p><strong>选品宇宙观</strong>：</p><p><br/></p><ul><li>🔭&nbsp;<strong>硬核科幻矩阵</strong>：收录<strong>阿瑟・克拉克《2001 太空漫游》首版复刻</strong>（含作者手绘星图）、<strong>刘慈欣《三体》签名编号本</strong>（匹配「黑暗森林」密码锁）、<strong>海因莱因《星船伞兵》军事级装帧</strong>（封面用防弹纤维，耐磨如战舰甲板）；</li><li>🎨&nbsp;<strong>场景化装帧</strong>：<ul><li>《三体》：书脊嵌「<strong>三体星系灯</strong>」（触碰发光，模拟恒星闪烁，夜读似「枕着星空」），内页夹「<strong>脱水人书签</strong>」（遇热收缩，还原设定）；</li><li>《沙丘》：封面植「<strong>阿拉基斯沙粒</strong>」（真实沙漠沙，磁吸收纳，倒出时如「沙虫蠕动」），附赠「<strong>蒸馏服模型</strong>」（可穿戴，秒变保罗）；</li><li>《神经漫游者》：书页含「<strong>温感电路</strong>」（手摸章节名，文字变色如「赛博数据流」），配套「<strong>脑机接口贴纸</strong>」（贴手机，假装连神经网）；</li></ul></li><li>⚙️&nbsp;<strong>机械互动</strong>：《钢穴》书盒是「<strong>微型太空舱</strong>」（旋转开启，内部 LED 模拟失重，书如「悬浮其中」），《基地》扉页藏「<strong>心理史学计算器</strong>」（拨动齿轮，预测未来趋势，阿西莫夫迷狂喜）。</li></ul><p><br/></p><p><strong>阅读沉浸感</strong>：</p><p><br/></p><ul><li>🎧&nbsp;<strong>声景伴读</strong>：扫码解锁「<strong>宇宙声景库</strong>」（读《2001》听「HAL9000 语音」，读《三体》有「智子二维展开音效」），支持<strong>脑机接口同步</strong>（外接设备，文字直接「播」进脑）；</li><li>🌠&nbsp;<strong>AR 宇宙沙盘</strong>：随套赠「<strong>全息投影台</strong>」（手机放台座，投射书中星系模型），读《银河帝国》时，手指拨动「川陀星」，城市灯光如萤火虫亮起，比科幻片更震撼；</li><li>📡&nbsp;<strong>科幻密令</strong>：每本书含「<strong>作者私藏彩蛋</strong>」（刘慈欣写的「三体新设定」，克拉克藏的「太空漫游续集大纲」），扫码解码书内暗纹，解锁「只有读者知道的秘密」。</li></ul><p><br/></p><p><strong>科幻生态圈服务</strong>：</p><p><br/></p><ul><li>🚀&nbsp;<strong>名字上太空</strong>：购套满额，可申请「<strong>名字刻入商业卫星</strong>」（随星发射，真・把名字送上太空），附赠「<strong>轨道证书</strong>」（实时查卫星位置，仰望星空找自己）；</li><li>🧑🚀&nbsp;<strong>太空生存训练</strong>：每月举办「<strong>作者私享会</strong>」（大刘、郝景芳在线答疑），还能预约「<strong>火星任务模拟</strong>」（穿宇航服吃太空餐，体验科幻人生）；</li><li>🔄&nbsp;<strong>版本迭代权</strong>：收藏本可优先升级「<strong>未来版</strong>」（如《三体》出「量子态装帧」，旧版可补差价置换），永远站在科幻潮头。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>装帧黑科技：《星船伞兵》封面防弹纤维<strong>抗撕裂强度 100N</strong>（读 1000 次不烂），《沙丘》沙粒经「<strong>NASA 认证</strong>」（真・火星模拟沙）；</li><li>彩蛋稀缺：刘慈欣签名本全球仅<strong>500 套</strong>（带编号 + 手写寄语），阿瑟・克拉克星图为<strong>孤品复刻</strong>（原手稿藏大英图书馆）；</li><li>体验升级：AR 沙盘支持<strong>1:1 还原银河帝国疆域</strong>（覆盖 1.2㎡桌面，星球细节精确到城市分布），科幻迷的终极浪漫。</li></ul>',59.00,'本',0,100,13,14),(25,'行李箱','51661c95-d8c3-45d7-8f41-222b7edd3f76','<p>🧳 航天级镁铝合金行李箱 | 移动的「安全堡垒」🚀✨</p><p>核心科技：</p><ul><li>🏭 军工锻造工艺：采用航天级镁铝合金（比普通铝箱轻 30%，抗冲击强度却高 50%），经 1000 吨锻压机一次成型，箱体可承受 80kg 重压（站 3 个成年人不变形），机场托运扔来扔去也不怕凹坑，堪称「行李箱界的装甲车」。</li></ul><ul><li>🔒 量子级防盗系统：箱锁是「指纹 + NFC 双解锁」（指纹识别 0.3 秒，支持 5 组指纹录入，手机贴近也能开），内置「震动报警器」（暴力撬动时，120 分贝警报响彻机场，还会推送位置到手机），连海关开箱都需要「临时授权码」（保护隐私不翻车）。</li></ul><ul><li>🛫 磁悬浮静音轮：8 组双轴承万向轮（比普通轮多 2 组轴承），搭配「磁悬浮减震」（过减速带震动减少 80%），推行时声音≤35 分贝（比图书馆翻书还轻），单手推 20kg 箱子像「遛猫一样轻松」，女生也能优雅赶飞机。</li></ul><p>设计细节与场景魔法：</p><ul><li>🔄 扩容黑科技：侧面隐藏「伸缩层」（拉开后容积从 28L→35L，多装 5 套衣服），内壁「弹力束衣网」（按下按钮自动收紧，衣服不晃不乱，取时像「抽抽屉」），出差买买买再也不用手提购物袋。</li></ul><ul><li>📱 移动充电站：箱侧内置「65W 快充接口」（支持笔记本、手机同时充，续航焦虑拜拜），电线藏在「磁吸收纳槽」（不用时自动收回，不缠乱），候机时坐在箱子上就能办公，秒变「移动工作站」。</li></ul><ul><li>🌧️ 全天候防护：箱体接缝处「激光焊接密封」（IPX6 防水，暴雨中推半小时，内部干爽如晴天），拉杆「航天级镀铬」（拉 10 万次不卡顿，还能当「紧急晾衣架」—— 挂湿衬衫不弯腰）。</li></ul><p>专属服务与仪式感：</p><ul><li>🌍 全球联保：3 年免费换新（非人为损坏直接发新箱），100 + 国家机场有「紧急维修站」（轮子坏了 30 分钟修好，不耽误行程），比男朋友还靠谱。</li></ul><ul><li>🎨 私人定制：支持「箱体激光雕刻」（刻名字、logo 或旅行格言），颜色可选「极光银、星空黑、珊瑚橙」（搭配不同穿搭，机场拍照秒出片），连轮子都能换「发光轮毂」（夜间推行像「拖着流星」）。</li></ul><ul><li>🎁 出行礼包：随箱赠「折叠收纳袋」（装脏衣服，展开是洗衣袋）+「海关锁钥匙套」（挂在行李箱上，再也不怕丢），甚至有「紧急缝纫包」（衣服破了临时救场，细节控狂喜）。</li></ul><p>数据硬实力：</p><ul><li>抗造测试：从 1.2 米高处跌落 100 次，箱体无裂缝（普通铝箱 30 次就变形）；</li></ul><ul><li>承重王者：箱盖可站 80kg 成年人（踩上去系鞋带稳稳的）；</li></ul><ul><li>空间魔法：28L 标准箱能装「4 套西装 + 6 件衬衫 + 2 双鞋」（比同尺寸普通箱多装 30%），出差党直呼「太能装」！</li></ul>',2999.00,'件',1,99,15,16),(26,'包','ceb6616a-2a04-497f-9ea5-86acbba7f9cb','<p>👜 商务轻奢公文包 | 职场人的「移动办公室」💼✨</p><p>核心科技与材质：</p><ul><li>🐂 百年工坊皮料：甄选意大利托斯卡纳「植鞣头层牛皮」（6 个月慢鞣制，越用越有光泽，3 年后会形成「专属包浆」—— 每道划痕都是故事），五金是「航天级钛合金」（不生锈、不褪色，用 10 年还像新的，比钻戒还耐戴）。</li></ul><ul><li>🔌 智能收纳系统：内部「模块化分区」（电脑舱带「防震气囊」——15 寸笔记本摔地上毫发无损；平板格「磁吸固定」—— 颠簸中不晃屏），甚至有「隐形充电槽」（藏在夹层，连充电宝都不用手拿着）。</li></ul><ul><li>💧 防污黑科技：皮质表面「纳米防泼水处理」（咖啡洒上去，纸巾一擦不留痕），内衬「抗菌面料」（装汗湿的手机，3 天不发臭），商务人士的「洁癖救星」。</li></ul><p>场景化设计与职场仪式：</p><ul><li>🚇 通勤神器：肩带「S 型减压设计」（背 10 斤电脑，肩膀压力减 40%），可拆成「手提 + 斜挎 + 双肩」（地铁挤成肉夹馍时，双肩背解放双手刷手机），还能「挂在行李箱拉杆上」（解放双手喝咖啡，优雅赶高铁）。</li></ul><ul><li>🎙️ 会议急救包：内置「隐形口袋」（藏 U 盘、录音笔，防丢失），夹层有「折叠梳子」（风吹乱发型，掏出一梳就精神）+「口气清新喷雾」（见客户前喷一喷，自信开口不尴尬），细节拉满。</li></ul><ul><li>🌙 昼夜切换：白天是「商务精英包」（装电脑、文件，气场全开），晚上卸下单肩带，秒变「约会手拿包」（装钱包、口红，低调轻奢不张扬），一个包 =「职场战袍 + 约会配饰」。</li></ul><p>服务与增值体验：</p><ul><li>✂️ 终身保养：每年免费「专业护理」（清洗、补色、五金抛光），旧包可寄回工厂「改款」（换拉链、加夹层，紧跟潮流不浪费），比买新包还划算。</li></ul><ul><li>🎁 定制特权：可烫「家族徽章」（烫金、烫银可选），内衬绣「名字缩写」（隐秘处的小骄傲），甚至能「定制隔层尺寸」（装特殊设备 —— 比如摄影师的镜头、医生的听诊器）。</li></ul><ul><li>📈 投资属性：托斯卡纳牛皮公文包「每年升值 5%」（比基金靠谱），某拍卖行数据显示：10 年的定制款二手价是原价的 1.5 倍，背着它 =「背着会生钱的资产」。</li></ul><p>数据硬实力：</p><ul><li>承重测试：单肩带可吊 15kg 重物（相当于 3 台笔记本 + 20 本文件，肩带不勒不松）；</li></ul><ul><li>防水等级：IPX4（泼溅无压力，下雨天不用手护着包）；</li></ul><ul><li>容量魔法：14 寸包能装「13 寸电脑 + 折叠伞 + 保温杯 + 50 页文件」（外部看着小巧，内部像「哆啦 A 梦口袋」）。</li></ul><p>这两件单品，把「科技、颜值、实用性」揉进每一处细节，让出行和通勤从「任务」变成「享受」—— 毕竟，好用又好看的装备，本身就是对生活的热爱呀～ ✨</p>',19999.00,'件',0,100,15,16),(27,'汽车轮胎','b1053aeb-b2c9-4024-9bc5-86168cc39f4d','<h3><strong>🚗 防爆耐磨轮胎 | 行车的「安全铠甲」🛡️✨</strong></h3><p><strong>核心科技</strong>：航空级防爆帘（钉扎后仍能以 80km/h 开 80 公里），纳米硅配方（湿地抓地力 ↑30%，雨天不打滑），自修复技术（≤5mm 钉孔自动密封，告别补胎）。</p><p><br/></p><p><strong>适配与测试</strong>：</p><p><br/></p><ul><li>🏎️&nbsp;<strong>精准适配</strong>：覆盖 90% 车型（BBA、新能源车等），下单备注车型，客服秒匹配最佳型号；</li><li>🌧️&nbsp;<strong>极端测试</strong>：通过「湿地刹车测试」（30km/h 刹车距离短 2 米）、「高速耐久性测试」（8000 公里无鼓包）；</li><li>🌡️&nbsp;<strong>四季通用</strong>：胎面花纹「四季自适应」（夏季排水，冬季抓雪），北方车主不用换雪地胎。</li></ul><p><br/></p><p><strong>仪式感服务</strong>：</p><p><br/></p><ul><li>🚚&nbsp;<strong>免费安装</strong>：全国 3000+ 合作门店，到店免费安装（含动平衡、四轮定位）；</li><li>📅&nbsp;<strong>寿命监测</strong>：随胎附赠「胎压监测贴」（变色提示胎压异常），还能预约「轮胎健康检测」（每年 1 次，免费）；</li><li>🎁&nbsp;<strong>应急礼包</strong>：送「应急充气泵」（迷你便携，补气 5 分钟）和「补胎胶条」（扎钉应急），路上更安心。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：耐磨指数 500（普通轮胎 300），湿地摩擦系数 0.45（远超国标 0.35），一条胎 =「防爆 + 自修复 + 四季胎」三胎合一。</p>',1999.00,'个',0,100,10,15),(28,'汽车零部件','0fb0c73b-d338-44b6-b0f9-1e2e212aa1d9','<h3>🛠️ 碳陶复合刹车盘 | 把「赛道级制动」焊在车轮🔥</h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>🏎️&nbsp;<strong>F1 同源材质</strong>：采用「碳陶基复合材料」（碳纤维 + 碳化硅，强度是铸铁 3 倍，重量轻 40%），制动时摩擦系数稳定在 0.45（铸铁盘热衰后降至 0.3），连续刹停 10 次赛道级急弯，盘体温度仍≤400℃（铸铁盘已红热变形）；</li><li>🔍&nbsp;<strong>3D 仿生散热</strong>：盘体铸有「蜂巢式散热通道」（经流体力学模拟，散热效率提升 60%），搭配「自清洁涂层」（刹车粉秒被气流吹走，轮毂再也不黑），雨天制动距离比铸铁盘短 2.3 米；</li><li>🧲&nbsp;<strong>磁悬浮动平衡</strong>：出厂前经「纳米级动平衡修正」（误差≤0.1g・cm，普通盘是 1g・cm），高速过弯时方向盘不抖，像「车轮长了陀螺仪」。</li></ul><p><br/></p><p><strong>安装仪式感</strong>：</p><p><br/></p><ul><li>🛠️&nbsp;<strong>专属工具包</strong>：随盘赠「扭矩标定扳手」（预设原厂力矩，拧螺丝像「给车轮做针灸」），+「刹车油置换器」（真空抽吸旧油，避免空气残留，脚感更线性）；</li><li>📊&nbsp;<strong>制动监测卡</strong>：盘体激光蚀刻「磨损刻度线」（每 2mm 一条，对应剩余寿命），扫码激活「智能监测」（手机实时预警，磨到警戒线自动弹保养提醒）；</li><li>🌧️&nbsp;<strong>雨天特调模式</strong>：配套「陶瓷刹车片」（湿地摩擦系数 0.42，比金属片高 35%），暴雨天刹停距离缩短 15%，过水洼像「踩在干燥路面」。</li></ul><p><br/></p><p><strong>服务护城河</strong>：</p><p><br/></p><ul><li>🚗&nbsp;<strong>上门精修服务</strong>：认证技师带「恒温工具箱」（避免零件热胀冷缩），上门安装时同步做「四轮定位 + 刹车油路排空」，堪比 4S 店顶配服务；</li><li>⏳&nbsp;<strong>寿命保险</strong>：承诺「碳陶盘寿命≥10 万公里」（普通铸铁盘仅 3 万公里），若提前磨损，免费置换新盘 + 赔 500 元误工费；</li><li>🏁&nbsp;<strong>赛道体验券</strong>：购盘满额，赠「专业赛道日」（含赛车教官 1v1 指导，实测新刹车盘的极限性能，感受「贴地飞行」的制动自信）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>性能碾压：100-0km/h 制动距离<strong>32.7 米</strong>（同车型铸铁盘 36.2 米），盘体最高耐温<strong>1200℃</strong>（超过 F1 赛事标准）；</li><li>经济账：10 万公里省<strong>3 套铸铁盘 + 6 次刹车片</strong>（碳陶盘寿命长，刹车片损耗少 30%），长期用车反而更划算；</li><li>适配覆盖：支持<strong>90% 豪华性能车</strong>（保时捷 911、宝马 M 系、奥迪 RS 等），下单报车架号，48 小时定制专属盘体。</li></ul><h3>💥 铱金火花塞 | 给引擎灌「量子级爆发力」💢</h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>⚡&nbsp;<strong>等离子点火芯</strong>：中心电极采用「铱金 + 钇合金」（熔点 2450℃，寿命 10 万公里，是普通镍合金的 5 倍），放电间隙精准到 0.01mm（比发丝还细），能点燃「稀薄到极限的油气混合物」（空燃比 18:1 仍稳定燃烧），油门响应快如闪电；</li><li>🔬&nbsp;<strong>纳米涂层黑科技</strong>：瓷绝缘体披「疏油疏水涂层」（机油、水汽无法附着，避免漏电），侧电极镀「氮化钛」（抗腐蚀能力提升 80%，海边用车也不生锈），引擎积碳率降低 40%；</li><li>🧠&nbsp;<strong>智能自调节</strong>：内置「压电传感器」（实时监测缸内压力），自动调整点火提前角（误差≤0.1ms），上坡时多喷油爆发，巡航时省油静音，像给引擎装了「AI 大脑」。</li></ul><p><br/></p><p><strong>驾驶体感革命</strong>：</p><p><br/></p><ul><li>🏎️&nbsp;<strong>超车底气</strong>：低转速扭矩提升 12%（等红灯起步，秒甩后车半个车身），高转速功率输出更线性（红线区不疲软，声浪像「猛兽低吼」）；</li><li>🛋️&nbsp;<strong>静音享受</strong>：怠速时引擎抖动减少 50%（手搭方向盘，几乎感觉不到震颤），车内对话不用提高音量，连音响解析力都变清晰了；</li><li>⛽&nbsp;<strong>省油魔法</strong>：综合油耗降低 8%（城市通勤每月省 1 箱油），因为油气燃烧更充分，排气管滴水成常态（完美燃烧的标志）。</li></ul><p><br/></p><p><strong>安装仪式细节</strong>：</p><p><br/></p><ul><li>🧰&nbsp;<strong>无菌安装包</strong>：火花塞经「真空封装」（避免运输污染），随包赠「抗静电手套」（防止手汗腐蚀电极），+「缸压测试表」（安装前测缸压，确保引擎状态完美）；</li><li>📱&nbsp;<strong>点火诊断服务</strong>：扫码获取「专属点火曲线」（工程师根据车型、驾驶习惯定制），还能预约「ECU 特调」（配合火花塞，释放 15% 隐藏动力，合法范围内榨干性能）；</li><li>❄️&nbsp;<strong>极寒保障</strong>：附赠「零下 30℃启动剂」（东北车主福音，-20℃一把着车），火花塞带「低温自预热」（启动时先加热电极，油气秒点燃）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>寿命碾压：10 万公里免更换（普通火花塞 3 万公里必换），省 6 次工时费；</li><li>动力提升：轮上马力增加<strong>8-12 匹</strong>（实测数据，自吸车更明显），0-100km/h 加速快 0.5-1 秒；</li><li>适配精准：覆盖<strong>95% 车型</strong>（从家用买菜车到超跑，均有对应型号），下单备注车型 + 年款，秒匹配最佳热值。</li></ul><h3>🛣️ 电磁可调减震器 | 让底盘有「千面性格」🦾</h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>🌐&nbsp;<strong>毫秒级阻尼调节</strong>：内置「磁流变液 + 电磁线圈」（响应速度≤10ms，比眨眼睛还快），根据路况自动切换「舒适 / 运动 / 越野」模式：过减速带时变软（滤震 90%，屁股像坐沙发），攻弯时变硬（侧倾减少 40%，车身像「贴地滑翔」）；</li><li>🔍&nbsp;<strong>3D 路况扫描</strong>：减震器顶端嵌「激光传感器」（每秒扫描 50 次路面），配合「车身姿态算法」（监测倾角、加速度），预判坑洼提前变软，压过井盖像「压棉花」；</li><li>🔋&nbsp;<strong>能量回收黑科技</strong>：减震器工作时，「电磁线圈发电」（回收 20% 颠簸能量，给电池补电），混动车型油耗再降 3%，纯电车续航多跑 15 公里。</li></ul><p><br/></p><p><strong>场景化性格切换</strong>：</p><p><br/></p><ul><li>🏙️&nbsp;<strong>城市巡航</strong>：开启「魔毯模式」（阻尼柔如绸缎），碾过井盖、减速带，车内咖啡都不撒，后排老人赞「比高铁稳」；</li><li>🏞️&nbsp;<strong>山路劈弯</strong>：切换「竞技模式」（阻尼硬如钢板），连续发卡弯车身侧倾≤5°，方向盘像「长在手里」，藤原拓海看了都想试；</li><li>🌧️&nbsp;<strong>雨天通勤</strong>：自动进入「安全模式」（阻尼适中，抓地力优先），湿地刹车距离缩短 3 米，变道不甩尾，安全感拉满。</li></ul><p><br/></p><p><strong>安装与调校仪式</strong>：</p><p><br/></p><ul><li>🛠️&nbsp;<strong>定制调校服务</strong>：技师带「底盘应力测试仪」（精准测量车身重心），根据车主体重、常用路况，定制「专属阻尼曲线」（比如常载娃，就调软后减震）；</li><li>📱&nbsp;<strong>APP 动态控制</strong>：手机实时看「减震器状态」（温度、阻尼、发电量），还能手动锁死模式（越野时锁运动，防止误触变软）；</li><li>🔧&nbsp;<strong>终身维护包</strong>：随减震赠「磁流变液补充装」（每 5 万公里换液，恢复 95% 性能），+「远程诊断服务」（工程师随时看数据，提前预警漏油、线圈故障）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>性能跨度：阻尼调节范围<strong>10-1000N·s/m</strong>（舒适模式如坐船，运动模式像赛车），车身侧倾抑制率<strong>65%</strong>（普通减震器仅 30%）；</li><li>寿命保障：电磁线圈寿命<strong>20 万公里</strong>（普通电子减震 10 万公里必坏），磁流变液 5 万公里换一次（比机油还省心）；</li><li>适配王者：支持<strong>80% 中高端车型</strong>（BBA 全系、特斯拉、蔚来等），老车升级后，底盘质感秒变新车。</li></ul><h3>🔧 锻造铝合金轮毂 | 给车轮穿「轻量化战甲」🏎️</h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>⚗️&nbsp;<strong>航空级锻造工艺</strong>：6061-T6 铝合金经「万吨级锻压机」一次成型（晶粒细化 300%，强度比铸造轮高 2 倍），单只轮圈轻 1.5kg（四只轻 6kg，相当于车后排少坐个瘦子），加速、刹车响应快如闪电；</li><li>🌪️&nbsp;<strong>空气动力学设计</strong>：轮辐采用「仿生涡流造型」（经风洞测试，降低 12% 风阻），高速行驶时，气流像「被驯服的野马」，推着车往前跑，续航多 10 公里；</li><li>🔒&nbsp;<strong>防盗黑科技</strong>：轮圈内置「NFC 芯片」（匹配车辆唯一 ID），非法拆卸时，车身自动报警 + 锁死动力，小偷见了直摇头。</li></ul><p><br/></p><p><strong>颜值与安全的双重浪漫</strong>：</p><p><br/></p><ul><li>🎨&nbsp;<strong>定制化美学</strong>：支持「私人色彩定制」（阳极氧化 18 种颜色，还能做渐变、拉丝、电镀），甚至「蚀刻车主签名」（激光微雕，永不褪色），车轮秒变「移动艺术品」；</li><li>🌡️&nbsp;<strong>散热革命</strong>：轮辐镂空设计（散热面积增加 40%），搭配「陶瓷散热涂层」（降低刹车盘温度 20℃），连续下坡也不担心热衰；</li><li>💥&nbsp;<strong>抗冲击测试</strong>：通过「100 万次颠簸测试」（模拟烂路 5 年行驶），轮圈无变形、裂纹，比铸造轮抗造 3 倍，越野冲沙也敢造。</li></ul><p><br/></p><p><strong>安装仪式与服务</strong>：</p><p><br/></p><ul><li>🛞&nbsp;<strong>轮胎匹配服务</strong>：购轮赠「专属轮胎套餐」（根据车型、轮毂数据，精准匹配抓地 / 静音胎，避免车主踩坑），还能预约「轮胎动平衡 + 四轮定位」（一次到位，方向盘不偏不抖）；</li><li>📍&nbsp;<strong>位置追踪</strong>：轮圈 NFC 芯片支持「GPS 定位」（被盗时，手机实时追踪位置，配合警方秒找回），比装追踪器还隐蔽；</li><li>⏳&nbsp;<strong>以旧换新</strong>：旧轮毂可折抵 500 元（无论品牌、磨损程度），还能「升级锻造轮」（旧铸造轮换锻造轮，补差价享受轻量化）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：</p><p><br/></p><ul><li>性能飞跃：簧下质量减轻 6kg，相当于「车重减 60kg」（簧下 1kg≈簧上 10kg），加速快 0.3 秒，油耗降 5%；</li><li>安全碾压：抗冲击强度<strong>5000N</strong>（铸造轮仅 2500N），高速爆胎时，轮圈支撑力更强，保命概率提升 30%；</li><li>适配宇宙：覆盖<strong>99% 车型</strong>（从微型车到超跑，支持 15-22 寸定制），下单给参数，72 小时出专属设计图。</li></ul><p><br/></p><p><strong>统一逻辑</strong>：</p><p><br/></p><ul><li><strong>科技穿透性</strong>：把「碳陶、磁流变、锻造」等黑科技，拆解成「刹车不抖、过弯不飘、省油提速」的体感，让车主秒懂价值；</li><li><strong>场景颗粒度</strong>：细化到「城市通勤、山路劈弯、雨天湿滑」，甚至「后排老人喝咖啡不撒」的细节，强化「买了就能享受」的画面；</li><li><strong>服务超预期</strong>：从「上门安装带恒温箱」到「被盗追踪、以旧换新」，解决车主「安装麻烦、售后担心、升级成本高」的痛点；</li><li><strong>数据定胜负</strong>：用「制动距离、寿命、油耗变化」的硬数据，建立专业信任，让车主觉得「每一分钱都花在刀刃上」。</li></ul>',199.00,'个',0,100,10,15),(29,'跑鞋','d9020368-c2e6-44ca-858a-26c332cae42e','<h3>🏃&nbsp;<strong>碳板竞速跑鞋 | 每一步都像「踩弹簧」🚀</strong></h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>🔧&nbsp;<strong>全掌碳板推进</strong>：航天级碳纤维板（弹性回复率 98%），蹬地时像被「弹弓弹射」，步幅瞬间提升 15%（实测半马成绩快 8 分钟）；</li><li>☁️&nbsp;<strong>氮科技中底</strong>：超临界发泡工艺（密度仅 0.18g/cm³，比羽毛还轻），缓震达 80%（落地时膝盖压力减少 40%，跑 10 公里也不酸）；</li><li>🌿&nbsp;<strong>湿地防滑大底</strong>：仿生蝾螈吸盘纹路（接触面积增加 30%），雨天跑石板路也不打滑，下坡像「贴地飞行」。</li></ul><p><br/></p><p><strong>场景仪式</strong>：</p><p><br/></p><ul><li>🌅&nbsp;<strong>晨跑仪式</strong>：开箱时碳板泛着「银河光泽」（纳米镀膜工艺），搭配随赠的「步态分析袜」（压力传感，APP 生成跑姿报告），每一步都在优化动作；</li><li>🏔️&nbsp;<strong>越野冒险</strong>：中底内置「防刺穿钢板」（抗冲击力 1000N，踩碎石不硌脚），鞋舌磁吸锁扣（一秒穿脱，不用系鞋带），山野里撒欢也从容；</li><li>🎽&nbsp;<strong>穿搭哲学</strong>：鞋侧 TPU 支撑条（黑武士、樱花粉等 8 色可选），配速干短袖像「机能风战衣」，配牛仔裤秒变「城市潮人」，一双鞋 =「跑鞋 + 潮鞋」。</li></ul><p><br/></p><p><strong>服务加成</strong>：</p><p><br/></p><ul><li>📱&nbsp;<strong>跑姿诊断</strong>：扫码免费获取「3D 步态分析」（足弓、步幅、触地时间全解析），定制「肌肉拉伸计划」；</li><li>🧼&nbsp;<strong>洗护礼包</strong>：送「纳米防水喷雾」（喷后雨水成珠滚落）和「碳板清洁刷」（不伤涂层，越刷越亮）；</li><li>⏳&nbsp;<strong>寿命追踪</strong>：每双鞋带「磨损监测贴」（后跟磨透即变色，提醒换鞋防受伤），专业跑者认证可享「以旧换新」（抵 200 元）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单只鞋重 210g（女款，男款 230g），缓震回弹率 85%（远超国标 60%），湿地防滑系数 1.2（国标 0.8），穿它 =「脚上装了涡轮增压」，PB 爱好者必冲。</p>',999.00,'双',0,100,6,8),(30,'速干短袖','76e9ab1e-d505-4bcd-919f-d7524a90a2e8','<h3>🏃‍♂️&nbsp;<strong>冰感速干短袖 | 暴汗时像「披着空气」🌬️</strong></h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>❄️&nbsp;<strong>Coolmax 冰丝纤维</strong>：吸湿速度 5 秒（普通棉 15 秒），汗液秒吸秒排，后背再也没有「地图印」，暴汗后还能保持「冰感肤触」（接触凉感 ΔT=4℃）；</li><li>🦠&nbsp;<strong>银离子抗菌</strong>：面料嵌入纳米银（抑菌率 99.9%），跑完马拉松也没汗臭味，连健身房更衣室都敢脱；</li><li>✂️&nbsp;<strong>3D 仿生剪裁</strong>：腋下「鲨鱼鳃」网布（透气量提升 60%），侧腰弧形分割（收腹显瘦，运动时不卡腋窝），胖子瘦子都能穿出「黄金比例」。</li></ul><p><br/></p><p><strong>场景仪式</strong>：</p><p><br/></p><ul><li>🔥&nbsp;<strong>高强度训练</strong>：穿它做 HIIT，汗水像「被真空泵吸走」，配随赠的「速干冷感毛巾」（浸湿甩一甩，降温 10℃），暴汗也清爽；</li><li>🌇&nbsp;<strong>城市通勤</strong>：冰感面料 + 极简设计（哑光黑、极光紫等 6 色），配牛仔裤像「科技潮男」，进公司前擦把汗，谁也看不出你刚跑了 5 公里；</li><li>🌄&nbsp;<strong>徒步穿越</strong>：后背隐藏「应急口袋」（可装能量胶、纸巾），领口反光条（夜爬时救命），一件顶「运动衣 + 户外服 + 通勤衫」。</li></ul><p><br/></p><p><strong>服务加成</strong>：</p><p><br/></p><ul><li>🎁&nbsp;<strong>汗渍测试卡</strong>：随衣附赠「紫外线汗渍显色卡」（出汗后卡面变紫，提醒换衣防异味）；</li><li>👕&nbsp;<strong>定制服务</strong>：免费绣名字缩写（激光微雕，水洗不掉），团队定制还能印队标，秒变「专属战衣」；</li><li>🌿&nbsp;<strong>旧衣新生</strong>：穿旧后可寄回工厂（做成运动垫，环保又有仪式感），新购享「以旧换新」（抵 50 元）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：吸湿速率 5g/h（普通速干衣 3g/h），UPF50+（防晒同时透气，不用额外涂防晒），洗涤 50 次后抗菌率仍≥95%，一件衣服 =「空调 + 抗菌剂 + 时尚单品」，夏天离不开它。</p>',199.00,'件',0,100,6,8),(31,'机能登山双肩包','a22ba3a9-ab16-4b17-8df3-f62485c473e3','<h3>🎒&nbsp;<strong>机能登山双肩包 | 背负系统像「长在背上」🦾</strong></h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>🔄&nbsp;<strong>悬浮背负系统</strong>：航空铝龙骨（重量仅 80g，承重却达 30kg），背板 6 区透气（海绵 + 网布，通风量提升 70%），徒步 8 小时后背还是干的；</li><li>🔋&nbsp;<strong>磁吸快取设计</strong>：侧袋「秒开磁吸扣」（取水壶 0.5 秒，比拉链快 3 倍），顶部「无人机快取层」（抽拉式，航拍前不用翻包），户外摄影师狂喜；</li><li>💦&nbsp;<strong>全场景防水</strong>：TPU 防水膜（接缝处热压密封，防水等级 IPX6），暴雨中徒步 2 小时，相机、手机仍干爽，还能当「临时雨披」（展开覆盖全身）。</li></ul><p><br/></p><p><strong>场景仪式</strong>：</p><p><br/></p><ul><li>🌄&nbsp;<strong>单日徒步</strong>：主仓「模块化分隔」（可拆成 3 个独立小包），装得下无人机、三脚架、4 瓶水，背负调节带「一拉即紧」（不用找调节扣），轻松征服 10 公里山径；</li><li>⛺️&nbsp;<strong>多日登山</strong>：扩展层拉开（容积从 25L→35L），睡袋、换洗衣物分区放，背板「腰椎支撑垫」（贴合人体曲线，背 30 斤像背 20 斤），重装徒步也不累；</li><li>🏙️&nbsp;<strong>城市通勤</strong>：隐藏电脑仓（16 寸笔记本秒放），侧袋「磁吸充电口」（接充电宝，边走边充），外观像「赛博朋克背包」，上班族背去公司也不违和。</li></ul><p><br/></p><p><strong>服务加成</strong>：</p><p><br/></p><ul><li>🧳&nbsp;<strong>收纳礼包</strong>：送「磁吸分隔板」（自由组合仓位）和「防水鞋袋」（湿鞋单独放，不脏其他装备）；</li><li>📏&nbsp;<strong>背负定制</strong>：免费测量肩宽、背长，定制「专属背负带」（误差≤0.5cm，贴合到像「第二层皮肤」）；</li><li>🗺️&nbsp;<strong>轨迹记录</strong>：背包内置「GPS 追踪器」（待机 30 天，APP 实时看位置），户外遇险时救命，城市丢包也能找。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：自重 1.2kg（35L 满配），悬浮背负减负率 40%（背 30 斤体感 18 斤），防水等级 IPX6（暴雨中 2 小时不渗水），一个背包 =「移动堡垒 + 贴身助理」，户外老炮必入。</p>',599.00,'件',0,100,6,8),(32,'遮阳帽','bf19e17c-f223-453f-ba37-5d0cb24067ff','<h3>🧢&nbsp;<strong>冰感空顶遮阳帽 | 把「树荫」戴在头上🌳</strong></h3><p><strong>核心科技</strong>：</p><p><br/></p><ul><li>❄️&nbsp;<strong>冰丝冷凝面料</strong>：接触瞬间降温 5℃（内置冷凝胶层，太阳下晒不烫），帽檐「记忆钢丝」（折成任意形状，防风又塑形）；</li><li>☀️&nbsp;<strong>全维防晒</strong>：帽檐宽 10cm（遮挡面积增加 40%），后颈「防晒披风」（延伸 15cm，脖子再也不晒红），UPF50+（99% 紫外线挡在外面，不用涂颈霜）；</li><li>🌬️&nbsp;<strong>透气革命</strong>：顶部「蜂窝网眼」（透气量 2000mm/s，比普通空顶帽多 3 倍），汗湿的头发能「秒干」，戴 8 小时也不闷痘。</li></ul><p><br/></p><p><strong>场景仪式</strong>：</p><p><br/></p><ul><li>🏃&nbsp;<strong>晨跑暴汗</strong>：帽檐「磁吸墨镜夹」（秒固定墨镜，不用手抓），后颈披风「隐藏收纳」（热了一折，变成空顶帽），配速干短袖像「防晒战甲」，太阳再毒也不怕；</li><li>🏕️&nbsp;<strong>徒步穿越</strong>：防风绳「磁吸快拆」（0.3 秒解开，不卡头发），帽顶「应急口哨」（遇险时吹响，声传 500 米），户外安全再加码；</li><li>🌊&nbsp;<strong>海边度假</strong>：帽檐「防泼水处理」（海水溅上成珠滚落），折叠后像「掌心大小」（塞进化妆包），配比基尼戴出「时尚大片感」。</li></ul><p><br/></p><p><strong>服务加成</strong>：</p><p><br/></p><ul><li>📸&nbsp;<strong>防晒测试卡</strong>：随帽附赠「紫外线测试卡」（贴在帽下，变色即提醒补防晒）；</li><li>🎨&nbsp;<strong>定制服务</strong>：免费烫印名字 / 图案（激光雕刻，水洗不掉），团队定制还能做「统一队帽」；</li><li>❄️&nbsp;<strong>冰感礼包</strong>：送「冷凝冰贴」（贴在帽内，持续降温 2 小时）和「防晒修复喷雾」（晒后喷，泛红秒褪）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：帽檐防晒面积 0.12㎡（普通空顶帽 0.08㎡），冷凝面料降温 5℃（实测数据），折叠后体积≤0.5L（比保温杯还小），一顶帽子 =「移动树荫 + 防晒保镖」，夏天出门必戴。</p>',199.00,'个',0,100,6,8),(33,'空调','a07017d6-0e32-4b90-a46c-e1cd523bff87','<h3>🌬️ 新风变频空调 | 呼吸的「森林结界」🌳✨</h3><p><strong>核心科技</strong>：双混动新风系统（1 小时换 1 次全屋空气，PM2.5 过滤率 99%），温湿双控（控温 ±0.5℃，控湿 ±5%，黄梅天也不潮），AI 人感（人走降频，节能 30%，再也不怕忘关空调）。</p><p><br/></p><p><strong>场景魔法</strong>：</p><p><br/></p><ul><li>🌙&nbsp;<strong>睡眠模式</strong>：自动调低风速（≤18dB，比耳语还轻），缓慢升温（后半夜不冻醒），还能释放「助眠香氛」（薰衣草 + 雪松，失眠克星）；</li><li>🍃&nbsp;<strong>母婴模式</strong>：新风 + 净化双开，PM0.3 过滤率 95%（病毒飞沫全挡），26℃恒温，宝宝睡觉踢被子也不感冒；</li><li>🏡&nbsp;<strong>客厅模式</strong>：30 秒速冷（出风口温度 - 18℃），配合「气流巡航」（冷风贴墙走，不直吹人），追剧时凉得均匀。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>📱&nbsp;<strong>远程管家</strong>：APP 提前预冷，到家就能穿短袖；故障自诊断（压缩机异响、滤网脏了，手机秒报警）；</li><li>✨&nbsp;<strong>隐形式设计</strong>：超薄机身（厚度 18cm，贴墙如壁画），彩色面板（鎏金、墨绿等 8 色可选，适配装修风格）；</li><li>🧹&nbsp;<strong>自清洁革命</strong>：蒸发器 56℃高温除菌（杀灭 99% 霉菌），自动抬升面板（方便拆洗滤网，不用搬椅子）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：APF 能效 1 级（耗电比普通空调省 40%），新风量 100m³/h（一间卧室 1 小时换完气），噪音≤18dB（深夜开也不吵），一台空调 =「空气管家 + 香氛机 + 除湿器」。</p>',5999.00,'台',0,100,4,9),(34,'空气炸锅','18b4d922-394a-4e7f-9817-0c271eb773fe','<h3>&nbsp;🍗 可视化空气炸锅 | 美食的「无油魔法盒」🍟✨</h3><p><strong>核心颠覆</strong>：360° 全景玻璃舱（实时看鸡翅变焦黄，像「围观美食进化」），双区控温（上烤下炸，蛋挞酥脆不流心），智能菜单（200 + 食谱，手机扫码自动调温）。</p><p><br/></p><p><strong>烹饪仪式</strong>：</p><p><br/></p><ul><li>🍔&nbsp;<strong>快手早餐</strong>：冷冻手抓饼放进去，180℃ 8 分钟，出来外皮酥脆，内里软嫩，还能同步烤个溏心蛋（下层 60℃恒温，不烫嘴）；</li><li>🥩&nbsp;<strong>约会硬菜</strong>：肋排放中间，红薯块围一圈，200℃ 25 分钟，肉流汁、薯起沙，不用刷锅（不粘涂层，一擦就净）；</li><li>🎂&nbsp;<strong>甜品彩蛋</strong>：烤蛋糕模式（150℃ 30 分钟），戚风蓬松不塌腰，还能做「空气炸锅版马卡龙」（附赠食谱）。</li></ul><p><br/></p><p><strong>科技细节</strong>：</p><p><br/></p><ul><li>🔍&nbsp;<strong>精准控温</strong>：NTC 探针（误差 ±1℃，比烤箱准 3 倍），中途开门自动暂停，避免热气跑光；</li><li>📏&nbsp;<strong>容量为王</strong>：8L 巨无霸舱（能烤整只鸡，或 12 个鸡翅），双层烤架（同时烤两种食材，不串味）；</li><li>🎁&nbsp;<strong>创意礼包</strong>：送「空气炸锅专用纸」（吸油锁汁，清洗 0 负担）和「食物温度计」（确保肉类熟透，食品安全第一）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：无油烹饪减少 80% 油脂（炸鸡热量从 3000 大卡→600 大卡），玻璃舱耐温 800℃（烤披萨也不裂），一台 =「烤箱 + 炸锅 + 煎锅 + 甜品机」，厨房小白秒变大师。</p>',499.00,'个',0,100,4,9),(35,'电风扇','c219d9f1-4832-4a59-8619-314c2dfad9ec','<h3>🍃 直流变频电风扇 | 夏风的「温柔复刻」🌪️✨</h3><p><strong>核心科技</strong>：航空级涡轮扇叶（13 片仿生羽翼，风感像「自然穿堂风」），直流变频电机（1 档风速≤15dB，婴儿睡觉也不醒），AI 温感（室温超 30℃自动加速，低于 26℃降速，省电又智能）。</p><p><br/></p><p><strong>风感革命</strong>：</p><p><br/></p><ul><li>🌫️&nbsp;<strong>睡眠风</strong>：每 30 秒切换风速（模拟自然风，吹 10 小时不头疼），搭配「香薰盒」（滴薄荷油，风里带凉意）；</li><li>🌞&nbsp;<strong>客厅风</strong>：20 档风速（1 档如发丝拂脸，20 档像暴雨前疾风），摇头角度 120°（覆盖整个客厅，不用搬来搬去）；</li><li>🚢&nbsp;<strong>除湿风</strong>：配合空调开，加速空气循环（除湿效率↑50%），梅雨天衣服干得快。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>📱&nbsp;<strong>智能联动</strong>：和空调、加湿器组网（APP 一键设「清凉模式」：空调 26℃+ 风扇 3 档 + 加湿器 50% 湿度）；</li><li>✨&nbsp;<strong>隐形式设计</strong>：机身纤细（直径 20cm，不占空间），哑光白 + 木纹底座（像件家具，不是电器）；</li><li>🔋&nbsp;<strong>停电应急</strong>：内置 5000mAh 电池（满电用 8 小时，停电时当「移动风扇」，还能给手机充电）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：最低档耗电 4W（开 250 小时才 1 度电），风距 15 米（客厅对角线也能吹到），噪音≤15dB（比电脑风扇还安静），一台风扇 =「自然风制造机 + 应急电源」。</p>',200.00,'台',0,100,4,9),(36,'学步车','b18ad1d9-be91-448e-8ba6-9778d5815d7b','<h3>🚶 智能学步车 | 成长的「平衡教练」👶✨</h3><p><strong>核心安全</strong>：防侧翻三角架构（360° 稳如泰山，宝宝怎么扭都不倒），缓震轮（静音 + 防滑，地板、地毯都能滑，不卡缝），速度调节（1 档学站，2 档学走，3 档慢跑，适配不同阶段）。</p><p><br/></p><p><strong>早教魔法</strong>：</p><p><br/></p><ul><li>🎵&nbsp;<strong>音乐启蒙</strong>：12 首古典乐（莫扎特、巴赫）+ 动物叫声（激发认知），宝宝推一步，响一声，边玩边学；</li><li>🔤&nbsp;<strong>双语教学</strong>：触摸式字母板（按 A 读「Apple」，按 B 读「Banana」），中英切换，早教从学步开始；</li><li>🪀&nbsp;<strong>互动玩具</strong>：可拆卸益智模块（绕珠、镜面、摇铃），锻炼手眼协调，玩腻了还能装新玩具。</li></ul><p><br/></p><p><strong>仪式感成长</strong>：</p><p><br/></p><ul><li>📏&nbsp;<strong>身高追踪</strong>：车把带刻度（每月标记身高，看宝宝蹿多快），附赠「成长纪念卡」（记录第一次独立走 10 步的日期）；</li><li>🧼&nbsp;<strong>清洁无忧</strong>：座椅套可拆洗（抗菌面料，吐奶、流口水一擦就净），车架防水（宝宝泼水解救饮料也不怕）；</li><li>🎁&nbsp;<strong>礼包惊喜</strong>：送「护膝防摔套」（学走必磕，护膝软如棉花）和「学步牵引带」（大人轻松辅助，不用弯腰）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：通过欧盟 EN 1888 认证（婴儿车最高安全标准），承重 20kg（胖宝宝也能用到 3 岁），防侧翻角度≥15°（远超国标 10°），一辆车 =「早教机 + 健身器 + 安全堡垒」。</p>',399.00,'台',0,100,8,10),(37,'婴儿被','e357deda-3af2-4b62-907e-ce9dcf69b77c','<h3>🌙 恒温婴儿被 | 睡眠的「云朵襁褓」☁️✨</h3><p><strong>核心科技</strong>：云母凉感纤维（接触凉感 ΔT=3℃，夏天盖不闷汗），相变恒温层（28-32℃自动调温，冬天暖如阳光），抗菌鹅绒（95% 白鹅绒，蓬松度 800+，像「盖着会呼吸的云」）。</p><p><br/></p><p><strong>设计细节</strong>：</p><p><br/></p><ul><li>👶&nbsp;<strong>仿生襁褓</strong>：可调节魔术贴（0-6 个月裹成茧，6-18 个月松开成被），模拟子宫包裹感，宝宝睡得香；</li><li>🧽&nbsp;<strong>清洁革命</strong>：可机洗（50℃轻柔模式，洗后蓬松度不变），附赠「防跑绒洗衣袋」（再也不怕绒乱飞）；</li><li>✨&nbsp;<strong>夜光定位</strong>：被角藏荧光条（深夜喂奶，不用开灯找宝宝，微光下就能看见）。</li></ul><p><br/></p><p><strong>仪式感陪伴</strong>：</p><p><br/></p><ul><li>🎵&nbsp;<strong>助眠音效</strong>：被角内置「白噪音模块」（心跳声、流水声，长按切换），宝宝听着秒睡；</li><li>📅&nbsp;<strong>成长记录</strong>：随被赠「睡眠日记」（记录夜醒次数、喝奶时间），新手爸妈的「育儿神器」；</li><li>🌿&nbsp;<strong>天然安心</strong>：无荧光剂、无甲醛（A 类婴儿标准），染料来自植物（蓝莓、茜草，安全到能啃）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：恒温层控温误差 ±0.5℃（比婴儿房空调准），鹅绒清洁度 1000+（比医用级还干净），一条被 =「恒温箱 + 安抚师 + 清洁员」，宝宝安睡一整晚。</p>',199.00,'件',0,100,8,10),(38,'哈利波特','3b099b25-b322-4243-8ae9-8667dd06ecc6','<h3>🧙 哈利波特典藏套 | 魔法的「实体咒语书」📚✨</h3><p><strong>典藏规格</strong>：英国 Bloomsbury 出版社原版复刻（字体、插画 1:1 还原），真皮封面（烫金浮雕，触感如「魔法羊皮纸」），首版书脊做旧（泛黄设计，像从对角巷淘来的古董）。</p><p><br/></p><p><strong>魔法细节</strong>：</p><p><br/></p><ul><li>✨&nbsp;<strong>互动封面</strong>：《魔法石》封面嵌「真・魔法石」（红水晶，光照下会发光），《火焰杯》杯口藏「温控变色漆」（手摸变烫金）；</li><li>🎧&nbsp;<strong>有声咒语</strong>：扫码听「分院帽原声」（分院时跟着念，真的会被「分学院」），《混血王子》里的魔药配方，扫描后能看「魔药沸腾动画」；</li><li>🧙&nbsp;<strong>道具复刻</strong>：随书赠「迷你光轮 2000」（可悬浮展示架）、「复方汤剂瓶」（液体摇晃会变色），摆在书架像「霍格沃茨陈列柜」。</li></ul><p><br/></p><p><strong>阅读仪式</strong>：</p><p><br/></p><ul><li>🕯️&nbsp;<strong>烛光阅读</strong>：附赠「魔法蜡烛」（火焰呈绿色，安全无明火），点上蜡烛读《阿兹卡班》，氛围直接拉满；</li><li>✍️&nbsp;<strong>魔法批注</strong>：书页边缘留「咒语涂鸦区」（用随赠的「消失笔」，写错了一抹就没），记录你的「魔法发现」；</li><li>🎁&nbsp;<strong>血统验证</strong>：每本书含「巫师血统测试题」（扫码答题，测你是纯血、混血还是麻瓜），麻瓜也能玩嗨。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：真皮封面耐折 10000 次（翻到散架也不掉皮），插画采用「UV 浮雕」（立体如手办），一套书 =「移动霍格沃茨」，哈迷必入的传家宝。</p>',299.00,'套',0,100,13,14),(39,'手链','6b07f96e-d7d4-4bd5-ae69-dd60442c1c6d','<h3>💎 翡翠平安扣手链 | 腕间的「东方护身符」🍀✨</h3><p><strong>料子神话</strong>：缅甸老坑玻璃种翡翠（透光度≥90%，绿如「祖母绿宝石」），原石切割（每块料子只取中心 30%，瑕疵全抛），非遗錾刻（边缘雕祥云纹，比机器雕活三分）。</p><p><br/></p><p><strong>工艺封神</strong>：</p><p><br/></p><ul><li>✂️&nbsp;<strong>镶嵌革命</strong>：18K 金镶钻（钻石围边，像「给翡翠打光」），爪镶工艺（隐形托爪，突出翡翠本身），光线下翡翠像「会呼吸的绿宝石」；</li><li>🧵&nbsp;<strong>编绳艺术</strong>：非遗结艺（金刚结 + 凤尾结，寓意「平安顺遂」），绳色可定制（故宫红、松烟墨等 12 色，适配穿搭）；</li><li>📿&nbsp;<strong>调节黑科技</strong>：隐形伸缩扣（1 秒调节长度，手腕胖瘦都能戴），贵金属镀层（戴 3 年不褪色，洗澡不用摘）。</li></ul><p><br/></p><p><strong>仪式感拥有</strong>：</p><p><br/></p><ul><li>🎁&nbsp;<strong>开箱礼遇</strong>：檀木匣（配湿度计，保持翡翠水润），附赠「翡翠保养油」（每月擦 1 次，水头更足）；</li><li>🔮&nbsp;<strong>身份绑定</strong>：证书带「区块链溯源」（扫码看料子产地、雕刻师信息），还能刻字（背面雕名字缩写，专属定制）；</li><li>📈&nbsp;<strong>增值潜力</strong>：玻璃种翡翠每年涨价 10%+（比黄金稳），二手市场遇有缘人能翻倍，戴它 =「戴了个小金库」。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：翡翠密度 3.33g/cm³（天然 A 货标志），钻石共 20 分（围边 18 颗，粒粒闪瞎眼），一条手链 =「东方美学 + 金融资产」，传家首选。</p>',1999.00,'条',0,100,17,17),(40,'项链','bd916a0f-30e8-443d-bd10-6bcf61acefbe','<h3>🌟 星芒项链 | 颈间的「宇宙碎片」🌠✨</h3><p><strong>设计哲学</strong>：北斗七星造型（18K 金 + 莫桑钻，主钻 1 克拉，副钻共 0.5 克拉），星芒采用「拉丝 + 抛光」双工艺（光线下像「星星在眨眼睛」），链身是「银河链」（每节像星系旋臂，灵动不打结）。</p><p><br/></p><p><strong>佩戴魔法</strong>：</p><p><br/></p><ul><li>🌌&nbsp;<strong>昼夜变奏</strong>：白天，莫桑钻火彩媲美真钻（色散 0.104，比钻石还闪）；夜晚，荧光涂层发光（暗处泛幽蓝，像「把星空戴在颈间」）；</li><li>🎀&nbsp;<strong>多戴法</strong>：项链可拆成「手链 + 锁骨链」（1 条变 2 条，晚宴、日常都能搭），星芒吊坠还能当胸针（磁吸扣，别在西装上超飒）；</li><li>🧑🤝🧑&nbsp;<strong>情侣密码</strong>：定制「双子星」款（你的星芒 + TA 的星芒，角度互补），链尾刻对方名字缩写，暗戳戳撒狗粮。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>🎁&nbsp;<strong>开箱惊喜</strong>：星空礼盒（打开时「银河投影」自动亮起），附赠「星象图」（标注项链对应星座，讲浪漫故事）；</li><li>🔬&nbsp;<strong>科技背书</strong>：莫桑钻过钻笔（鉴定为真钻级），18K 金带国检证书（含金量≥75%），假货退一赔三；</li><li>📅&nbsp;<strong>保养无忧</strong>：送「钻石清洁布」（擦完火彩翻倍）和「项链整形器」（链身变形一夹就直），永远像新的。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：莫桑钻硬度 9.25（接近钻石 10），项链总重 8g（轻盈不累颈），火彩指数≥1.0（比普通钻石还闪），一条项链 =「星空 + 珠宝 + 情话」，表白必杀技。</p>',2999.00,'条',0,100,17,17),(41,'耳环','19085fd7-4bbc-4fba-8ebe-a7b0777ed39f','<h3>🌸 珍珠耳环 | 耳畔的「月光凝露」🌙✨</h3><p><strong>珍珠神话</strong>：日本 Akoya 海水珠（直径 8-8.5mm，正圆无瑕，光泽如「镜面反射」），珠层厚度≥0.6mm（比普通 Akoya 厚 30%，越戴越亮），18K 金耳钩（抗过敏，戴 10 年不黑）。</p><p><br/></p><p><strong>设计颠覆</strong>：</p><p><br/></p><ul><li>🌊&nbsp;<strong>海浪造型</strong>：耳钩雕成「海浪托珠」（金浪翻涌，珍珠如浪尖的露珠），动时珍珠晃，金浪也晃，像「耳畔有海风」；</li><li>✨&nbsp;<strong>光影魔法</strong>：珍珠底面嵌「小钻」（从下往上打光，珍珠更亮），侧面看「珠中珠」（光影折射，像珍珠里藏了星星）；</li><li>🎎&nbsp;<strong>双面佩戴</strong>：正面戴珍珠（优雅），背面戴金浪（个性），1 对耳环 = 2 种风格，职场、派对切换自如。</li></ul><p><br/></p><p><strong>仪式感拥有</strong>：</p><p><br/></p><ul><li>🎁&nbsp;<strong>开箱礼遇</strong>：樱花木盒（配湿度珠，保持珍珠水润），附赠「珍珠保养液」（喷一喷，光泽回来）；</li><li>🔍&nbsp;<strong>血统认证</strong>：每颗珍珠带「日本真珠科学研究所证书」（验证产地、珠层），假一赔万；</li><li>📅&nbsp;<strong>增值潜力</strong>：Akoya 珍珠每年涨价 8%+（比黄金稳）， vintage 款更值钱，戴它 =「戴了个会涨价的月光」。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：珍珠光泽度≥90（普通珍珠 60），耳钩含金量 75%（国检认证），一对耳环 =「东方优雅 + 金融资产」，妈妈女儿都能戴。</p>',199.00,'双',0,100,17,17),(42,'口红','435897df-ae88-4945-a9c8-bbee8202f675','<h3>💄 丝绒雾面口红 | 唇间的「哑光绸缎」💋✨</h3><p><strong>质地革命</strong>：航天级锁色微粒（24 小时持色，喝水不沾杯，吃饭剩 50%），天然植物油脂（乳木果油 + 玫瑰精油，不拔干，唇纹像被「磨平」），3D 打印菱形膏体（贴合唇形，一笔画满唇）。</p><p><br/></p><p><strong>色号哲学</strong>：</p><p><br/></p><ul><li>🌹&nbsp;<strong>复古红</strong>：#1966 枫丹白露（暖调红，黄皮显白 3 度，像「秋天的枫叶落在唇上」）；</li><li>🍇&nbsp;<strong>葡萄紫</strong>：#888 午夜巴黎（冷调紫，配烟熏妆，像「吸血鬼的致命诱惑」）；</li><li>🍑&nbsp;<strong>蜜桃色</strong>：#233 济州岛（粉调裸，素颜涂，像「天生好气色」）。</li></ul><p><br/></p><p><strong>仪式感上妆</strong>：</p><p><br/></p><ul><li>🪞&nbsp;<strong>镜子黑科技</strong>：管盖内置「补光灯」（3 档亮度，暗处也能精准涂），还能当手机支架（边涂边追剧）；</li><li>🎁&nbsp;<strong>护唇礼包</strong>：送「唇部去角质棒」（砂糖 + 蜂蜜，搓掉死皮）和「唇膜」（睡前敷，第二天唇如果冻）；</li><li>🔬&nbsp;<strong>安全认证</strong>：通过欧盟 Cosmos 有机认证（80% 天然成分，孕妇也能涂），香精来自天然植物（玫瑰、柑橘，闻着像果汁）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：持色 24 小时（吃饭后剩 50%，喝水完全不沾），膏体硬度 3.5（涂 100 次不变形），一支口红 =「哑光滤镜 + 护唇精华」，黄皮、白皮通吃。</p>',299.00,'支',0,100,5,7),(43,'粉饼','b5135b0b-b0d2-49da-9af7-3acf4f717f06','<h3>🎨 空气感粉饼 | 脸的「哑光滤镜」🌫️✨</h3><p><strong>质地黑科技</strong>：微米级空气粉（颗粒直径≤5μm，上脸像「雾蒙蒙的云」），双重复合控油（吸油因子 + 锁水磁石，6 小时油光不返场），光折射技术（视觉磨皮，毛孔、痘印有「隐身术」）。</p><p><br/></p><p><strong>上妆革命</strong>：</p><p><br/></p><ul><li>✨&nbsp;<strong>一秒磨皮</strong>：粉扑是「天鹅绒 + 硅胶」双材质（一面拍开粉，一面精准补妆），拍在脸上像「给皮肤打柔光」，iPhone 原相机直出也没毛孔；</li><li>🌧️&nbsp;<strong>防水抗汗</strong>：纳米防水涂层（出汗、下雨不花妆），海边度假、暴汗健身都能 hold 住；</li><li>🎭&nbsp;<strong>多场景切换</strong>：干皮用「保湿款」（含玻尿酸，上脸润），油皮用「控油款」（吸油力 Max），一盘适配四季。</li></ul><p><br/></p><p><strong>仪式感细节</strong>：</p><p><br/></p><ul><li>🪞&nbsp;<strong>镜子美学</strong>：粉盒带「折叠镜」（3 倍放大，画眼线、涂睫毛都能行），镜面防指纹（摸完还是干净的）；</li><li>🎁&nbsp;<strong>补妆礼包</strong>：送「吸油纸」（和粉饼同控油配方，吸油不吸水）和「迷你散粉刷」（局部补妆更自然）；</li><li>🔬&nbsp;<strong>安全认证</strong>：无滑石粉、无酒精（敏感肌、痘肌放心用），香精是「白桃乌龙」（闻着像奶茶，超治愈）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：吸油能力 1g 粉吸 10g 油（普通粉饼吸 3g），磨皮效果≈PS「高斯模糊」，一盘粉饼 =「移动修图师 + 吸油机」，出门必带。</p>',99.00,'盒',0,100,5,7),(44,'电饭煲','53d94c68-69b3-41f2-addb-e33b34fac521','<h3>🍚 IH 电磁电饭煲 | 米饭的「灵魂重生」🍚✨</h3><p><strong>核心科技</strong>：IH 立体加热（1300W 大火力，米饭在锅裡「跳舞」，每粒都均匀受热），压力焖煮（1.2 倍大气压，煮出「柴火饭」的锅巴香），智能米种识别（东北米、泰国米、糙米自动调程序）。</p><p><br/></p><p><strong>煮饭仪式</strong>：</p><p><br/></p><ul><li>🍚&nbsp;<strong>东北米模式</strong>：120℃沸煮，激活淀粉糊化，米饭粒粒分明，冷了也不硬；</li><li>🍛&nbsp;<strong>煲仔饭模式</strong>：底部大火煎出焦脆锅巴，腊肠、青菜分层放，出锅就是「街头煲仔饭」；</li><li>🌾&nbsp;<strong>糙米模式</strong>：先泡后煮（38℃恒温泡 30 分钟，激活胚芽营养），糙米也能煮得软乎乎。</li></ul><p><br/></p><p><strong>设计细节</strong>：</p><p><br/></p><ul><li>📱&nbsp;<strong>远程煮饭</strong>：APP 提前设时（下班前 1 小时开始煮，到家吃热饭），还能联动体重秤（减肥时自动选「低糖模式」，滤出 30% 淀粉）；</li><li>✨&nbsp;<strong>内胆封神</strong>：5 层复合内胆（聚热快，导热匀，用 10 年不粘），内壁雕「蓄能纹」（储热更久，保温 6 小时）；</li><li>🎁&nbsp;<strong>美食礼包</strong>：送「米种试吃装」（东北五常、泰国香米、云南紫米）和「拌饭料」（海苔、芝麻，拌啥都香）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：米饭含水率 62%（黄金口感，不干不粘），低糖模式减少 30% 淀粉（减肥党狂喜），一台电饭煲 =「米其林厨房 + 营养师」，吃米饭也能吃出高级感。</p>',499.00,'个',0,100,4,9),(45,'芒果','54530f7e-6c25-433a-b4bd-3e9bf38bb67f','<h3>🥭 海南金煌芒 | 热带的「阳光炸弹」🌞✨</h3><p><strong>产地神话</strong>：海南三亚（年均日照 2500 小时），树上自然熟（糖度≥18°，比普通芒果甜 50%），果农手工选果（单果重 500-800g，核薄如纸，果肉占比 85%）。</p><p><br/></p><p><strong>甜蜜密码</strong>：</p><p><br/></p><ul><li>🍯&nbsp;<strong>糖心蜜润</strong>：果核周围有「蜜心圈」（糖度高达 22°，挖着吃像「舔蜂蜜」），果肉像「融化的冰淇淋」，用勺子挖着吃超爽；</li><li>🌿&nbsp;<strong>无丝快感</strong>：纤维含量≤0.5%（普通芒果 3%），吃起来像「在吞糖水，没有渣」，宝宝、老人都爱；</li><li>🚚&nbsp;<strong>锁鲜闪电</strong>：现摘后 6 小时进冷链（温度≤10℃），48 小时直达，收到时果蒂还渗着「芒果汁」。</li></ul><p><br/></p><p><strong>仪式感吃法</strong>：</p><p><br/></p><ul><li>🍨&nbsp;<strong>芒果冰沙</strong>：果肉冻成块，加酸奶、蜂蜜，用随赠的「芒果勺」（挖球 + 搅拌一体），打成果沙，暑气全消；</li><li>🥭&nbsp;<strong>芒果糯米饭</strong>：果肉切条，配泰国香米（随赠），淋上椰浆，一秒穿越到普吉岛；</li><li>🔪&nbsp;<strong>创意切法</strong>：用「芒果花刀」（随赠教程），把芒果切成玫瑰花，发圈必获赞。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单果维生素 C 含量≈80mg（抵 2 个橙子），β- 胡萝卜素是苹果的 10 倍（护眼一把手），一个芒果 =「甜品 + 维 C 炸弹」，热带阳光全装里。</p>',10.00,'斤',0,100,18,12),(46,'火龙果','38e1ab41-c2ed-436e-b33c-15c477bbf2c1','<h3>🔥 红心火龙果 | 舌尖的「玫红焰火」💥✨</h3><p><strong>产地王冠</strong>：广西南宁（红壤产区，日照 1800 小时 +），果农「套袋种植」（防晒防雨，果皮更薄，果肉更红），单果重 400-600g（越大越甜，红心占比 95%+）。</p><p><br/></p><p><strong>甜蜜暴击</strong>：</p><p><br/></p><ul><li>🍓&nbsp;<strong>甜润爆汁</strong>：糖度≥16°，比白心甜 30%，咬开像「玫红果汁炸弹」，溅得满手都是，得用随赠的「火龙果勺」（防染色）；</li><li>🌿&nbsp;<strong>花青素炸弹</strong>：果肉含花青素≥30mg/100g（抗氧化一把手，比蓝莓还高），吃多了舌头变红，像「中了魔法」；</li><li>🚀&nbsp;<strong>润肠神器</strong>：膳食纤维含量 3%（普通水果 1%），吃半个就能「通畅一整天」，便秘星人救星。</li></ul><p><br/></p><p><strong>仪式感吃法</strong>：</p><p><br/></p><ul><li>🍹&nbsp;<strong>火龙果气泡水</strong>：果肉挖球，加气泡水、薄荷，用「渐变色杯」（随赠），拍照像「INS 风特调」；</li><li>🍦&nbsp;<strong>火龙果酸奶冻</strong>：果肉 + 酸奶冻成块，撒坚果碎，低脂又美味，健身党狂喜；</li><li>🎨&nbsp;<strong>天然染料</strong>：果肉榨汁，能染粉色棉花（随赠染料教程），给宝宝做「天然玩具」，安全又有趣。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单果花青素含量≈30mg（抵 3 颗蓝莓），润肠效率是香蕉的 2 倍，一个火龙果 =「抗氧化剂 + 通便剂」，吃出彩虹屁。</p>',15.00,'个',0,100,18,12),(47,'车厘子','327e3f8e-c3e8-4f09-a36e-3a65df0db850','<h3>🍒 智利车厘子 | 冬日的「红宝石盛宴」❄️✨</h3><p><strong>产地神话</strong>：智利南部（昼夜温差 15℃+，火山土肥沃），果农「手工疏果」（每根枝留 8-10 颗，保证营养集中），单果直径≥30mm（JJJ 级，大如硬币），糖度≥18°（甜得像「冰糖裹着酸」）。</p><p><br/></p><p><strong>甜蜜细节</strong>：</p><p><br/></p><ul><li>🍷&nbsp;<strong>酒心蜜润</strong>：果肉里藏「酒心味」（发酵香，像「车厘子喝了红酒」），咬开有惊喜，连核都带着甜；</li><li>🌫️&nbsp;<strong>空运锁鲜</strong>：现摘后 24 小时进航空冷链（-1℃恒温），72 小时直达，收到时果梗鲜绿（像刚从树上摘的）；</li><li>🎁&nbsp;<strong>吃法定制</strong>：随赠「车厘子叉」（水晶材质，插着吃优雅不脏手）和「车厘子酒食谱」（泡成酒，一年都能喝）。</li></ul><p><br/></p><p><strong>仪式感吃法</strong>：</p><p><br/></p><ul><li>🍰&nbsp;<strong>车厘子塔</strong>：用随赠的「塔模」（硅胶材质，好脱模），层层叠成塔，顶端插薄荷，圣诞、跨年必吃；</li><li>🍫&nbsp;<strong>车厘子巧克力</strong>：果肉裹黑巧（70% 可可，苦甜平衡），冻成「巧克力球」，咬开爆汁，幸福感拉满；</li><li>❄️&nbsp;<strong>冻车厘子</strong>：冰箱冻 2 小时，拿出来像「红宝石冰球」，咬一口，冰爽酸甜超过瘾，炎夏吃更绝。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：单果维生素 C 含量≈10mg（抵半个橙子），铁含量是苹果的 20 倍（补铁一把手），一颗车厘子 =「冬日小太阳 + 补血剂」，贵得有道理。</p>',199.00,'斤',0,100,18,12),(48,'数码相机','e7a6fd75-9008-44ba-839e-29f72d3af247','<h3>&nbsp;📸 全画幅微单 | 光影的「魔法捕手」✨🎞️</h3><p><strong>核心科技</strong>：全画幅背照式传感器（5000 万像素，弱光拍摄像「开了夜视仪」），8 级双防抖（跑步跟拍不糊，比单反稳 3 倍），AI 场景识别（拍人、拍景、拍美食自动优化，小白也能出大片）。</p><p><br/></p><p><strong>场景颠覆</strong>：</p><p><br/></p><ul><li>🌅&nbsp;<strong>风光模式</strong>：14 档动态范围（日出日落拍出海天一色，暗部细节全在），超广镜头（16mm，拍雪山、大海超震撼）；</li><li>🎭&nbsp;<strong>人像模式</strong>：肤色优化（黄皮拍得白里透红，像「自带滤镜」），眼部追焦（眼神再飘也能锁住，拍娃、拍宠物超好用）；</li><li>🎆&nbsp;<strong>夜景模式</strong>：ISO 51200（噪点比单反少 50%），长曝光拍星轨（30 秒不拖影），还能拍「光绘涂鸦」（随赠教程）。</li></ul><p><br/></p><p><strong>仪式感创作</strong>：</p><p><br/></p><ul><li>🎁&nbsp;<strong>开箱惊喜</strong>：送「磁吸滤镜套装」（ND 减光、CPL 偏振，一秒切换）和「相机包」（真皮材质，像「背了个艺术品」）；</li><li>📱&nbsp;<strong>智能互联</strong>：蓝牙 + Wi-Fi 双连（手机实时传图，发朋友圈比别人快一步），APP 远程控制（摆好 pose，手机按快门，再也不用自拍杆）；</li><li>🔋&nbsp;<strong>续航革命</strong>：电池支持 USB-C 快充（30 分钟回血 50%），还能外接充电宝（边拍边充，一天拍 1000 张不慌）。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：连拍速度 20 张 / 秒（抓小鸟飞、运动员冲刺都不糊），视频支持 8K 30fps（比电影还清晰），一台相机 =「专业摄影师 + 后期大师」，按下快门就是大片。</p>',5999.00,'台',0,100,12,13),(49,'游戏机','db96b8a1-9500-4069-aff4-9cb14a0cc607','<h3>🎮 次世代游戏机 | 次元的「穿越舱」🚀✨</h3><p><strong>性能暴力</strong>：8 核 Zen4 处理器（算力是前代 2 倍，加载《赛博朋克 2077》快 30 秒），定制 SSD（1 秒读盘，再也不用看加载画面），8K HDR 输出（电视像「被施了魔法」，色彩亮到晃眼）。</p><p><br/></p><p><strong>游戏生态</strong>：</p><p><br/></p><ul><li>🎲&nbsp;<strong>独占神作</strong>：《战神：诸神黄昏》《艾尔登法环 终极版》首发，剧情、画面、玩法全拉满，买机器送「信仰」；</li><li>🕹️&nbsp;<strong>跨平台畅玩</strong>：支持 PC、手机串流（手机变掌机，马桶上也能打《老头环》），还能连 VR 头显（秒变「头号玩家」）；</li><li>🎵&nbsp;<strong>音画革命</strong>：Tempest 3D 音效（脚步声从哪个方向来都听得清，吃鸡胜率翻倍），DualSense Edge 手柄（自定义按键、扳机力度，连招更丝滑）。</li></ul><p><br/></p><p><strong>仪式感体验</strong>：</p><p><br/></p><ul><li>🎁&nbsp;<strong>开箱彩蛋</strong>：送「限定手柄壳」（透光材质，RGB 灯效超炫）和「游戏订阅卡」（3 个月免费玩 300 款游戏，省千元）；</li><li>📺&nbsp;<strong>家庭娱乐</strong>：内置流媒体（4K Netflix、B 站，电视变「巨幕影院」），还能当「健身环」（玩《健身拳击》，边打边瘦）；</li><li>🔒&nbsp;<strong>安全护航</strong>：家长控制（设定游戏时间、限制分级），再也不怕孩子沉迷，一台机器 =「家庭娱乐中心 + 健身教练」。</li></ul><p><br/></p><p><strong>数据硬实力</strong>：算力 12TFLOPS（比前代高 4TFLOPS），SSD 读取速度 9GB/s（加载快到以为没关机），买它 =「提前进入未来」，游戏党必冲。</p>',2999.00,'台',0,100,12,13);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,15 +203,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `notice`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `notice` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����ʱ��',
-  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '������',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '标题',
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '内容',
+  `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建时间',
+  `user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='������Ϣ��';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='公告信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -268,9 +220,7 @@ CREATE TABLE `notice` (
 
 LOCK TABLES `notice` WRITE;
 /*!40000 ALTER TABLE `notice` DISABLE KEYS */;
-INSERT INTO `notice` VALUES
-(4,'ShoppingMall��ҵ��','ShoppingMall��ҵ�󼪣�����ȫ��5�ۣ�����','2024-12-01','admin'),
-(5,'�����ĩ','����ĩ��ױƷ��Ь\\���������˶���ר����Ʒ8���𣡣���','2024-12-01','admin');
+INSERT INTO `notice` VALUES (4,'ShoppingMall开业大吉','ShoppingMall开业大吉，今天全场5折！！！','2024-12-01','admin'),(5,'疯狂周末','凡周末化妆品、鞋\\包、户外运动等专栏商品8折起！！！','2024-12-01','admin');
 /*!40000 ALTER TABLE `notice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,19 +230,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `orders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����ID',
-  `goods_id` int DEFAULT NULL COMMENT '��ƷID',
-  `business_id` int DEFAULT NULL COMMENT '�̼�ID',
-  `num` int DEFAULT NULL COMMENT '��Ʒ����',
-  `user_id` int DEFAULT NULL COMMENT '�û�ID',
-  `price` double(10,2) DEFAULT NULL COMMENT '�����۸�',
-  `address_id` int DEFAULT NULL COMMENT '��ַID',
-  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����״̬',
+  `order_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单ID',
+  `goods_id` int DEFAULT NULL COMMENT '商品ID',
+  `business_id` int DEFAULT NULL COMMENT '商家ID',
+  `num` int DEFAULT NULL COMMENT '商品数量',
+  `user_id` int DEFAULT NULL COMMENT '用户ID',
+  `price` double(10,2) DEFAULT NULL COMMENT '订单价格',
+  `address_id` int DEFAULT NULL COMMENT '地址ID',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '订单状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='������Ϣ��';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='订单信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -301,12 +251,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES
-(4,'20241209160453',8,9,3,2,15000.00,5,'������'),
-(9,'20241215203402',15,12,1,2,30.00,5,'������'),
-(10,'20241215203402',14,7,2,2,198.00,5,'������'),
-(11,'20241215203402',19,13,1,2,6999.00,5,'������'),
-(12,'20241215203402',25,16,1,2,2999.00,5,'������');
+INSERT INTO `orders` VALUES (4,'20241209160453',8,9,3,2,15000.00,5,'待发货'),(9,'20241215203402',15,12,1,2,30.00,5,'待发货'),(10,'20241215203402',14,7,2,2,198.00,5,'已完成'),(11,'20241215203402',19,13,1,2,6999.00,5,'待发货'),(12,'20241215203402',25,16,1,2,2999.00,5,'待发货'),(13,'20250717232205',20,13,2,2,3998.00,5,'待发货');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,7 +261,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `undo_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `undo_log` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `branch_id` bigint NOT NULL,
@@ -347,18 +292,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�û���',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�û��ǳ�',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ͷ��',
-  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '��ɫ��ʶ',
-  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '�绰',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '����',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '密码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '用户昵称',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
+  `role` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '角色标识',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '电话',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '邮箱',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='�û���Ϣ��';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC COMMENT='用户信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -367,9 +312,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES
-(2,'mmm','123','mmm','406a07e1-ef53-40d6-9ac2-056a7c3eff1d','USER','18888888888','188@sm.com'),
-(5,'1','123','1',NULL,'USER',NULL,NULL);
+INSERT INTO `user` VALUES (2,'mmm','123','mmm','406a07e1-ef53-40d6-9ac2-056a7c3eff1d','USER','18888888888','188@sm.com'),(6,'1','123','1',NULL,'USER',NULL,'2324105722@qq.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -382,4 +325,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-17 16:45:35
+-- Dump completed on 2025-07-17 23:57:03

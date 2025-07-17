@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: shoppingmalladmin
     password: 123456
-    url: jdbc:mysql://localhost:3306/shopping_mall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${DB_HOST:localhost}:3306/shopping_mall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
   servlet:
     multipart:
       max-file-size: 100MB
@@ -18,23 +18,23 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: ${NACOS_HOST:localhost}:8848
         namespace: public
         group: DEFAULT_GROUP
-        ip: 127.0.0.1
+        ip: ${SERVICE_IP:localhost}
       config:
-        server-addr: 127.0.0.1:8848
+        server-addr: ${NACOS_HOST:localhost}:8848
         namespace: public
         group: DEFAULT_GROUP
         file-extension: yml
     sentinel:
       transport:
-        dashboard: 127.0.0.1:8858
+        dashboard: ${SENTINEL_HOST:localhost}:8858
         port: 8722
       datasource:
         ds:
           nacos:
-            server-addr: 127.0.0.1:8848
+            server-addr: ${NACOS_HOST:localhost}:8848
             dataId: sentinel-rules
             groupId: DEFAULT_GROUP
             rule-type: flow
@@ -66,17 +66,17 @@ pagehelper:
 #     vgroup-mapping:
 #       my_test_tx_group: default
 #     grouplist:
-#       default: 127.0.0.1:8091
+#       default: ${SEATA_HOST:localhost}:8091
 #   registry:
 #     type: nacos
 #     nacos:
-#       server-addr: localhost:8848
+#       server-addr: ${NACOS_HOST:localhost}:8848
 #       namespace: public
 #       group: SEATA_GROUP
 #   config:
 #     type: nacos
 #     nacos:
-#       server-addr: localhost:8848
+#       server-addr: ${NACOS_HOST:localhost}:8848
 #       namespace: public
 #       group: SEATA_GROUP
 #   enable-auto-data-source-proxy: true
