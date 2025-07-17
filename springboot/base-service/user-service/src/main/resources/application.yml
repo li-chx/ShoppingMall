@@ -11,6 +11,16 @@ spring:
     username: shoppingmalladmin
     password: 123456
     url: jdbc:mysql://${DB_HOST:localhost}:3306/shopping_mall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
   servlet:
     multipart:
       max-file-size: 100MB

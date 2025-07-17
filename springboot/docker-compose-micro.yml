@@ -88,6 +88,8 @@ services:
         SENTINEL_HOST: 172.17.0.1
         SEATA_HOST: 172.17.0.1
         SERVICE_IP: user-service
+        REDIS_HOST: 172.17.0.1
+        REDIS_PORT: 6379
     container_name: user-service
     ports:
       - "8030:8030"
@@ -97,5 +99,7 @@ services:
       - SENTINEL_HOST=172.17.0.1
       - SEATA_HOST=172.17.0.1
       - SERVICE_IP=user-service
+      - REDIS_HOST=172.17.0.1
+      - REDIS_PORT=6379
     restart: always
 
