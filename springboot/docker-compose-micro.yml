@@ -8,6 +8,7 @@ services:
         NACOS_HOST: 172.17.0.1
         SENTINEL_HOST: 172.17.0.1
         SERVICE_IP: gateway-service
+        SEATA_HOST: 172.17.0.1
     container_name: gateway-service
     ports:
       - "8080:8080"
@@ -15,6 +16,7 @@ services:
       - NACOS_HOST=172.17.0.1
       - SENTINEL_HOST=172.17.0.1
       - SERVICE_IP=gateway-service
+      - SEATA_HOST=172.17.0.1
     restart: always
   business-service:
     build:
