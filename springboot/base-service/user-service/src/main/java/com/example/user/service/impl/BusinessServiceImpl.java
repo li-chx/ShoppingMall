@@ -69,6 +69,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper, Business> i
         return businessMapper.selectOne(queryWrapper);
     }
 
+    @Transactional
     @Override
     public boolean resetPassword(Business request)
     {

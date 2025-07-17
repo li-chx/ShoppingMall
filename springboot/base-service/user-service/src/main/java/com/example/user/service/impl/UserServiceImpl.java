@@ -69,6 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
     }
 
+    @Transactional
     @Override
     public boolean updatePassword(Integer id, String newPassword) {
         QueryWrapper<User>queryWrapper=new QueryWrapper<>();

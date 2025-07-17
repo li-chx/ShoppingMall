@@ -110,11 +110,21 @@ public class GoodsController {
         return R.success();
     }
 
+    @Operation(summary = "更新商品销量", description = "根据商品ID更新商品的销量")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "更新成功"),
+            @ApiResponse(responseCode = "400", description = "参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "goods_update_gain_count")
     @PostMapping("/update/gain_count")
-    public R updateGainCount(@RequestParam Integer id, @RequestParam Integer gainCount) {
-        if(goodsService.updateGainCount(id,gainCount))
+    public R updateGainCount(@Parameter(description = "商品ID", required = true, in = ParameterIn.QUERY)
+                             @RequestParam Integer id,
+                             @Parameter(description = "商品销量", required = true, in = ParameterIn.QUERY)
+                             @RequestParam Integer gainCount) {
+        if (goodsService.updateGainCount(id, gainCount)) {
             return R.success();
-        else {
+        } else {
             R<Object> result = R.error(ResultCodeEnum.PARAM_ERROR);
             result.setMsg("更新商品销量失败，请检查商品ID和销量值是否正确");
             return result;

@@ -45,6 +45,7 @@ public class BusinessServiceImpl extends ServiceImpl<BusinessMapper,Business> im
         return false;
     }
 
+    @Transactional
     @Override
     public PageInfo<Business> selectPage(Business business, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);

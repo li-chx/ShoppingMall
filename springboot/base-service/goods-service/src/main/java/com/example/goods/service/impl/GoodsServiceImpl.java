@@ -67,6 +67,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper,Goods> implements 
     }
 
 
+    @Transactional
     @Override
     public boolean updateGainCount(Integer id, Integer gainCount) {
         Goods goods= goodsMapper.selectById(id);

@@ -75,12 +75,21 @@ public class BusinessController {
         return R.success();
     }
 
+    @Operation(summary = "更新商家密码", description = "根据商家ID更新商家的密码")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "更新成功"),
+            @ApiResponse(responseCode = "400", description = "参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "business_update_password")
     @PostMapping("/updatePassword")
-    public R updatePassword(@RequestParam Integer id,
-                            @RequestParam String newPassword){
-        if(businessService.updatePassword(id, newPassword)){
+    public R updatePassword(@Parameter(description = "商家ID", required = true, in = ParameterIn.QUERY)
+                            @RequestParam Integer id,
+                            @Parameter(description = "新密码", required = true, in = ParameterIn.QUERY)
+                            @RequestParam String newPassword) {
+        if (businessService.updatePassword(id, newPassword)) {
             return R.success();
-        }else{
+        } else {
             R result = R.error();
             result.setMsg("更新密码失败，参数错误！");
             return result;

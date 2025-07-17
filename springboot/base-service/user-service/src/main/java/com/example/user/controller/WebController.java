@@ -17,6 +17,8 @@ import com.example.user.service.IdentifyingCodeService;
 import com.example.user.service.UserService;
 import com.example.user.utils.MailUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -218,11 +220,19 @@ public class WebController {
         return R.success();
     }
 
+    @Operation(summary = "发送验证码", description = "根据验证码类型发送验证码到指定邮箱")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "验证码发送成功"),
+            @ApiResponse(responseCode = "400", description = "参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "sendCode")
     @GetMapping("/sendCode/{codeType}")
-    public R<?> sendCode(@PathVariable String codeType,String email) throws MessagingException
-    {
-        if(Objects.equals(codeType, IdentifyingCodeService.IdentifyingCodeType.REGISTER.name()))
-        {
+    public R<?> sendCode(@Parameter(description = "验证码类型", required = true, in = ParameterIn.PATH)
+                         @PathVariable String codeType,
+                         @Parameter(description = "邮箱地址", required = true, in = ParameterIn.QUERY)
+                         @RequestParam String email) throws MessagingException {
+        if (Objects.equals(codeType, IdentifyingCodeService.IdentifyingCodeType.REGISTER.name())) {
             var captcha = identifyingCode.getIdentifyingCode(email, IdentifyingCodeService.IdentifyingCodeType.REGISTER, 15 * 60);
             if (captcha == null) {
                 return R.error(ResultCodeEnum.PARAM_ERROR.code, "验证码请求过于频繁，请稍后再试");
@@ -233,7 +243,7 @@ public class WebController {
         } else if (Objects.equals(codeType, IdentifyingCodeService.IdentifyingCodeType.PASSWORD_RESET.name())) {
             var captcha = identifyingCode.getIdentifyingCode(email, IdentifyingCodeService.IdentifyingCodeType.PASSWORD_RESET, 15 * 60);
             if (captcha == null) {
-                return R.error(ResultCodeEnum.PARAM_ERROR.code,"验证码请求过于频繁，请稍后再试");
+                return R.error(ResultCodeEnum.PARAM_ERROR.code, "验证码请求过于频繁，请稍后再试");
             }
             String mailTemplate = mailProperties.getMailTemplate();
             String tip = "您正在进行密码重置操作，这是您验证帐户所需的令牌验证码";
@@ -242,14 +252,24 @@ public class WebController {
         return R.error(ResultCodeEnum.PARAM_LOST_ERROR);
     }
 
+    @Operation(summary = "重置密码", description = "根据用户信息和验证码重置密码")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "密码重置成功"),
+            @ApiResponse(responseCode = "400", description = "参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "resetPassword")
     @GetMapping("/resetPassword")
-    public R<?> resetPassword(
-            @RequestParam String username,
-            @RequestParam String email,
-            @RequestParam String role,
-            @RequestParam String identifyingCode,
-            @RequestParam String password
-    ) {
+    public R<?> resetPassword(@Parameter(description = "用户名", required = true, in = ParameterIn.QUERY)
+                              @RequestParam String username,
+                              @Parameter(description = "邮箱地址", required = true, in = ParameterIn.QUERY)
+                              @RequestParam String email,
+                              @Parameter(description = "角色", required = true, in = ParameterIn.QUERY)
+                              @RequestParam String role,
+                              @Parameter(description = "验证码", required = true, in = ParameterIn.QUERY)
+                              @RequestParam String identifyingCode,
+                              @Parameter(description = "新密码", required = true, in = ParameterIn.QUERY)
+                              @RequestParam String password) {
         if (StrUtil.isBlank(username) || StrUtil.isBlank(email) || StrUtil.isBlank(role)
                 || StrUtil.isBlank(identifyingCode) || StrUtil.isBlank(password)) {
             return R.error(ResultCodeEnum.PARAM_LOST_ERROR);
@@ -279,10 +299,12 @@ public class WebController {
         } else {
             return R.error(ResultCodeEnum.PARAM_ERROR.code, "未知角色");
         }
-        if(!success)
+        if (!success) {
             return R.error(ResultCodeEnum.PARAM_LOST_ERROR.code, "密码重置失败");
+        }
         return R.success("密码重置成功");
     }
+
 
     @NotNull
     private R<String> sendMail(String email, String captcha, String mailTemplate, String tip) throws MessagingException {

@@ -116,16 +116,25 @@ public class UserController {
         return R.success(list);
     }
 
+    @Operation(summary = "更新用户密码", description = "根据用户ID更新用户的密码")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "更新成功"),
+            @ApiResponse(responseCode = "400", description = "参数错误"),
+            @ApiResponse(responseCode = "500", description = "服务器内部错误")
+    })
+    @SentinelResource(value = "user_update_password")
     @PostMapping("/updatePassword")
-    public R updatePassword(@RequestParam Integer id,@RequestParam String newPassword){
-        if(userService.updatePassword(id,newPassword)) {
+    public R updatePassword(@Parameter(description = "用户ID", required = true, in = ParameterIn.QUERY)
+                            @RequestParam Integer id,
+                            @Parameter(description = "新密码", required = true, in = ParameterIn.QUERY)
+                            @RequestParam String newPassword) {
+        if (userService.updatePassword(id, newPassword)) {
             return R.success();
-        }else{
-            R result=R.error(ResultCodeEnum.PARAM_ERROR);
+        } else {
+            R result = R.error(ResultCodeEnum.PARAM_ERROR);
             result.setMsg("更新密码失败，参数错误");
             return result;
         }
-
     }
 
     @Operation(summary = "分页查询用户", description = "根据条件分页获取用户信息")
