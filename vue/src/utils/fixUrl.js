@@ -2,7 +2,7 @@ import request from "@/utils/request";
 
 export async function fixUrl(url) {
     if(!url || typeof url !== 'string' || url.length === 0) {
-        return '';
+        return 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png';
     }
     if(url.startsWith('http'))
         return url;
